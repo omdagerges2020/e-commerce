@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "./components/homeComponents/Banner";
 import { Button } from "@material-tailwind/react";
 import ImagesSlider from "./components/homeComponents/ImagesSlider";
@@ -13,8 +13,25 @@ import Aboutus from "./components/homeComponents/Aboutus";
 import Link from "next/link";
 import HomeMen from "./components/HomeMen";
 import SliderHome from "./components/homeComponents/SliderHome";
+import { useDispatch, useSelector } from "react-redux";
+import { getNewProducts } from "./redux-system/slices/newProductsSlice";
+import { getHeaderCategories } from "./redux-system/slices/categoriesHeaderSlice";
 
 const Page = () => {
+  const {newProducts} = useSelector(state => state.newProductsData)
+    const { headerCategories } = useSelector(
+      (state) => state.headerCategoriesData
+    );
+  
+  // console.log(newProducts?.data?.newProducts);
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(getNewProducts())
+    dispatch(getHeaderCategories());
+  },[])
+  
   const gender = "WOMEN";
 
   return (
@@ -37,7 +54,7 @@ const Page = () => {
               </Button>
             </div>
             <div className="lg:flex-1 w-full">
-              <ImagesSlider />
+              <ImagesSlider newProducts={newProducts && newProducts}/>
             </div>
           </div>
           <div className="mt-[3em] flex justify-center items-center gap-3">
@@ -56,14 +73,14 @@ const Page = () => {
               </Button>
             </div>
             <div className="lg:flex-1 w-full">
-              <ImagesSlider />
+              <ImagesSlider newProducts={newProducts && newProducts}/>
             </div>
           </div>
 
-          <div className="mt-[3em] flex justify-center items-center gap-3">
+          {/* <div className="mt-[3em] flex justify-center items-center gap-3">
             <SecondTwoCards />
-          </div>
-          <ThreeCards />
+          </div> */}
+          <ThreeCards headerCategories={headerCategories}/>
           <GitTheLook />
           {/* <GiftCard /> */}
           <Aboutus />

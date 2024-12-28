@@ -11,14 +11,9 @@ import { getCategoryProducts } from "@/app/redux-system/slices/categoryProductsS
 // import { useSearchParams } from 'next/navigation';
 
 export default function Home({ params }) {
-  console.log(params.categoryname);
-
   const { categoryDataProducts } = useSelector(
     (state) => state.categoryProductsData
   );
-  // console.log(categoryDataProducts?.productsList);
-  console.log(categoryDataProducts);
-
   const [pageHeight, setPageHeight] = useState(null);
 
   useEffect(() => {
@@ -38,7 +33,7 @@ export default function Home({ params }) {
 
   return (
     <div className="mt-[12em] w-full flex flex-col mb-[2em]">
-      <HeadingPart />
+      <HeadingPart headerName={categoryDataProducts?.categoryData.category_description?.name}/>
       <div className="w-full mt-[3em] flex gap-[3em] px-3 py-2">
         <SideMenue />
         <Cards products={categoryDataProducts?.productsList} />

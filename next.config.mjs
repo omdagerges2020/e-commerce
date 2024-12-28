@@ -11,7 +11,7 @@ const nextConfig = {
   },
   images: {
     // domains: ['192.168.1.117','https://thahab.com/cdn/','thahab.com'],
-    domains: ['192.168.1.117', process.env.NEXT_PUBLIC_IMAGE_DOMAIN, 'thahab.com'],
+    domains: ['192.168.1.117', process.env.NEXT_PUBLIC_IMAGE_DOMAIN, 'thahab.com', 'detaylarhome.com'],
 
   },
 };

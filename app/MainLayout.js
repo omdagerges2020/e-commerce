@@ -4,22 +4,26 @@ import Header from "./components/Header";
 import { usePathname } from "next/navigation";
 import Footer from "./components/Footer";
 import { Provider } from "react-redux";
-import store from "./redux-system/store";
+import {store, mainStore } from "./redux-system/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
 
-
-  const isLoginPage = pathname === "/login" || pathname === "/cart" || pathname === "/register" ||pathname === "/profile" ;
-
-   
+  const isLoginPage =
+    pathname === "/login" ||
+    pathname === "/cart" ||
+    pathname === "/register" ||
+    pathname === "/profile";
 
   return (
     <ThemeProvider>
       <Provider store={store}>
-        {!isLoginPage && <Header />}
-        {children}
-        {!isLoginPage && <Footer />}
+        <PersistGate persistor={mainStore}>
+          {!isLoginPage && <Header />}
+          {children}
+          {!isLoginPage && <Footer />}
+        </PersistGate>
       </Provider>
     </ThemeProvider>
   );

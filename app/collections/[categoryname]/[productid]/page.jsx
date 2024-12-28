@@ -424,9 +424,9 @@ export default function ProductPage({ params }) {
       <div className="p-10 grid gird-cols-1 lg:grid-cols-2 gap-[4em] bg-white mt-[10em] w-full">
         <ProductGallery images={images} prodId={params.productid} />
         <div className="mt-8 lg:max-w-[410px]">
-          <h3 className="mb-4">Title Of Product</h3>
+          <h3 className="mb-4">Name Of Product</h3>
           <h1 className="text-2xl mb-4  tracking-[.2em]">
-            {productDetails?.data?.data?.product_description?.name}
+            {productDetails?.data?.data?.model}
           </h1>
           <span className="text-[#686868] text-md mb-2">510 KD</span>
           <p className="bg-[#F7F7F7] text-[#686868]">
@@ -450,12 +450,12 @@ export default function ProductPage({ params }) {
               <h1 className="text-sm">
                 This estimate is not guaranteed. For more details refer to
               </h1>
-              <a href="./" className="underline ml-4">
+              <a href="/" className="underline ml-4">
                 shipping policy
               </a>
             </div>
           </div>
-          <div className="flex items-center mt-3">
+          {/* <div className="flex items-center mt-3">
             <TbRuler2 className="text-[30px] text-gray-400" />
             <Link href={`./`} className="underline">
               Size Chart
@@ -464,8 +464,8 @@ export default function ProductPage({ params }) {
           <div className="flex items-center mt-4 gap-2">
             <h1 className="text-[#959595]">Color:</h1>
             <button className="border-[1px] p-2 text-[#959595]">Ivory</button>
-          </div>
-          <Menu placement="left">
+          </div> */}
+          {/* <Menu placement="left">
             <MenuHandler>
               <Button className="w-full text-start bg-transparent border-[1px] rounded-none mt-3 shadow-none hover:shadow-none text-[#7D7D7D] text-md font-thin">
                 Size: EU 37
@@ -533,7 +533,7 @@ export default function ProductPage({ params }) {
                 </div>
               </MenuItem>
             </MenuList>
-          </Menu>
+          </Menu> */}
           <div className="flex items-center justify-start gap-4 border-[1px] w-fit mt-4 font-thin">
             {/* min buttton */}
             <button
@@ -601,16 +601,16 @@ export default function ProductPage({ params }) {
               {productDetails?.data?.reletedProducts.map((prod, index) => (
                 <Link
                   key={index}
-                  href="/collections/shoes/2"
+                  href={`/collections/${productDetails?.data?.data?.category_id}/${prod.id}`}
                   className="card w-[100px] md:w-[350px] lg:w-[230px] bg-white shadow-none rounded-lg"
                 >
                   <div className="relative h-64">
                     <img
                       src={`${
                         process.env.NEXT_PUBLIC_API_BASE_URL
-                      }${prod?.image.replace(/ /g, "%20")}`}
+                      }/${prod?.image.replace(/ /g, "%20")}`}
                       alt="Shoe 1"
-                      className="w-full h-full object-cover rounded-t-lg hover:opacity-0"
+                      className="w-full h-full object-cover rounded-t-lg"
                     />
                   </div>
                   <div className="p-4">

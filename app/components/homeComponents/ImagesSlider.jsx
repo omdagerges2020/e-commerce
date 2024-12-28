@@ -3,14 +3,16 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const ImagesSlider = () => {
-  const cards = Array.from({ length: 36 }, (_, index) => ({
-    id: index + 1,
-    title: `RENE `,
-    mainPrice: 362.0,
-    afterDiscount: 217.0,
-    image: "https://cdn.shopify.com/s/files/1/0521/9926/0341/products/CE0124_20AX191_2080999_20B_600x.jpg?v=1680696656",
-  }));
+const ImagesSlider = ({newProducts}) => {
+  console.log(newProducts?.data?.newProducts);
+
+  // const cards = Array.from({ length: 36 }, (_, index) => ({
+  //   id: index + 1,
+  //   title: `RENE `,
+  //   mainPrice: 362.0,
+  //   afterDiscount: 217.0,
+  //   image: "https://cdn.shopify.com/s/files/1/0521/9926/0341/products/CE0124_20AX191_2080999_20B_600x.jpg?v=1680696656",
+  // }));
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsToShow, setCardsToShow] = useState(4); // Default to 4
@@ -37,12 +39,12 @@ const ImagesSlider = () => {
   }, []);
 
   const nextSlide = () => {
-    const nextIndex = currentIndex + cardsToShow >= cards.length ? 0 : currentIndex + cardsToShow;
+    const nextIndex = currentIndex + cardsToShow >= newProducts?.data?.newProducts.length ? 0 : currentIndex + cardsToShow;
     setCurrentIndex(nextIndex);
   };
 
   const prevSlide = () => {
-    const prevIndex = currentIndex - cardsToShow < 0 ? cards.length - cardsToShow : currentIndex - cardsToShow;
+    const prevIndex = currentIndex - cardsToShow < 0 ? newProducts?.data?.newProducts.length - cardsToShow : currentIndex - cardsToShow;
     setCurrentIndex(prevIndex);
   };
 
@@ -59,18 +61,17 @@ const ImagesSlider = () => {
 
         {/* الكاردات */}
         <div className="flex space-x-4 w-full">
-          {cards.slice(currentIndex, currentIndex + cardsToShow).map((card) => (
-            <div key={card.id} className={`w-1/${cardsToShow} p-2 w-full`}>
-              <Link href="/collections" className="border-none rounded-lg overflow-hidden">
+          {newProducts?.data?.newProducts.slice(currentIndex, currentIndex + cardsToShow).map((card, index) => (
+            <div key={index} className={`w-1/${cardsToShow} p-2 w-full`}>
+              <Link href={`/collections/${card.category_id}/${card.id}`} className="border-none rounded-lg overflow-hidden">
                 <img
-                  src={card.image}
-                  alt={card.title}
+                  src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${card?.image}`}
+                  alt={card?.model}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="font-bold text-md">{card.title}</h3>
-                  <p className="text-sm font-thin text-red-600">{`$${card.afterDiscount}`}</p>
-                  <p className="text-sm font-thin line-through">{`$${card.mainPrice}`}</p>
+                  <h3 className="font-bold text-md">{card.model}</h3>
+                  <p className="text-sm font-thin">{`${card?.price}`}</p>
                 </div>
               </Link>
             </div>

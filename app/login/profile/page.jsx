@@ -5,7 +5,7 @@ import { TbExclamationMark } from "react-icons/tb";
 import Link from "next/link";
 
 
-const page = () => {
+const Page = () => {
   return (
     <LayoutProfile>
       <div className="bg-[#FAFAFA] w-full flex flex-col gap-[3em] h-screen px-[3em] mt-[4em]">
@@ -36,4 +36,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

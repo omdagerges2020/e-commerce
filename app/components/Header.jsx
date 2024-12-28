@@ -27,14 +27,13 @@ import { TbUserQuestion } from "react-icons/tb";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 import { VscAccount } from "react-icons/vsc";
-import { IoSearch } from "react-icons/io5";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoIosHeart } from "react-icons/io";
-import MenuWithSearchInput from "./headerComponents/CountriesMenues";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux-system/slices/categoriesSlice";
 import { getHeaderCategories } from "../redux-system/slices/categoriesHeaderSlice";
+import AccordionSideMenue from "./headerComponents/AccordionSideMenue";
 
 const languages = [
   {
@@ -48,28 +47,30 @@ const languages = [
 const navListMenuItems = [
   {
     title: "CATEGORY NAME",
-  },
-  {
-    title: "FEATURED DESIGNERS",
-  },
-  {
-    title: "SHOP BY",
+    title2: "All ",
   },
 ];
 
-function NavListMenu({ title }) {
+function NavListMenu({ categoryName, categoryId, categoryImg }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const renderItems = navListMenuItems.map(({ title }, key) => (
-    <a href="#" key={key}>
+  const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
+    <Link href={`/collections/${categoryId}`} key={key}>
       <MenuItem className="flex items-center gap-5 rounded-lg">
         <div>
           <Typography
             variant="h6"
             color="blue-gray"
-            className="flex items-center text-sm font-bold"
+            className="flex items-center text-lg font-bold"
           >
             {title}
+          </Typography>
+          <Typography
+            variant="h6"
+            color="blue-gray"
+            className="flex items-center text-lg font-bold"
+          >
+            {title2} {categoryName}
           </Typography>
           <div
             variant="paragraph"
@@ -77,17 +78,16 @@ function NavListMenu({ title }) {
           >
             {/* sub categories */}
             <ul className="text-xl font-thin">
-              <li>ALL CLOTHES</li>
-              <li>DRESSES</li>
-              <li>DRESSES</li>
-              <li>DRESSES</li>
-              <li>DRESSES</li>
-              <li>DRESSES</li>
+              <li>Sub-Category</li>
+              <li>Sub-Category</li>
+              <li>Sub-Category</li>
+              <li>Sub-Category</li>
+              <li>Sub-Category</li>
             </ul>
           </div>
         </div>
       </MenuItem>
-    </a>
+    </Link>
   ));
 
   return (
@@ -114,7 +114,7 @@ function NavListMenu({ title }) {
                 selected={isMenuOpen || isMobileMenuOpen}
                 onClick={() => setIsMobileMenuOpen((cur) => !cur)}
               >
-                {title}
+                <Link href={`/collections/${categoryId}`}>{categoryName}</Link>
               </ListItem>
             </Typography>
           </MenuHandler>
@@ -127,7 +127,9 @@ function NavListMenu({ title }) {
               className="text-xs !font-medium text-blue-gray-500 hover:border-none"
             >
               <Image
-                src="https://thahab.com/cdn/shop/files/k_600x.jpg?v=1733927279"
+                src={`${
+                  process.env.NEXT_PUBLIC_API_BASE_URL
+                }/${categoryImg.replace(/ /g, "%20")}`}
                 width={300}
                 height={50}
                 alt="shop-picture"
@@ -149,24 +151,6 @@ function NavListMenu({ title }) {
   );
 }
 
-// function NavList() {
-//   return (
-//     <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
-//       <NavListMenu title="DESIGNERS" />
-//       <NavListMenu title="CLOTHING" />
-//       <NavListMenu title="SHOES" />
-//       <NavListMenu title="BAGS" />
-//       <NavListMenu title="ACCESSORIES" />
-//       <NavListMenu title="BEAUTY" />
-//       <NavListMenu title="JEWELRY" />
-//       <NavListMenu title="SALE" />
-//       <NavListMenu title="HOME" />
-//       <NavListMenu title="KIDS" />
-//       <NavListMenu title="GIFTS" />
-//     </List>
-//   );
-// }
-
 const Header = () => {
   const [activeGender, setActiveGender] = useState("WOMEN");
   const { headerCategories } = useSelector(
@@ -178,14 +162,7 @@ const Header = () => {
     dispatch(getHeaderCategories());
   }, []);
 
-  // console.log(categories?.data?.categories);
-
-  // const navsLinksFilter = categories?.data?.categories.filter((name) => {
-  //   return name.category_description !== "Men Fashion";
-  // });
-
-  // console.log(navsLinksFilter);
-
+  const [openSide, setOpenSide] = useState(false);
   const [open, setOpen] = useState(false);
   const [openRight, setOpenRight] = useState(false);
   const openDrawer = () => setOpen(true);
@@ -198,15 +175,19 @@ const Header = () => {
   const [changed, setChanged] = useState(false);
   const [header, setHeader] = useState(false);
   const [lang, setLang] = useState("ENGLISH");
-  const [menuOpen, setMenuOpen] = useState(false); // لفتح القائمة عند الضغط على النقاط الثلاث
 
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = () => setOpenSide(!openSide);
 
   const handleClose = () => {
+    setOpenSide(false);
+  };
+
+  const handleOpenFavourit = () => setOpen(!openSide);
+
+  const handleCloseFavourit = () => {
     setOpen(false);
   };
 
-  // منع إغلاق المودال عند النقر داخل المودال
   const handleStopPropagation = (e) => {
     e.stopPropagation();
   };
@@ -235,11 +216,6 @@ const Header = () => {
 
   return (
     <div className="w-full">
-      {/* <div className="w-full text-center">
-        <span className="text-[#353232] top-0 px-4 text-sm py-3 w-full font-thin	tracking-widest	 text-center uppercase">
-          Free Express shipping Above $200
-        </span>
-      </div> */}
       <div
         className={
           header
@@ -307,6 +283,7 @@ const Header = () => {
               </MenuList>
             </Menu>
 
+            {/* side menue */}
             <div className="lg:hidden block">
               <React.Fragment>
                 <IconButton
@@ -320,11 +297,14 @@ const Header = () => {
                     <Bars3Icon className="h-6 w-6" strokeWidth={2} />
                   )}
                 </IconButton>
-                <Drawer open={open} onClose={closeDrawer} className="p-4">
+                <Drawer
+                  openSide={openSide}
+                  onClose={closeDrawer}
+                  className={`p-4 ${
+                    openSide ? "sidee" : "-translate-x-full max-w-[300px]"
+                  } transition-transform`}
+                >
                   <div className="mb-6 flex items-center justify-between">
-                    <Typography variant="h5" color="blue-gray">
-                      Material Tailwind
-                    </Typography>
                     <IconButton
                       variant="text"
                       color="blue-gray"
@@ -346,16 +326,8 @@ const Header = () => {
                       </svg>
                     </IconButton>
                   </div>
-                  <Typography color="gray" className="mb-8 pr-4 font-normal">
-                    Material Tailwind features multiple React and HTML
-                    components, all written with Tailwind CSS classes and
-                    Material Design guidelines.
-                  </Typography>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outlined">
-                      Documentation
-                    </Button>
-                    <Button size="sm">Get Started</Button>
+                  <div>
+                   <AccordionSideMenue headerCategories={headerCategories}/>
                   </div>
                 </Drawer>
               </React.Fragment>
@@ -375,8 +347,11 @@ const Header = () => {
             </div>
             {/* icons */}
             <div className="flex flex-col lg:flex-row text-[25px] font-bold gap-2">
-              <VscAccount className="hidden lg:block" />
-              <IoSearch />
+              <Link href="/login"><VscAccount className="hidden lg:block" /></Link>
+              {/* search icon */}
+              {/* <IoSearch className="cursor-pointer" onClick={handleOpenSearch}/>
+              <SearchDialog openSearch={openSearch} handleCloseSearch={handleCloseSearch}/> */}
+             
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
                 className="cursor-pointer"
@@ -423,10 +398,10 @@ const Header = () => {
                   <span>Your cart is empty</span>
                 </div>
               </Drawer>
-              <IoIosHeart onClick={handleOpen} className="cursor-pointer" />
+              <IoIosHeart className="cursor-pointer" onClick={()=>handleOpenFavourit()}/>
               <Dialog
                 open={open}
-                handler={handleOpen}
+                handler={handleOpenFavourit}
                 animate={{
                   mount: { scale: 1, y: 0 },
                   unmount: { scale: 0.9, y: -100 },
@@ -449,7 +424,7 @@ const Header = () => {
                     </div>
                     <IoClose
                       className="cursor-pointer text-white"
-                      onClick={handleClose} // إغلاق المودال عند النقر على الأيقونة
+                      onClick={handleCloseFavourit} // إغلاق المودال عند النقر على الأيقونة
                     />
                   </div>
                 </DialogFooter>
@@ -493,24 +468,20 @@ const Header = () => {
 
           <div className="hidden lg:flex lg:justify-around w-full font-light mt-3">
             {/* <NavList /> */}
-            {/* {categories?.data?.categories.map((name, index) => (
-              <List key={index}>
-                <NavListMenu title={name.category_description.name} />
-              </List>
-            ))} */}
-
             <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row gap-6 lg:p-1">
               {activeGender === "WOMEN"
                 ? headerCategories?.women?.map((li, index) => (
                     <NavListMenu
                       key={index}
-                      title={li.category_description.name}
+                      categoryName={li?.category_description.name}
+                      categoryId={li?.category_id}
+                      categoryImg={li?.image}
                     />
                   ))
                 : headerCategories?.men?.map((li, index) => (
                     <NavListMenu
                       key={index}
-                      title={li.category_description.name}
+                      categoryName={li.category_description.name}
                     />
                   ))}
             </List>

@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 
 const Cards = ({products}) => {
-  console.log(products);
 
   return (
     <div className="w-full flex justify-center lg:w-[calc(100% - 300px)]">
