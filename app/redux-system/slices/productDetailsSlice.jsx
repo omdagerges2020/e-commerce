@@ -8,7 +8,7 @@ export const getProductDetails = createAsyncThunk(
 
     const options = {
       method: "GET",
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/productDetail/${id}`,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/productDetail/${id}`,
       headers: {
         "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
         "Content-Type": "application/json",
@@ -29,19 +29,19 @@ const productDetailsSlice = createSlice({
   name: "getproductdetails",
   initialState: {
     productDetails: {},
-    loading: false,
+    productDetailsLoading: false,
     erorr: null,
   },
   extraReducers: (builder) => {
     builder.addCase(getProductDetails.pending, (state) => {
-      state.loading = true;
+      state.productDetailsLoading = true;
     });
     builder.addCase(getProductDetails.fulfilled, (state, action) => {
-      state.loading = false;
+      state.productDetailsLoading = false;
       state.productDetails = action.payload;
     });
     builder.addCase(getProductDetails.rejected, (state, action) => {
-      state.loading = false;
+      state.productDetailsLoading = false;
       state.erorr = action.payload.message;
     });
   },

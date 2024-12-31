@@ -17,7 +17,7 @@ const Cards = ({products}) => {
           >
             <div className="relative h-64">
               <img
-                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${card.image}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${card.image}`}
                 alt="Shoe 1"
                 className="w-full h-full object-cover rounded-t-lg"
               />

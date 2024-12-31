@@ -8,9 +8,7 @@ export const getCategories = createAsyncThunk(
 
     const options = {
       method: "GET",
-
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getHomePageInit`,
-
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/getHomePageInit`,
       headers: {
         "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
         "Content-Type": "application/json",
@@ -32,20 +30,20 @@ export const getCategories = createAsyncThunk(
 const getCategoriesSlice = createSlice({
   name: "getcategories",
   initialState: {
-    loading: false,
+    categoriesLoading: false,
     erorr: null,
     categories: null,
   },
   extraReducers: (builder) => {
     builder.addCase(getCategories.pending, (state) => {
-      state.loading = true;
+      state.categoriesLoading = true;
     });
     builder.addCase(getCategories.fulfilled, (state, action) => {
-      state.loading = false;
+      state.categoriesLoading = false;
       state.categories = action.payload;
     });
     builder.addCase(getCategories.rejected, (state, action) => {
-      state.loading = false;
+      state.categoriesLoading = false;
       state.erorr = action.payload.message;
     });
   },

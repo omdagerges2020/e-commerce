@@ -10,6 +10,7 @@ import Link from "next/link";
 
 const Login = () => {
   // console.log(jwtDecode(userToken));
+
   
   const [user, setUser] = useState({
     email: "",
@@ -96,15 +97,15 @@ const Login = () => {
     try {
       const userDetails = await axios({
         method: "post",
-        url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/login`,
+        url: `https://api.detaylarhome.com/api/user/login`,
         headers: {
           "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
           "Content-Type": "application/json",
         },
         data: user,
       }).then((res) => res.data);
-      // console.log(userDetails);
-      dispatch(setLogin(userDetails.data.token));
+      console.log(userDetails.authToken);
+      dispatch(setLogin(userDetails));
       router.push('/');
       setStatus(true);
     } catch (er) {

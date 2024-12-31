@@ -31,7 +31,7 @@ const ThreeCards = ({ headerCategories }) => {
             color="transparent"
             className="absolute inset-0 m-0 h-full w-full rounded-none  bg-cover bg-center"
             style={{
-              backgroundImage: `url('${process.env.NEXT_PUBLIC_API_BASE_URL}/${prod?.image}')`,
+              backgroundImage: `url('${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${prod?.image}')`,
             }}
           >
             <div className="to-bg-black-10 absolute inset-0 h-full w-full" />

@@ -9,7 +9,7 @@ export const getCategoryProducts = createAsyncThunk(
     const options = {
       method: "GET",
 
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getProductByCategory/${id}`,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/getProductByCategory/${id}`,
       headers: {
         "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
         "Content-Type": "application/json",
@@ -29,20 +29,20 @@ export const getCategoryProducts = createAsyncThunk(
 const cateoryProductsSlice = createSlice({
   name: "getCategoryProducts",
   initialState: {
-    loading: false,
+    categoryProductsLoading: false,
     erorr: null,
     categoryDataProducts: null,
   },
   extraReducers: (builder) => {
     builder.addCase(getCategoryProducts.pending, (state) => {
-      state.loading = true;
+      state.categoryProductsLoading = true;
     });
     builder.addCase(getCategoryProducts.fulfilled, (state, action) => {
-      state.loading = false;
+      state.categoryProductsLoading = false;
       state.categoryDataProducts = action.payload;
     });
     builder.addCase(getCategoryProducts.rejected, (state, action) => {
-      state.loading = false;
+      state.categoryProductsLoading = false;
       state.erorr = action.payload;
     });
   },

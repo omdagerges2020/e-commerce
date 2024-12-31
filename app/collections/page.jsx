@@ -6,19 +6,25 @@ import "./collection.css";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getClollections } from "../redux-system/slices/collectionsSlice";
+import Loading from "../components/Loading";
 
 const Page = () => {
-  const { collections } = useSelector((state) => state.collectionData);
+  const { collections, collectionsLoading } = useSelector((state) => state.collectionData);
+  
   // console.log(collections?.men);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getClollections());
+      dispatch(getClollections());
   }, []);
 
+  if(collectionsLoading){
+    return <Loading/>
+  }
+
   return (
-    <div className="px-5 flex flex-col justify-center items-center w-full mt-[10em]">
+    <div className="px-5 flex flex-col justify-center items-center w-full mt-[12em]">
       <h1 className="text-2xl mt-[2em] tracking-widest font-thin">
         ALL COLLECTIONS
       </h1>
@@ -71,7 +77,7 @@ const Page = () => {
               className="absolute inset-0 m-0 h-full w-full rounded-none bg-cover bg-center"
               style={{
                 backgroundImage: `url(${
-                  process.env.NEXT_PUBLIC_API_BASE_URL
+                  process.env.NEXT_PUBLIC_IMAGE_DOMAIN
                 }/${card.image.replace(/ /g, "%20")})`,
               }}
             >

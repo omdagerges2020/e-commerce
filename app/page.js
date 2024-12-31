@@ -16,6 +16,7 @@ import SliderHome from "./components/homeComponents/SliderHome";
 import { useDispatch, useSelector } from "react-redux";
 import { getNewProducts } from "./redux-system/slices/newProductsSlice";
 import { getHeaderCategories } from "./redux-system/slices/categoriesHeaderSlice";
+import ImagesSlider2 from "./components/homeComponents/ImagesSlider2";
 
 const Page = () => {
   const {newProducts} = useSelector(state => state.newProductsData)
@@ -39,7 +40,7 @@ const Page = () => {
       <SliderHome />
       {gender === "WOMEN" ? (
         <div className="w-full">
-          <Banner />
+          {/* <Banner newProducts={newProducts}/> */}
           <div className="px-[4em] flex flex-col gap-4 lg:flex-row justify-cneter items-center mt-[1em]">
             {/* left side -  shop now */}
             <div className="flex flex-col w-full lg:w-1/3 justify-center items-center gap-3">
@@ -58,7 +59,7 @@ const Page = () => {
             </div>
           </div>
           <div className="mt-[3em] flex justify-center items-center gap-3">
-            <TwoCards />
+            <TwoCards/>
           </div>
 
           <hr className="w-full mt-[1em]" />
@@ -73,7 +74,7 @@ const Page = () => {
               </Button>
             </div>
             <div className="lg:flex-1 w-full">
-              <ImagesSlider newProducts={newProducts && newProducts}/>
+              <ImagesSlider2 newProducts={newProducts && newProducts}/>
             </div>
           </div>
 

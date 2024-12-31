@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const ImagesSlider = ({newProducts}) => {
-  console.log(newProducts?.data?.newProducts);
+const ImagesSlider2 = ({newProducts}) => {
+  console.log(newProducts?.data?.featuredproducts);
+
+  
 
   // const cards = Array.from({ length: 36 }, (_, index) => ({
   //   id: index + 1,
@@ -61,16 +63,16 @@ const ImagesSlider = ({newProducts}) => {
 
         {/* الكاردات */}
         <div className="flex space-x-4 w-full">
-          {newProducts?.data?.newProducts.slice(currentIndex, currentIndex + cardsToShow).map((card, index) => (
+          {newProducts?.data?.featuredproducts.slice(currentIndex, currentIndex + cardsToShow).map((card, index) => (
             <div key={index} className={`w-1/${cardsToShow} p-2 w-full`}>
               <Link href={`/collections/${card.category_id}/${card.id}`} className="border-none rounded-lg overflow-hidden">
                 <img
                   src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${card?.image}`}
-                  alt={card?.model}
+                  alt={card?.name}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="font-bold text-md">{card.model}</h3>
+                  <h3 className="font-bold text-md">{card?.model}</h3>
                   <p className="text-sm font-thin">{`${card?.price}`}</p>
                 </div>
               </Link>
@@ -90,7 +92,4 @@ const ImagesSlider = ({newProducts}) => {
   );
 };
 
-export default ImagesSlider;
-
-
-
+export default ImagesSlider2;

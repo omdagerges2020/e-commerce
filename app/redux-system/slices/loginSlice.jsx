@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const data = {
     userToken: false,
     error: null,
+    user: null,
 };
 
 // Cretae slice 
@@ -12,7 +13,8 @@ const loginSlice = createSlice({
     reducers: {
         setLogin: (state,action)=>{
             // state.status = true;
-            state.userToken = action.payload;
+            state.userToken = action.payload.authToken;
+            state.user = action.payload;
             state.error = null;
         },
         setLogout: (state, action)=>{

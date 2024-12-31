@@ -1,9 +1,27 @@
-"use client";
+
 import React from "react";
 import LayoutCart from "../components/layout/LayoutCart";
 import CartHeader from "../components/CartHeader";
-import { Button } from "@material-tailwind/react";
-const page = () => {
+import { getCartProductsserver } from "../ServerRequests";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getCartProducts } from "../redux-system/slices/cartSlice";
+
+
+const page = async() => {
+  // const { cartProducts } = useSelector((state) => state.cartData);
+
+  // console.log(cartProducts);
+
+  // const dispatch = useDispatch();
+
+  // useEffect(()=>{
+  //   dispatch(getCartProducts())
+  // },[])
+  const {cartData} = await getCartProductsserver()
+
+  // console.log(cartData);
+  
+
   return (
     <LayoutCart>
       <CartHeader />
@@ -58,7 +76,7 @@ const page = () => {
                       >
                         -
                       </button>
-                      <span className="w-10 text-center"></span>
+                      <span className="w-10 text-center">1</span>
                       <button
                         className="w-8 h-8 border rounded-md flex items-center justify-center"
                         // onClick={handleIncrease}
@@ -77,7 +95,7 @@ const page = () => {
           </div>
           {/* Add Order Note */}
           <div className="mt-6 flex items-center justify-between md:flex-row gap-4">
-            <div className="flex flex-col items-start justify-center">
+            {/* <div className="flex flex-col items-start justify-center">
               <label
                 htmlFor="order-note"
                 className="block text-base  text-gray-600 mb-2"
@@ -90,7 +108,7 @@ const page = () => {
                 className="w-full border rounded-md p-2"
                 placeholder="How can we help you?"
               ></textarea>
-            </div>
+            </div> */}
             {/* Total Section */}
             <div className="flex flex-col items-end justify-start gap-4">
               <div className="flex justify-start gap-4 flex-col items-end mt-6 pt-4">
@@ -100,7 +118,7 @@ const page = () => {
                 </p>
               </div>
               {/* Checkout Button */}
-              <button class="relative px-8 py-2 rounded-md bg-black isolation-auto z-10 border-2 border-black before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full hover:text-white before:-right-full before:hover:right-0 before:rounded-full before:bg-[black] before:-z-10 before:aspect-square before:hover:scale-150 overflow-hidden before:hover:black inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-black bg-white border border-gray-200 rounded-lg shadow-sm gap-x-2 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+              <button className="relative px-8 py-2 rounded-md bg-black isolation-auto z-10 border-2 border-black before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full hover:text-white before:-right-full before:hover:right-0 before:rounded-full before:bg-[black] before:-z-10 before:aspect-square before:hover:scale-150 overflow-hidden before:hover:black inline-flex items-center justify-center text-sm font-semibold text-black bg-white border border-gray-200 rounded-lg shadow-sm gap-x-2 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
                 CHECKOUT
               </button>
             </div>

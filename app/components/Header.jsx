@@ -2,6 +2,17 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
+  ListItemPrefix,
+  ListItemSuffix,
+  Chip,
+  Alert,
+  Dialog,
+  DialogFooter,
+  DialogBody,
+} from "@material-tailwind/react";
+import { ShoppingBagIcon, InboxIcon } from "@heroicons/react/24/solid";
+import { CubeTransparentIcon } from "@heroicons/react/24/outline";
+import {
   Button,
   IconButton,
   Menu,
@@ -10,23 +21,31 @@ import {
   MenuList,
   Drawer,
   Typography,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
+  Card,
+  Input,
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
 } from "@material-tailwind/react";
 import { Collapse, List, ListItem } from "@material-tailwind/react";
 
 import {
   Bars3Icon,
   ChevronDownIcon,
+  ChevronRightIcon,
+  Cog6ToothIcon,
+  MagnifyingGlassIcon,
+  PowerIcon,
+  PresentationChartBarIcon,
+  UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { IoClose } from "react-icons/io5";
-import { TbUserQuestion } from "react-icons/tb";
-import { BsThreeDotsVertical } from "react-icons/bs";
+// import { IoClose } from "react-icons/io5";
+// import { TbUserQuestion } from "react-icons/tb";
+// import { BsThreeDotsVertical } from "react-icons/bs";
 
 import { VscAccount } from "react-icons/vsc";
+import { CiLogout } from "react-icons/ci";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { IoIosHeart } from "react-icons/io";
 import Image from "next/image";
@@ -34,6 +53,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux-system/slices/categoriesSlice";
 import { getHeaderCategories } from "../redux-system/slices/categoriesHeaderSlice";
 import AccordionSideMenue from "./headerComponents/AccordionSideMenue";
+import { TbUserQuestion } from "react-icons/tb";
+import { IoClose } from "react-icons/io5";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 const languages = [
   {
@@ -52,6 +74,7 @@ const navListMenuItems = [
 ];
 
 function NavListMenu({ categoryName, categoryId, categoryImg }) {
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
@@ -128,7 +151,7 @@ function NavListMenu({ categoryName, categoryId, categoryImg }) {
             >
               <Image
                 src={`${
-                  process.env.NEXT_PUBLIC_API_BASE_URL
+                  process.env.NEXT_PUBLIC_IMAGE_DOMAIN
                 }/${categoryImg.replace(/ /g, "%20")}`}
                 width={300}
                 height={50}
@@ -152,6 +175,7 @@ function NavListMenu({ categoryName, categoryId, categoryImg }) {
 }
 
 const Header = () => {
+  const { userToken } = useSelector((state) => state.auth);
   const [activeGender, setActiveGender] = useState("WOMEN");
   const { headerCategories } = useSelector(
     (state) => state.headerCategoriesData
@@ -162,13 +186,29 @@ const Header = () => {
     dispatch(getHeaderCategories());
   }, []);
 
-  const [openSide, setOpenSide] = useState(false);
-  const [open, setOpen] = useState(false);
+  // side menue  const [open, setOpen] = React.useState(0);
+  const [openAlert, setOpenAlert] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const openDrawer = () => setIsDrawerOpen(true);
+  const closeDrawer = () => setIsDrawerOpen(false);
+
+  // cart drawer
   const [openRight, setOpenRight] = useState(false);
-  const openDrawer = () => setOpen(true);
-  const closeDrawer = () => setOpen(false);
   const openDrawerRight = () => setOpenRight(true);
   const closeDrawerRight = () => setOpenRight(false);
+
+  // const handleOpen = (value) => {
+  //   setOpen(open === value ? 0 : value);
+  // };
+
+  // const [openSide, setOpenSide] = useState(false);
+
+
+  const [open, setOpen] = useState(false);
+
+  // const openDrawer = () => setOpen(true);
+  // const closeDrawer = () => setOpen(false);
+
 
   const [openMenu, setOpenMenu] = useState(false);
   const [openNav, setOpenNav] = useState(false);
@@ -176,21 +216,23 @@ const Header = () => {
   const [header, setHeader] = useState(false);
   const [lang, setLang] = useState("ENGLISH");
 
-  const handleOpen = () => setOpenSide(!openSide);
+  // const handleOpen = () => setOpenSide(!openSide);
 
-  const handleClose = () => {
-    setOpenSide(false);
-  };
+  // const handleClose = () => {
+  //   setOpenSide(false);
+  // };
 
-  const handleOpenFavourit = () => setOpen(!openSide);
+  const handleOpenFavourit = () => setOpen(!open);
 
   const handleCloseFavourit = () => {
     setOpen(false);
   };
 
-  const handleStopPropagation = (e) => {
-    e.stopPropagation();
-  };
+  // const handleStopPropagation = (e) => {
+  //   e.stopPropagation();
+  // };
+
+
 
   const scrollHeader = () => {
     if (window.scrollY >= 20) {
@@ -286,18 +328,7 @@ const Header = () => {
             {/* side menue */}
             <div className="lg:hidden block">
               <React.Fragment>
-                <IconButton
-                  variant="text"
-                  className="lg:hidden"
-                  onClick={openDrawer}
-                >
-                  {openNav ? (
-                    <XMarkIcon className="h-6 w-6" strokeWidth={2} />
-                  ) : (
-                    <Bars3Icon className="h-6 w-6" strokeWidth={2} />
-                  )}
-                </IconButton>
-                <Drawer
+                {/* <Drawer
                   openSide={openSide}
                   onClose={closeDrawer}
                   className={`p-4 ${
@@ -327,8 +358,220 @@ const Header = () => {
                     </IconButton>
                   </div>
                   <div>
-                   <AccordionSideMenue headerCategories={headerCategories}/>
+                    <AccordionSideMenue headerCategories={headerCategories} />
                   </div>
+                </Drawer> */}
+                <IconButton variant="text" size="lg" onClick={openDrawer}>
+                  {isDrawerOpen ? (
+                    <XMarkIcon className="h-8 w-8 stroke-2" />
+                  ) : (
+                    <Bars3Icon className="h-8 w-8 stroke-2" />
+                  )}
+                </IconButton>
+                <Drawer open={isDrawerOpen} onClose={closeDrawer}>
+                  <Card
+                    color="transparent"
+                    shadow={false}
+                    className="h-[calc(100vh-2rem)] w-full p-4"
+                  >
+                    <div className="mb-2 flex items-center gap-4 p-4">
+                      <img
+                        src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
+                        alt="brand"
+                        className="h-8 w-8"
+                      />
+                      <Typography variant="h5" color="blue-gray">
+                        Sidebar
+                      </Typography>
+                    </div>
+                    <div className="p-2">
+                      <Input
+                        icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                        label="Search"
+                      />
+                    </div>
+                    <List>
+                      <Accordion
+                        open={open === 1}
+                        icon={
+                          <ChevronDownIcon
+                            strokeWidth={2.5}
+                            className={`mx-auto h-4 w-4 transition-transform ${
+                              open === 1 ? "rotate-180" : ""
+                            }`}
+                          />
+                        }
+                      >
+                        <ListItem className="p-0" selected={open === 1}>
+                          <AccordionHeader
+                            onClick={() => handleOpen(1)}
+                            className="border-b-0 p-3"
+                          >
+                            <ListItemPrefix>
+                              <PresentationChartBarIcon className="h-5 w-5" />
+                            </ListItemPrefix>
+                            <Typography
+                              color="blue-gray"
+                              className="mr-auto font-normal"
+                            >
+                              Dashboard
+                            </Typography>
+                          </AccordionHeader>
+                        </ListItem>
+                        <AccordionBody className="py-1">
+                          <List className="p-0">
+                            <ListItem>
+                              <ListItemPrefix>
+                                <ChevronRightIcon
+                                  strokeWidth={3}
+                                  className="h-3 w-5"
+                                />
+                              </ListItemPrefix>
+                              Analytics
+                            </ListItem>
+                            <ListItem>
+                              <ListItemPrefix>
+                                <ChevronRightIcon
+                                  strokeWidth={3}
+                                  className="h-3 w-5"
+                                />
+                              </ListItemPrefix>
+                              Reporting
+                            </ListItem>
+                            <ListItem>
+                              <ListItemPrefix>
+                                <ChevronRightIcon
+                                  strokeWidth={3}
+                                  className="h-3 w-5"
+                                />
+                              </ListItemPrefix>
+                              Projects
+                            </ListItem>
+                          </List>
+                        </AccordionBody>
+                      </Accordion>
+                      <Accordion
+                        open={open === 2}
+                        icon={
+                          <ChevronDownIcon
+                            strokeWidth={2.5}
+                            className={`mx-auto h-4 w-4 transition-transform ${
+                              open === 2 ? "rotate-180" : ""
+                            }`}
+                          />
+                        }
+                      >
+                        <ListItem className="p-0" selected={open === 2}>
+                          <AccordionHeader
+                            onClick={() => handleOpen(2)}
+                            className="border-b-0 p-3"
+                          >
+                            <ListItemPrefix>
+                              <ShoppingBagIcon className="h-5 w-5" />
+                            </ListItemPrefix>
+                            <Typography
+                              color="blue-gray"
+                              className="mr-auto font-normal"
+                            >
+                              E-Commerce
+                            </Typography>
+                          </AccordionHeader>
+                        </ListItem>
+                        <AccordionBody className="py-1">
+                          <List className="p-0">
+                            <ListItem>
+                              <ListItemPrefix>
+                                <ChevronRightIcon
+                                  strokeWidth={3}
+                                  className="h-3 w-5"
+                                />
+                              </ListItemPrefix>
+                              Orders
+                            </ListItem>
+                            <ListItem>
+                              <ListItemPrefix>
+                                <ChevronRightIcon
+                                  strokeWidth={3}
+                                  className="h-3 w-5"
+                                />
+                              </ListItemPrefix>
+                              Products
+                            </ListItem>
+                          </List>
+                        </AccordionBody>
+                      </Accordion>
+                      <hr className="my-2 border-blue-gray-50" />
+                      <ListItem>
+                        <ListItemPrefix>
+                          <InboxIcon className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Inbox
+                        <ListItemSuffix>
+                          <Chip
+                            value="14"
+                            size="sm"
+                            variant="ghost"
+                            color="blue-gray"
+                            className="rounded-full"
+                          />
+                        </ListItemSuffix>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemPrefix>
+                          <UserCircleIcon className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Profile
+                      </ListItem>
+                      <ListItem>
+                        <ListItemPrefix>
+                          <Cog6ToothIcon className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Settings
+                      </ListItem>
+                      <ListItem>
+                        <ListItemPrefix>
+                          <PowerIcon className="h-5 w-5" />
+                        </ListItemPrefix>
+                        Log Out
+                      </ListItem>
+                    </List>
+                    <Alert
+                      open={openAlert}
+                      className="mt-auto"
+                      onClose={() => setOpenAlert(false)}
+                    >
+                      <CubeTransparentIcon className="mb-4 h-12 w-12" />
+                      <Typography variant="h6" className="mb-1">
+                        Upgrade to PRO
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        className="font-normal opacity-80"
+                      >
+                        Upgrade to Material Tailwind PRO and get even more
+                        components, plugins, advanced features and premium.
+                      </Typography>
+                      <div className="mt-4 flex gap-3">
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          className="font-medium opacity-80"
+                          onClick={() => setOpenAlert(false)}
+                        >
+                          Dismiss
+                        </Typography>
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          className="font-medium"
+                        >
+                          Upgrade Now
+                        </Typography>
+                      </div>
+                    </Alert>
+                  </Card>
                 </Drawer>
               </React.Fragment>
             </div>
@@ -341,17 +584,19 @@ const Header = () => {
                 src={`/assets/images/logo.png`}
                 alt="logo"
               />
-              <h1 className="tracking-[.5em] font-[600] text-[30px]">
+              <h1 className="tracking-[.2em] lg:tracking-[.5em] font-[600] text-[30px]">
                 DETAYLAR
               </h1>
             </div>
             {/* icons */}
             <div className="flex flex-col lg:flex-row text-[25px] font-bold gap-2">
-              <Link href="/login"><VscAccount className="hidden lg:block" /></Link>
+                <Link href={userToken ? "/login/profile" : '/login'}>
+                  <VscAccount className="lg:block" />
+                </Link>
               {/* search icon */}
               {/* <IoSearch className="cursor-pointer" onClick={handleOpenSearch}/>
               <SearchDialog openSearch={openSearch} handleCloseSearch={handleCloseSearch}/> */}
-             
+
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
                 className="cursor-pointer"
@@ -398,7 +643,10 @@ const Header = () => {
                   <span>Your cart is empty</span>
                 </div>
               </Drawer>
-              <IoIosHeart className="cursor-pointer" onClick={()=>handleOpenFavourit()}/>
+              <IoIosHeart
+                className="cursor-pointer"
+                onClick={() => handleOpenFavourit()}
+              />
               <Dialog
                 open={open}
                 handler={handleOpenFavourit}
@@ -406,7 +654,6 @@ const Header = () => {
                   mount: { scale: 1, y: 0 },
                   unmount: { scale: 0.9, y: -100 },
                 }}
-                onClick={handleStopPropagation}
                 className="backdrop-none flex flex-col relative border-none rounded-none lg:min-w-[80%] lg:max-w-[90%] lg:max-h-[80vh] w-full h-screen"
               >
                 <DialogFooter className="absolute w-full bg-[#434655] top-0 right-0">

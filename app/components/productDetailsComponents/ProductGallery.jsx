@@ -2,21 +2,17 @@ import { getProductDetails } from "@/app/redux-system/slices/productDetailsSlice
 import { useEffect, useRef, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "../Loading";
 
  const ProductGallery = (props) => {
-    const {productDetails} = useSelector(state => state.productDetailsData);
-  
-    // console.log(params.productid);
-    console.log(props.prodId);
-    
-    
-    console.log(productDetails);
-    const dispatch = useDispatch()
+    const {productDetails, productDetailsLoading} = useSelector(state => state.productDetailsData);
+      
+      const dispatch = useDispatch()
   
       useEffect(()=>{
         dispatch((getProductDetails(props.prodId)));
       },[])
-    
+
     
     const imageRefs = useRef([]);
   
@@ -51,7 +47,7 @@ import { useDispatch, useSelector } from "react-redux";
             {productDetails?.data?.productImages.map((image, index) => (
               <img
                 key={index}
-                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${image.image.replace(/ /g, "%20")}`}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${image.image.replace(/ /g, "%20")}`}
                 alt={`Thumbnail ${index}`}
                 onClick={() => scrollToImage(index)} // التنقل للصورة الكبيرة
                 className="w-20 h-24 object-cover cursor-pointer	focus:ring-4 focus:ring-black"
@@ -71,7 +67,7 @@ import { useDispatch, useSelector } from "react-redux";
                 className="flex justify-center"
               >
                 <img
-                  src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${image.image.replace(/ /g, "%20")}`}
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${image.image.replace(/ /g, "%20")}`}
                   alt={`Large Image ${index}`}
                   className="w-[500px] h-auto object-cover"
                 />

@@ -8,7 +8,7 @@ export const getClollections = createAsyncThunk(
 
     const options = {
       method: "GET",
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/getCategories`,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/getCategories`,
       headers: {
         "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
         "Content-Type": "application/json",
@@ -29,19 +29,19 @@ const getCollectionsSlice = createSlice({
   name: "getcollectionsslice",
   initialState: {
     collections: {},
-    loading: false,
+    collectionsLoading: false,
     erorr: null,
   },
   extraReducers: (builder) => {
     builder.addCase(getClollections.pending, (state) => {
-      state.loading = true;
+      state.collectionsLoading = true;
     });
     builder.addCase(getClollections.fulfilled, (state, action) => {
-      state.loading = false;
+      state.collectionsLoading = false;
       state.collections = action.payload;
     });
     builder.addCase(getClollections.rejected, (state, action) => {
-      state.loading = false;
+      state.collectionsLoading = false;
       state.erorr = action.payload.message;
     });
   },

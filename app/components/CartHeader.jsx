@@ -19,13 +19,6 @@ const CartHeader = () => {
     window.addEventListener("scroll", scrollHeader);
   }, []);
 
-  useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false),
-      () => window.innerWidth <= 960 && setChanged(true)
-    );
-  }, []);
 
   return (
     <div className="w-full">

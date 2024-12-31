@@ -4,13 +4,14 @@ import Image from 'next/image'
 import Link from "next/link";
 
 
-const Banner = () => {
- 
+const Banner = ({newProducts}) => {
+  console.log(newProducts?.data?.banners[0]?.images[0]?.image);
+  
   return (
     <>
       <div className="mx-auto gap-3 flex flex-col justify-center items-center mt-[5em]">
         <Image
-          src="https://thahab.com/cdn/shop/files/hh_1800x.jpg?v=1733926899"
+          src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/api/${newProducts?.data?.banners[0]?.images[0]?.image}`}
           width={1000}
           height={750}
           alt="picture"
