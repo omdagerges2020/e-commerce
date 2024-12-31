@@ -74,7 +74,6 @@ const navListMenuItems = [
 ];
 
 function NavListMenu({ categoryName, categoryId, categoryImg }) {
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
@@ -203,12 +202,10 @@ const Header = () => {
 
   // const [openSide, setOpenSide] = useState(false);
 
-
   const [open, setOpen] = useState(false);
 
   // const openDrawer = () => setOpen(true);
   // const closeDrawer = () => setOpen(false);
-
 
   const [openMenu, setOpenMenu] = useState(false);
   const [openNav, setOpenNav] = useState(false);
@@ -231,8 +228,6 @@ const Header = () => {
   // const handleStopPropagation = (e) => {
   //   e.stopPropagation();
   // };
-
-
 
   const scrollHeader = () => {
     if (window.scrollY >= 20) {
@@ -267,23 +262,14 @@ const Header = () => {
       >
         <div className="bg-black w-full text-white px-3 flex justify-between items-center h-[42px]">
           <div>
-            {genderTab.map((gender, index) => (
-              <Link
-                href={{ pathname: "/", query: { gender: gender?.gender } }}
-                key={index}
-              >
+              
                 <Button
-                  onClick={() => setActiveGender(gender.gender)}
-                  className={`${
-                    activeGender === gender.gender
-                      ? "bg-white text-black"
-                      : "bg-transparent text-white"
-                  } font-normal uppercase text-[12px] px-3 w-[80px] rounded-none`}
+                  // onClick={() => setActiveGender(gender.gender)}
+                  className="bg-transparent text-white "
                 >
-                  {gender?.gender}
+                  women
                 </Button>
-              </Link>
-            ))}
+        
           </div>
           {/* <div>
             <MenuWithSearchInput />
@@ -384,12 +370,6 @@ const Header = () => {
                         Sidebar
                       </Typography>
                     </div>
-                    <div className="p-2">
-                      <Input
-                        icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                        label="Search"
-                      />
-                    </div>
                     <List>
                       <Accordion
                         open={open === 1}
@@ -402,197 +382,40 @@ const Header = () => {
                           />
                         }
                       >
-                        <ListItem className="p-0" selected={open === 1}>
-                          <AccordionHeader
-                            onClick={() => handleOpen(1)}
-                            className="border-b-0 p-3"
-                          >
-                            <ListItemPrefix>
-                              <PresentationChartBarIcon className="h-5 w-5" />
-                            </ListItemPrefix>
+                        {headerCategories?.women?.map((li, index) => (
+                          <ListItem key={index} className="p-0" selected={open === 1}>
                             <Typography
                               color="blue-gray"
                               className="mr-auto font-normal"
                             >
-                              Dashboard
+                              <Link href={`/collections/${li.category_id}`}>{li.category_description.name}</Link>
                             </Typography>
-                          </AccordionHeader>
-                        </ListItem>
-                        <AccordionBody className="py-1">
-                          <List className="p-0">
-                            <ListItem>
-                              <ListItemPrefix>
-                                <ChevronRightIcon
-                                  strokeWidth={3}
-                                  className="h-3 w-5"
-                                />
-                              </ListItemPrefix>
-                              Analytics
-                            </ListItem>
-                            <ListItem>
-                              <ListItemPrefix>
-                                <ChevronRightIcon
-                                  strokeWidth={3}
-                                  className="h-3 w-5"
-                                />
-                              </ListItemPrefix>
-                              Reporting
-                            </ListItem>
-                            <ListItem>
-                              <ListItemPrefix>
-                                <ChevronRightIcon
-                                  strokeWidth={3}
-                                  className="h-3 w-5"
-                                />
-                              </ListItemPrefix>
-                              Projects
-                            </ListItem>
-                          </List>
-                        </AccordionBody>
+                          </ListItem>
+                        ))}
                       </Accordion>
-                      <Accordion
-                        open={open === 2}
-                        icon={
-                          <ChevronDownIcon
-                            strokeWidth={2.5}
-                            className={`mx-auto h-4 w-4 transition-transform ${
-                              open === 2 ? "rotate-180" : ""
-                            }`}
-                          />
-                        }
-                      >
-                        <ListItem className="p-0" selected={open === 2}>
-                          <AccordionHeader
-                            onClick={() => handleOpen(2)}
-                            className="border-b-0 p-3"
-                          >
-                            <ListItemPrefix>
-                              <ShoppingBagIcon className="h-5 w-5" />
-                            </ListItemPrefix>
-                            <Typography
-                              color="blue-gray"
-                              className="mr-auto font-normal"
-                            >
-                              E-Commerce
-                            </Typography>
-                          </AccordionHeader>
-                        </ListItem>
-                        <AccordionBody className="py-1">
-                          <List className="p-0">
-                            <ListItem>
-                              <ListItemPrefix>
-                                <ChevronRightIcon
-                                  strokeWidth={3}
-                                  className="h-3 w-5"
-                                />
-                              </ListItemPrefix>
-                              Orders
-                            </ListItem>
-                            <ListItem>
-                              <ListItemPrefix>
-                                <ChevronRightIcon
-                                  strokeWidth={3}
-                                  className="h-3 w-5"
-                                />
-                              </ListItemPrefix>
-                              Products
-                            </ListItem>
-                          </List>
-                        </AccordionBody>
-                      </Accordion>
-                      <hr className="my-2 border-blue-gray-50" />
-                      <ListItem>
-                        <ListItemPrefix>
-                          <InboxIcon className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Inbox
-                        <ListItemSuffix>
-                          <Chip
-                            value="14"
-                            size="sm"
-                            variant="ghost"
-                            color="blue-gray"
-                            className="rounded-full"
-                          />
-                        </ListItemSuffix>
-                      </ListItem>
-                      <ListItem>
-                        <ListItemPrefix>
-                          <UserCircleIcon className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Profile
-                      </ListItem>
-                      <ListItem>
-                        <ListItemPrefix>
-                          <Cog6ToothIcon className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Settings
-                      </ListItem>
-                      <ListItem>
-                        <ListItemPrefix>
-                          <PowerIcon className="h-5 w-5" />
-                        </ListItemPrefix>
-                        Log Out
-                      </ListItem>
                     </List>
-                    <Alert
-                      open={openAlert}
-                      className="mt-auto"
-                      onClose={() => setOpenAlert(false)}
-                    >
-                      <CubeTransparentIcon className="mb-4 h-12 w-12" />
-                      <Typography variant="h6" className="mb-1">
-                        Upgrade to PRO
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        className="font-normal opacity-80"
-                      >
-                        Upgrade to Material Tailwind PRO and get even more
-                        components, plugins, advanced features and premium.
-                      </Typography>
-                      <div className="mt-4 flex gap-3">
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          className="font-medium opacity-80"
-                          onClick={() => setOpenAlert(false)}
-                        >
-                          Dismiss
-                        </Typography>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          className="font-medium"
-                        >
-                          Upgrade Now
-                        </Typography>
-                      </div>
-                    </Alert>
                   </Card>
                 </Drawer>
               </React.Fragment>
             </div>
 
             {/* nav links */}
-            <div className="flex flex-col justify-center items-center">
-              <Image
+            <div className="flex justify-center items-center">
+              {/* <Image
                 width={40}
                 height={40}
                 src={`/assets/images/logo.png`}
                 alt="logo"
-              />
+              /> */}
               <h1 className="tracking-[.2em] lg:tracking-[.5em] font-[600] text-[30px]">
                 DETAYLAR
               </h1>
             </div>
             {/* icons */}
             <div className="flex flex-col lg:flex-row text-[25px] font-bold gap-2">
-                <Link href={userToken ? "/login/profile" : '/login'}>
-                  <VscAccount className="lg:block" />
-                </Link>
+              <Link href={userToken ? "/login/profile" : "/login"}>
+                <VscAccount className="lg:block" />
+              </Link>
               {/* search icon */}
               {/* <IoSearch className="cursor-pointer" onClick={handleOpenSearch}/>
               <SearchDialog openSearch={openSearch} handleCloseSearch={handleCloseSearch}/> */}
@@ -633,12 +456,6 @@ const Header = () => {
                     </svg>
                   </IconButton>
                 </div>
-                <Typography
-                  color="gray"
-                  className="mb-8 pr-4 font-normal border-y-[1px]"
-                >
-                  Spend 200 KD more and get free shipping!
-                </Typography>
                 <div className="flex gap-2 w-full h-screen">
                   <span>Your cart is empty</span>
                 </div>

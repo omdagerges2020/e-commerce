@@ -436,7 +436,7 @@ export default function ProductPage({ params }) {
         )}
 
         <hr className="w-full mt-[2em] mb-[2em]" />
-        <CardCarousel />
+        {/* <CardCarousel /> */}
         <hr className="w-full mt-[1em]" />
       </div>
     </>

@@ -10,7 +10,7 @@ const TwoCards = () => {
 
   return (
     <div className="flex flex-col lg:flex-row md:flex-col justify-center gap-5">
-      {data?.homePageCategory.slice(0, 2).map(({ image }, index) => (
+      {data?.homePageCategory.slice(0, 2).map(({ image, name, category_id }, index) => (
         <div className="flex justify-center flex-col items-center" key={index}>
           <Image
             width={450}
@@ -20,12 +20,11 @@ const TwoCards = () => {
           />
           <div className="flex justify-center items-center flex-col w-full gap-4 mt-[1em]">
             <h1 className="text-xl text-center tracking-widest">
-              YOUR PLUS ONE
+              {name}
             </h1>
             <div className="flex justify-center flex-col items-center">
-              <Link href="/">Arm Candy Made To Dazzle</Link>
-              <Link href="/" className="underline">
-                Shop Evening Bags
+              <Link href={`/collections/${category_id}`} className="underline">
+                Shop Now
               </Link>
             </div>
           </div>

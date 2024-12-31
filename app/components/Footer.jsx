@@ -31,7 +31,7 @@ const Footer = () => {
               variant="small"
               className="mb-4 font-bold uppercase opacity-50 text-[#000000]"
             >
-              THAHAB
+              DETAYLAR
             </Typography>
             <ul className="flex flex-col gap-3">
               <Typography as="li" className="font-normal">
@@ -64,7 +64,7 @@ const Footer = () => {
               variant="small"
               className="mb-4 font-bold uppercase opacity-50 text-[#000000]"
             >
-              THAHAB
+              DETAYLAR
             </Typography>
             <ul className="flex flex-col">
               <Typography as="li" className="font-normal">
@@ -110,11 +110,6 @@ const Footer = () => {
               <Typography as="li" className="font-normal">
                 <p className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
                   +965 97357777
-                </p>
-              </Typography>
-              <Typography as="li" className="font-normal">
-                <p className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
-                  concierge@thahab.com
                 </p>
               </Typography>
             </ul>
@@ -271,7 +266,7 @@ const Footer = () => {
           </MenuList>
         </Menu>
         <div className="font-thin tracking-widest text-sm">
-          <p>&copy; THAHAB KW</p>
+          <p>&copy; DETAYLAR </p>
         </div>
       </div>
     </footer>

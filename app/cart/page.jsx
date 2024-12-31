@@ -7,7 +7,7 @@ import { getCartProductsserver } from "../ServerRequests";
 // import { getCartProducts } from "../redux-system/slices/cartSlice";
 
 
-const page = async() => {
+const Cart = async() => {
   // const { cartProducts } = useSelector((state) => state.cartData);
 
   // console.log(cartProducts);
@@ -39,9 +39,6 @@ const page = async() => {
       <div className="min-h-screen bg-gray-50 flex justify-center items-center">
         <div className="p-6 w-full max-w-3xl">
           <h1 className="text-2xl font-bold text-center mb-6">CART</h1>
-          <p className="text-center text-gray-600 mb-6">
-            You are eligible for free shipping!
-          </p>
           {/* Cart Table */}
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
@@ -175,4 +172,4 @@ const page = async() => {
   );
 };
 
-export default page;
+export default Cart;

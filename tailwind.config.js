@@ -14,7 +14,7 @@ module.exports = ({
         'xs': '480px',
       },
       fontFamily: {
-        'montserrat': ['Montserrat', 'sans-serif'],
+        'Nunito': ['Nunito', 'sans-serif'],
       },
       // backgroundImage: {
       //   'hero-pattern': "url(/assets/images/img-1.png)",

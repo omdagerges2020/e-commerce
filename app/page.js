@@ -7,11 +7,9 @@ import TwoCards from "./components/homeComponents/TwoCards";
 import SecondTwoCards from "./components/homeComponents/SecondTwoCards";
 import ThreeCards from "./components/homeComponents/ThreeCards";
 import GitTheLook from "./components/homeComponents/GitTheLook";
-import GiftCard from "./components/homeComponents/GiftCard";
 import Aboutus from "./components/homeComponents/Aboutus";
 
 import Link from "next/link";
-import HomeMen from "./components/HomeMen";
 import SliderHome from "./components/homeComponents/SliderHome";
 import { useDispatch, useSelector } from "react-redux";
 import { getNewProducts } from "./redux-system/slices/newProductsSlice";
@@ -33,12 +31,10 @@ const Page = () => {
     dispatch(getHeaderCategories());
   },[])
   
-  const gender = "WOMEN";
 
   return (
     <div className="mt-[15em]">
       <SliderHome />
-      {gender === "WOMEN" ? (
         <div className="w-full">
           {/* <Banner newProducts={newProducts}/> */}
           <div className="px-[4em] flex flex-col gap-4 lg:flex-row justify-cneter items-center mt-[1em]">
@@ -86,9 +82,7 @@ const Page = () => {
           {/* <GiftCard /> */}
           <Aboutus />
         </div>
-      ) : (
-        <HomeMen />
-      )}
+      
     </div>
   );
 };

@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         <MainLayout>
           {children}
           <ScrollToTop/>
-          <ChatModal/>
+          {/* <ChatModal/> */}
         </MainLayout>
       </body>
     </html>
