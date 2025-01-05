@@ -12,6 +12,7 @@ const nextConfig = {
   images: {
     domains: ['thahab.com', 'api.detaylarhome.com'], // اسم النطاق فقط
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;
