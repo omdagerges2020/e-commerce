@@ -195,8 +195,7 @@ const Header = () => {
 
   // console.log(whiteProducts);
 
-  console.log(cartProducts);
-  
+  console.log(cartProducts, "cartProducts");
 
   const dispatch = useDispatch();
 
@@ -488,7 +487,8 @@ const Header = () => {
                     </svg>
                   </IconButton>
                 </div>
-                {cartProducts?.cartData.length === 0 ? (
+                {cartProducts?.cartData &&
+                cartProducts?.cartData?.length === 0 ? (
                   <div className="flex gap-2 w-full h-screen">
                     <span>Your cart is empty</span>
                   </div>
@@ -505,59 +505,58 @@ const Header = () => {
                           </tr>
                         </thead> */}
                         <tbody>
-                          {cartProducts?.cartData.map((prod, index) => (
-                            <tr
-                              key={index}
-                              className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
-                            >
-                              <td className="py-4 flex items-center">
-                                <img
-                                  src={`${
-                                    process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                                  }/${prod?.image.replace(/ /g, "%20")}`}
-                                  alt="Product Image"
-                                  className="w-20 h-28 mr-4"
-                                />
-                                <div className="flex flex-col justify-center">
-                                  <p>{prod?.name}</p>
-                                  <p className="py-2 font-thin">
-                                    {prod?.totalPrice} EG
-                                  </p>
-                                  <div className="flex justify-center items-center">
-                                  <button
-                                    className="w-8 h-8 border rounded-md flex items-center justify-center"
-                                    onClick={() =>
-                                      dispatch(decrement(prod && prod))
-                                    }
-                                  >
-                                    -
-                                  </button>
-                                  <span className="w-10 text-center">
-                                    {prod?.quantity}
-                                  </span>
-                                  <button
-                                    className="w-8 h-8 border rounded-md flex items-center justify-center"
-                                    onClick={() =>
-                                      dispatch(increment(prod && prod))
-                                    }
-                                  >
-                                    +
-                                  </button>
-                                  <button
-                                  onClick={() =>
-                                    dispatch(deleteProduct(prod && prod))
-                                  }
-                                  className="text-gray-500 text-sm mt-2  hover:underline transition-all underline"
-                                >
-                                  REMOVE
-                                </button>
-                                </div>
-                                </div>
-                              </td>
-                            
-                            
-                            </tr>
-                          ))}
+                          {cartProducts?.cartData &&
+                            cartProducts?.cartData.map((prod, index) => (
+                              <tr
+                                key={index}
+                                className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
+                              >
+                                <td className="py-4 flex items-center">
+                                  <img
+                                    src={`${
+                                      process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+                                    }/${prod?.image.replace(/ /g, "%20")}`}
+                                    alt="Product Image"
+                                    className="w-20 h-28 mr-4"
+                                  />
+                                  <div className="flex flex-col justify-center">
+                                    <p>{prod?.name}</p>
+                                    <p className="py-2 font-thin">
+                                      {prod?.totalPrice} EG
+                                    </p>
+                                    <div className="flex justify-center items-center">
+                                      <button
+                                        className="w-8 h-8 border rounded-md flex items-center justify-center"
+                                        onClick={() =>
+                                          dispatch(decrement(prod && prod))
+                                        }
+                                      >
+                                        -
+                                      </button>
+                                      <span className="w-10 text-center">
+                                        {prod?.quantity}
+                                      </span>
+                                      <button
+                                        className="w-8 h-8 border rounded-md flex items-center justify-center"
+                                        onClick={() =>
+                                          dispatch(increment(prod && prod))
+                                        }
+                                      >
+                                        +
+                                      </button>
+                                      <button
+                                        onClick={() =>
+                                          dispatch(deleteProduct(prod && prod))
+                                        }
+                                        className="text-gray-500 text-sm mt-2  hover:underline transition-all underline"
+                                      >
+                                        REMOVE
+                                      </button>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </table>
                     </div>
