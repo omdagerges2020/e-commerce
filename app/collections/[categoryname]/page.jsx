@@ -45,7 +45,7 @@ if(categoryProductsLoading){
       </div>
       <Pagination />
       <hr className="w-full mt-4" />
-      <RecentlyViewed />
+      {/* <RecentlyViewed /> */}
     </div>
   );
 }

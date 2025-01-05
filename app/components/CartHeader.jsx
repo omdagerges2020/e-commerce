@@ -43,15 +43,15 @@ const CartHeader = () => {
         <div className="bg-black w-full text-white px-3 flex justify-between items-center h-[42px]">
           <div>
             <Button className="font-normal bg-transparent	 uppercase text-[12px] px-3 w-[80px] rounded-none	text-white">
-              <Link href={`./`}>Women</Link>
+              Women
             </Button>
-            <Button className="font-normal bg-transparent	 uppercase text-[12px] px-3 w-[80px] rounded-none	text-white">
+            {/* <Button className="font-normal bg-transparent	 uppercase text-[12px] px-3 w-[80px] rounded-none	text-white">
               <Link href={`./`}>Men</Link>
-            </Button>
+            </Button> */}
           </div>
-          <div>
+          {/* <div>
             <MenuWithSearchInput />
-          </div>
+          </div> */}
         </div>
 
       </div>

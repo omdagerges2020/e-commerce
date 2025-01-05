@@ -1,7 +1,9 @@
-import Image from "next/image";
+'use client'
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
+import LazyLoad from 'react-lazyload';
+
 
 const TwoCards = () => {
   const {
@@ -11,12 +13,11 @@ const TwoCards = () => {
   return (
     <div className="flex flex-col lg:flex-row md:flex-col justify-center gap-5">
       {data?.homePageCategory.slice(0, 2).map(({ image, name, category_id }, index) => (
-        <div className="flex justify-center flex-col items-center" key={index}>
-          <Image
-            width={450}
-            height={300}
+        <LazyLoad className="flex justify-center flex-col items-center" key={index}>
+          <img
             src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${image}`}
             alt="picture"
+            className="w-full h-[500px]"
           />
           <div className="flex justify-center items-center flex-col w-full gap-4 mt-[1em]">
             <h1 className="text-xl text-center tracking-widest">
@@ -28,7 +29,7 @@ const TwoCards = () => {
               </Link>
             </div>
           </div>
-        </div>
+        </LazyLoad>
       ))}
 
       {/* <div className="flex justify-center flex-col items-center">

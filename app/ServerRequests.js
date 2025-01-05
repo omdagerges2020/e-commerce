@@ -24,31 +24,6 @@ export const getProductsByCategories = async()=>{
     return response;
 }
 
-export const getCartProductsserver = async () => {
-    const request = await fetch(`https://api.detaylarhome.com/api/user/getCart`, {
-        headers: {
-            "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
-            "Content-Type": "application/json",
-          },
-    })
-    const response = await request.json();
-    console.log(response);
-    
-    return response;
-}
-
-export const getWhishlistProductsserver = async () => {
-    const request = await fetch(`https://api.detaylarhome.com/api/user/getWishlist`, {
-        headers: {
-            "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
-            "Content-Type": "application/json",
-          },
-    })
-    const response = await request.json();
-    console.log(response);
-    
-    return response;
-}
 
 
 

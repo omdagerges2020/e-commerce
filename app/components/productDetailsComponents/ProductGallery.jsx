@@ -89,16 +89,7 @@ import Loading from "../Loading";
               </div>
               {openCategory.description && (
                 <div className="ml-4 mt-2 space-y-2 h-[250px]">
-                  <ul className="pl-5 list-disc mt-[.5em]">
-                    <li>Material: 100% satin</li>
-                    <li>Open round toe</li>
-                    <li>Double straps</li>
-                    <li>Spring around the ankle</li>
-                    <li>Snake-head finish</li>
-                    <li>Embellished rhinestones and pendants</li>
-                    <li>Made in Italy</li>
-                    <li>This is an evening heel</li>
-                  </ul>
+                  <p>{productDetails?.data?.data?.product_description?.description}</p>
                 </div>
               )}
             </li>
@@ -112,11 +103,7 @@ import Loading from "../Loading";
               </div>
               {openCategory.size && (
                 <div className="ml-4 mt-2 space-y-2 h-[250px]">
-                  <ul className="pl-5 list-disc mt-[.5em]">
-                    <li>IT/EU sizing</li>
-                    <li>Fits true to size, take your regular size</li>
-                    <li>Heel height: 10.5 cm</li>
-                  </ul>
+                  <p>{props?.selectedSize}</p>
                 </div>
               )}
             </li>

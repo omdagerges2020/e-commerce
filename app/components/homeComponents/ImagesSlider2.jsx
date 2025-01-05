@@ -6,8 +6,6 @@ import { useState, useEffect } from "react";
 const ImagesSlider2 = ({newProducts}) => {
   console.log(newProducts?.data?.featuredproducts);
 
-  
-
   // const cards = Array.from({ length: 36 }, (_, index) => ({
   //   id: index + 1,
   //   title: `RENE `,
@@ -65,7 +63,7 @@ const ImagesSlider2 = ({newProducts}) => {
         <div className="flex space-x-4 w-full">
           {newProducts?.data?.featuredproducts.slice(currentIndex, currentIndex + cardsToShow).map((card, index) => (
             <div key={index} className={`w-1/${cardsToShow} p-2 w-full`}>
-              <Link href={`/collections/${card.category_id}/${card.id}`} className="border-none rounded-lg overflow-hidden">
+              <Link href={`/collections/${card.category_id}/${card?.product_id}`} className="border-none rounded-lg overflow-hidden">
                 <img
                   src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${card?.image}`}
                   alt={card?.name}

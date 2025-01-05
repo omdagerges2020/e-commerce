@@ -1,6 +1,8 @@
+'use client'
 import React from "react";
 import { Carousel } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
+
 
 
 const SliderHome = () => {

@@ -134,3 +134,46 @@ body {
   /* transform: none !important; */
   position: fixed;
 }
+
+.custom-btn {
+  position: relative;
+  display: inline-block;
+  padding: 10px 30px;
+  font-size: 14px;
+  color: white; /* لون النص الافتراضي */
+  background-color: black;
+  border: none;
+  outline: none; 
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.3s ease;
+  box-shadow: none;
+}
+
+.custom-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 1; /* الخلفية تحت النص */
+  transition: transform 0.5s ease;
+  transform: translateX(0);
+  border: none;
+}
+
+.custom-btn:hover::before {
+  transform: translateX(100%); /* حرك الخلفية لليمين */
+}
+
+.custom-btn:hover {
+  color: black; /* تغيير لون النص */
+}
+
+.custom-btn span {
+  position: relative;
+  z-index: 2; /* النص فوق الخلفية */
+  display: inline-block;
+}

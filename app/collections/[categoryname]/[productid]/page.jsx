@@ -20,6 +20,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails } from "@/app/redux-system/slices/productDetailsSlice";
 import ProductGallery from "@/app/components/productDetailsComponents/ProductGallery";
 import Loading from "@/app/components/Loading";
+import { addToCart } from "@/app/redux-system/slices/cartSlice";
+import { Select, Option } from "@material-tailwind/react";
+import {
+  addToWhite,
+  getWhiteProducts,
+} from "@/app/redux-system/slices/whitelistSlice";
+import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 
 //   console.log(params.productid);
 
@@ -210,9 +217,53 @@ const images = [
 ];
 
 export default function ProductPage({ params }) {
-  const { productDetails, productDetailsLoading } = useSelector((state) => state.productDetailsData);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
 
-  console.log(params.productid);
+  const [isAdded, setIsAdded] = useState(false);
+  const { productDetails, productDetailsLoading } = useSelector(
+    (state) => state.productDetailsData
+  );
+  const { whiteProducts } = useSelector((state) => state.whitelistDataProducts);
+  // console.log(isAdded);
+
+  // console.log(whiteProducts);
+
+  // فانكشن لتغيير اللون
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+    console.log("Selected color:", color);
+  };
+
+  // فانكشن لتغيير المقاس
+  const handleSizeSelect = (size) => {
+    setSelectedSize(size);
+    console.log("Selected size:", size);
+  };
+
+  useEffect(() => {
+    if (whiteProducts.length > 0) {
+      const isFavourit = whiteProducts?.data.some((prod) => {
+        prod?.id === params.productid;
+      });
+      if (isFavourit) {
+        console.log("true");
+        setIsAdded(true);
+      } else {
+        setIsAdded(false);
+      }
+    }
+  }, []);
+
+  console.log(productDetails);
+
+  // const {whiteProducts} = useSelector((state)=>state.whitelistDataProducts);
+
+  useEffect(() => {
+    dispatch(getWhiteProducts());
+  }, []);
+
+  // console.log(params.productid);
 
   const dispatch = useDispatch();
 
@@ -220,21 +271,42 @@ export default function ProductPage({ params }) {
     dispatch(getProductDetails(params.productid));
   }, []);
 
-
-  console.log(params.productid);
+  // console.log(params.productid);
 
   const [count, setCount] = useState(1);
 
   return (
     <>
       <div className="p-10 grid gird-cols-1 lg:grid-cols-2 gap-[4em] bg-white mt-[10em] w-full">
-        <ProductGallery images={images} prodId={params.productid} productDetailsLoading={productDetailsLoading}/>
+        <ProductGallery
+          images={images}
+          prodId={params.productid}
+          productDetailsLoading={productDetailsLoading}
+          selectedColor={selectedColor}
+          selectedSize={selectedSize}
+        />
         <div className="mt-8 lg:max-w-[410px]">
-          <h3 className="mb-4" id="imagesview">Name Of Product</h3>
+          <h3 className="mb-4" id="imagesview">
+            Name Of Product
+          </h3>
           <h1 className="text-2xl mb-4  tracking-[.2em]">
-            {productDetails?.data?.data?.model}
+            {productDetails?.data?.data?.product_description?.name}
           </h1>
-          <span className="text-[#686868] text-md mb-2">510 KD</span>
+          {/* price and special price if found */}
+          <div className="flex gap-2">
+            {productDetails?.data?.productSpecial !== null && (
+              <span className="text-red-500 text-md mb-2">
+                {productDetails?.data?.productSpecial?.price} EG
+              </span>
+            )}
+            <span
+              className={`text-[#686868] ${
+                productDetails?.data?.productSpecial !== null && "line-through"
+              } text-md mb-2`}
+            >
+              {productDetails?.data?.data?.price} EG
+            </span>
+          </div>
           <p className="bg-[#F7F7F7] text-[#686868]">
             Includes all taxes & duties if shipping to USA, Kuwait or KSA; You
             will not pay anything else upon delivery Read more{" "}
@@ -266,80 +338,80 @@ export default function ProductPage({ params }) {
             <Link href={`./`} className="underline">
               Size Chart
             </Link>
-          </div>
-          <div className="flex items-center mt-4 gap-2">
-            <h1 className="text-[#959595]">Color:</h1>
-            <button className="border-[1px] p-2 text-[#959595]">Ivory</button>
           </div> */}
-          {/* <Menu placement="left">
-            <MenuHandler>
-              <Button className="w-full text-start bg-transparent border-[1px] rounded-none mt-3 shadow-none hover:shadow-none text-[#7D7D7D] text-md font-thin">
-                Size: EU 37
-              </Button>
-            </MenuHandler>
-            <MenuList className="h-96 overflow-y-auto">
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-              <MenuItem>
-                <div className="flex justify-between items-center px-5 py-3 w-[300px] text-[#676767] text-md tracking-widest">
-                  <h1>EU 36.5</h1>
-                  <p>ONLY 1 LEFT</p>
-                </div>
-              </MenuItem>
-            </MenuList>
-          </Menu> */}
+          <div className="flex items-center mt-4 gap-2 mb-3">
+            <h1 className="text-[#959595]">Color:</h1>
+            <Select
+              label="Choose color"
+              size="sm"
+              arrow={false}
+              onChange={(value) => handleColorSelect(value)}
+            >
+              {productDetails?.data?.productOptions?.Color?.length > 0 ? (
+                productDetails.data.productOptions.Color.map((color, index) => (
+                  <Option key={index} value={color?.color_code}>
+                    {color?.color_code}
+                  </Option>
+                ))
+              ) : (
+                <Option disabled>No colors available</Option>
+              )}
+            </Select>
+
+            {/* <Select
+              label="Choose color"
+              size="sm"
+              arrow={false}
+            >
+              {productDetails?.data?.productOptions?.Color?.map((color, index) => (
+                <Option key={index} value={color?.color_code}>
+                  {color?.color_code}
+                </Option>
+              ))}
+            </Select> */}
+          </div>
+          {/* selector for sizes */}
+          <div className="flex items-center mt-4 gap-2 mb-3">
+            <h1 className="text-[#959595]">Size</h1>
+            <Select
+              label="Choose size"
+              size="sm"
+              arrow={false}
+              onChange={(value) => handleSizeSelect(value)}
+            >
+              {productDetails?.data?.productOptions?.Size?.length > 0 ? (
+                productDetails.data.productOptions.Size.map((size, index) => (
+                  <Option key={index} value={size?.label}>
+                    {size?.label}{" "}
+                  </Option>
+                ))
+              ) : (
+                <Option disabled>No sizes available</Option>
+              )}
+            </Select>
+
+            {/* <Select
+              label="Choose color"
+              size="sm"
+              arrow={false}
+            >
+              {productDetails?.data?.productOptions?.Color?.map((color, index) => (
+                <Option key={index} value={color?.color_code}>
+                  {color?.color_code}
+                </Option>
+              ))}
+            </Select> */}
+          </div>
+          {/* <Select
+            label="Choose Size"
+          >
+            {productDetails?.data?.productOptions?.Size.map((size, index) => (
+              <Option key={index} value={size?.label}>
+                {size?.label}
+              </Option>
+            ))}
+          </Select> */}
+
           <div className="flex items-center justify-start gap-4 border-[1px] w-fit mt-4 font-thin">
             {/* min buttton */}
             <button
@@ -360,18 +432,24 @@ export default function ProductPage({ params }) {
               +
             </button>
           </div>
-          <Button className="bg-white mt-4 w-full shadow-none border-[1px] tracking-widest hover:bg-black text-[#8A8A8A] hover:text-white transition-all duration-500 ease-out relative overflow-hidden">
+          <Button
+            onClick={() => dispatch(addToCart({ productDetails, count }))}
+            className="bg-white mt-4 w-full shadow-none border-[1px] tracking-widest hover:bg-black text-[#8A8A8A] hover:text-white transition-all duration-500 ease-out relative overflow-hidden"
+          >
             <span className="absolute top-0 left-[-100%] w-full h-full bg-black transition-all duration-500 ease-out hover:left-0"></span>
             ADD TO CART
           </Button>
 
-          <Link
-            href="/"
+          <Button
+            onClick={() =>
+              dispatch(addToWhite(productDetails && productDetails))
+            }
+            disabled={isAdded}
             className="flex w-full justify-start items-center p-3 mt-4 text-white bg-black"
           >
             <IoIosHeartEmpty />
             <div className="flex justify-center w-full">ADD TO WHISHLIST</div>
-          </Link>
+          </Button>
 
           <div className="w-full flex gap-[4em] border-[1px] p-4 mt-4 rounded-md">
             <p>
@@ -401,11 +479,11 @@ export default function ProductPage({ params }) {
       </div>
       <hr className="w-full mt-[1em]" />
       <div className="mt-[2em] flex flex-col items-center justify-center w-full">
-        {productDetails?.data?.reletedProducts.length > 0 && (
+        {productDetails?.data?.reletedProducts?.length > 0 && (
           <>
             <h1 className="text-2xl">YOU MAY LIKE ALSO</h1>
             <div className="block lg:flex gap-3">
-              {productDetails?.data?.reletedProducts.map((prod, index) => (
+              {productDetails?.data?.reletedProducts?.map((prod, index) => (
                 <Link
                   key={index}
                   href={`/collections/${productDetails?.data?.data?.category_id}/${prod.id}`}
@@ -415,16 +493,15 @@ export default function ProductPage({ params }) {
                     <img
                       src={`${
                         process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                      }/${prod?.image.replace(/ /g, "%20")}`}
+                      }/${prod?.image?.replace(/ /g, "%20")}`}
                       alt="Shoe 1"
-                      className="w-full h-full object-cover rounded-t-lg"
+                      className="w-full max-h-[300px] object-cover rounded-t-lg"
                     />
                   </div>
                   <div className="p-4">
                     <p className="text-xl font-semibold">
                       {prod?.product_description?.name}
                     </p>
-                    <p className="text-gray-600">SANDALS</p>
                     <div>
                       <span className="text-gray-600">{prod?.price}</span>
                     </div>
@@ -434,8 +511,6 @@ export default function ProductPage({ params }) {
             </div>
           </>
         )}
-
-        <hr className="w-full mt-[2em] mb-[2em]" />
         {/* <CardCarousel /> */}
         <hr className="w-full mt-[1em]" />
       </div>

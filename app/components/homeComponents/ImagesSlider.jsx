@@ -1,9 +1,10 @@
-
-'use client';
+"use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import LazyLoad from 'react-lazyload';
 
-const ImagesSlider = ({newProducts}) => {
+
+const ImagesSlider = ({ newProducts }) => {
   console.log(newProducts?.data?.newProducts);
 
   // const cards = Array.from({ length: 36 }, (_, index) => ({
@@ -39,12 +40,18 @@ const ImagesSlider = ({newProducts}) => {
   }, []);
 
   const nextSlide = () => {
-    const nextIndex = currentIndex + cardsToShow >= newProducts?.data?.newProducts.length ? 0 : currentIndex + cardsToShow;
+    const nextIndex =
+      currentIndex + cardsToShow >= newProducts?.data?.newProducts.length
+        ? 0
+        : currentIndex + cardsToShow;
     setCurrentIndex(nextIndex);
   };
 
   const prevSlide = () => {
-    const prevIndex = currentIndex - cardsToShow < 0 ? newProducts?.data?.newProducts.length - cardsToShow : currentIndex - cardsToShow;
+    const prevIndex =
+      currentIndex - cardsToShow < 0
+        ? newProducts?.data?.newProducts.length - cardsToShow
+        : currentIndex - cardsToShow;
     setCurrentIndex(prevIndex);
   };
 
@@ -61,21 +68,37 @@ const ImagesSlider = ({newProducts}) => {
 
         {/* الكاردات */}
         <div className="flex space-x-4 w-full">
-          {newProducts?.data?.newProducts.slice(currentIndex, currentIndex + cardsToShow).map((card, index) => (
-            <div key={index} className={`w-1/${cardsToShow} p-2 w-full`}>
-              <Link href={`/collections/${card.category_id}/${card.id}`} className="border-none rounded-lg overflow-hidden">
-                <img
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${card?.image}`}
-                  alt={card?.model}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-bold text-md">{card.model}</h3>
-                  <p className="text-sm font-thin">{`${card?.price}`}</p>
-                </div>
-              </Link>
-            </div>
-          ))}
+          {newProducts?.data?.newProducts
+            .slice(currentIndex, currentIndex + cardsToShow)
+            .map((card, index) => (
+              <LazyLoad key={index} className={`w-1/${cardsToShow} p-2 w-full`}>
+                <Link
+                  href={`/collections/${card.category_id}/${card.id}`}
+                  className="border-none rounded-lg overflow-hidden"
+                >
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${card?.image}`}
+                    alt={card?.model}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4">
+                    <h3 className="font-bold text-md">{card.model}</h3>
+                    <div className="flex gap-2">
+                      <p className={`text-sm font-thin ${card?.special !== null && "line-through"}`}>{`${card?.price}`}</p>
+                      {card?.special !== null && (
+                        <p className="text-red-500 text-sm font-thin">{`${card?.special?.price}`}</p>
+                      )}
+                    </div>
+                    {card?.special !== null && (
+                      <div className="flex flex-col">
+                        <span>Start Date: {card?.special?.start_date}</span>
+                        <span>End Date: {card?.special?.end_date}</span>
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              </LazyLoad>
+            ))}
         </div>
 
         {/* زر "التالي" */}
@@ -91,6 +114,3 @@ const ImagesSlider = ({newProducts}) => {
 };
 
 export default ImagesSlider;
-
-
-

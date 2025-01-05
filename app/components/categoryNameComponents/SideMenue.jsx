@@ -64,7 +64,7 @@ const SideMenue = () => {
       <div className="w-64  bg-white">
         <ul className="space-y-4">
           {/* Category  */}
-          <li className="border-b-[1px]	pb-[1em]">
+          {/* <li className="border-b-[1px]	pb-[1em]">
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleCategory("category")}
@@ -74,7 +74,7 @@ const SideMenue = () => {
             </div>
             {openCategory.category && (
               <div className="ml-4 mt-2 space-y-2 ">
-                {/* Sub-Link 1 */}
+
                 <div>
                   <div
                     className="flex justify-between items-center cursor-pointer"
@@ -104,7 +104,7 @@ const SideMenue = () => {
                     </div>
                   )}
                 </div>
-                {/* Sub-Link 2 */}
+
                 <div>
                   <div
                     className="flex justify-between items-center cursor-pointer"
@@ -169,7 +169,7 @@ const SideMenue = () => {
                     </div>
                   )}
                 </div>
-                {/* Sub-Link 3 */}
+
                 <div>
                   <div
                     className="flex justify-between items-center cursor-pointer"
@@ -196,10 +196,10 @@ const SideMenue = () => {
                 </div>
               </div>
             )}
-          </li>
+          </li> */}
 
           {/* DESIGNERS */}
-          <li className="border-b-[1px]	pb-[1em]">
+          {/* <li className="border-b-[1px]	pb-[1em]">
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleCategory("designers")}
@@ -209,13 +209,13 @@ const SideMenue = () => {
             </div>
             {openCategory.designers && (
               <div className="mt-2 space-y-4">
-                {/* Search Input */}
+
                 <input
                   type="text"
                   placeholder="SEARCH OPTIONS"
                   className="w-full border border-gray-300 rounded-md p-2"
                 />
-                {/* Checkboxes */}
+
                 <div className="space-y-2 h-[250px] overflow-y-scroll">
                   {disigners.map((designer) => (
                     <label
@@ -229,7 +229,7 @@ const SideMenue = () => {
                 </div>
               </div>
             )}
-          </li>
+          </li> */}
 
           {/* SIZE */}
           <li className="border-b-[1px]	pb-[1em]">
@@ -272,8 +272,9 @@ const SideMenue = () => {
               </div>
             )}
           </li>
+          
           {/* HEEL-HEIGHT */}
-          <li className="border-b-[1px]	pb-[1em]">
+          {/* <li className="border-b-[1px]	pb-[1em]">
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggleCategory("hellheight")}
@@ -297,7 +298,8 @@ const SideMenue = () => {
                 </label>
               </div>
             )}
-          </li>
+          </li> */}
+
           {/* PERCENT SALE */}
           <li className="border-b-[1px]	pb-[1em]">
             <div

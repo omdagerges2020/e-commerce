@@ -8,12 +8,14 @@ import { headerCategoriesData } from "./slices/categoriesHeaderSlice";
 import { newProductsData } from "./slices/newProductsSlice";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
-import { cartData } from "./slices/cartSlice";
+import { cartDataProducts } from "./slices/cartSlice";
+import { whitelistDataProducts } from "./slices/whitelistSlice";
+
 
 const config = {
   key: "root",
   storage,
-  whitelist: ["auth", "cartData"],
+  whitelist: ["auth", "cartDataProducts", "whitelistDataProducts"],
 };
 
 const mainReducer = combineReducers({
@@ -24,7 +26,8 @@ const mainReducer = combineReducers({
   productDetailsData,
   headerCategoriesData,
   newProductsData,
-  cartData,
+  cartDataProducts,
+  whitelistDataProducts,
 });
 
 const persistRed = persistReducer(config, mainReducer);

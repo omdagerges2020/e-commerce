@@ -2,34 +2,33 @@
 import React, { useEffect } from "react";
 import { Card, CardHeader, CardBody, Button } from "@/app/ClientImports";
 import "./collection.css";
-
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { getClollections } from "../redux-system/slices/collectionsSlice";
 import Loading from "../components/Loading";
+import { getCategories } from "../redux-system/slices/categoriesSlice";
 
 const Page = () => {
-  const { collections, collectionsLoading } = useSelector((state) => state.collectionData);
+  const { categories, categoriesLoading } = useSelector((state) => state.categoriesData);
   
   // console.log(collections?.men);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-      dispatch(getClollections());
+      dispatch(getCategories());
   }, []);
 
-  if(collectionsLoading){
+  if(categoriesLoading){
     return <Loading/>
   }
 
   return (
     <div className="px-5 flex flex-col justify-center items-center w-full mt-[12em]">
       <h1 className="text-2xl mt-[2em] tracking-widest font-thin">
-        ALL COLLECTIONS
+        ALL CATEGORIES
       </h1>
       <div className="flex flex-wrap	gap-[2em] justify-center items-center w-full mt-[3em]">
-        {collections?.women?.map((card, index) => (
+        {categories?.data?.categories.map((card, index) => (
           //   <Card
           //   key={index}
           //   shadow={false}

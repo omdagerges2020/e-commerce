@@ -56,6 +56,9 @@ import AccordionSideMenue from "./headerComponents/AccordionSideMenue";
 import { TbUserQuestion } from "react-icons/tb";
 import { IoClose } from "react-icons/io5";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { getWhiteProducts } from "../redux-system/slices/whitelistSlice";
+import FavouritsCards from "./headerComponents/FavouritsCards";
+import { getCartProducts } from "../redux-system/slices/cartSlice";
 
 const languages = [
   {
@@ -73,7 +76,12 @@ const navListMenuItems = [
   },
 ];
 
-function NavListMenu({ categoryName, categoryId, categoryImg }) {
+function NavListMenu({
+  categoryName,
+  categoryId,
+  categoryImg,
+  categoryChildren,
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
@@ -100,11 +108,11 @@ function NavListMenu({ categoryName, categoryId, categoryImg }) {
           >
             {/* sub categories */}
             <ul className="text-xl font-thin">
-              <li>Sub-Category</li>
-              <li>Sub-Category</li>
-              <li>Sub-Category</li>
-              <li>Sub-Category</li>
-              <li>Sub-Category</li>
+              {categoryChildren?.map((sub, index) => (
+                <Link href={`/collections/${sub?.category_id}`} key={index}>
+                  {sub?.category_description?.name}
+                </Link>
+              ))}
             </ul>
           </div>
         </div>
@@ -157,8 +165,11 @@ function NavListMenu({ categoryName, categoryId, categoryImg }) {
                 alt="shop-picture"
               />
               <div className="flex flex-col justify-center items-center">
-                <p className="text-sm font-thin">VALENTINO</p>
-                <Link href="/" className="font-thin text-sm">
+                {/* <p className="text-sm font-thin">VALENTINO</p> */}
+                <Link
+                  href={`/collections/${categoryId}`}
+                  className="font-thin text-sm"
+                >
                   SHOP NOW
                 </Link>
               </div>
@@ -175,14 +186,31 @@ function NavListMenu({ categoryName, categoryId, categoryImg }) {
 
 const Header = () => {
   const { userToken } = useSelector((state) => state.auth);
-  const [activeGender, setActiveGender] = useState("WOMEN");
-  const { headerCategories } = useSelector(
-    (state) => state.headerCategoriesData
+  const { cartProducts, cartLoading } = useSelector(
+    (state) => state.cartDataProducts
   );
+  // const [activeGender, setActiveGender] = useState("WOMEN");
+  const { categories } = useSelector((state) => state.categoriesData);
+  const { whiteProducts } = useSelector((state) => state.whitelistDataProducts);
+
+  // console.log(whiteProducts);
+
+  console.log(cartProducts);
+  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getHeaderCategories());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getWhiteProducts());
+    dispatch(getCartProducts());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCategories());
   }, []);
 
   // side menue  const [open, setOpen] = React.useState(0);
@@ -262,14 +290,12 @@ const Header = () => {
       >
         <div className="bg-black w-full text-white px-3 flex justify-between items-center h-[42px]">
           <div>
-              
-                <Button
-                  // onClick={() => setActiveGender(gender.gender)}
-                  className="bg-transparent text-white "
-                >
-                  women
-                </Button>
-        
+            <Button
+              // onClick={() => setActiveGender(gender.gender)}
+              className="bg-transparent text-white "
+            >
+              women
+            </Button>
           </div>
           {/* <div>
             <MenuWithSearchInput />
@@ -382,13 +408,19 @@ const Header = () => {
                           />
                         }
                       >
-                        {headerCategories?.women?.map((li, index) => (
-                          <ListItem key={index} className="p-0" selected={open === 1}>
+                        {categories?.data?.categories.map((li, index) => (
+                          <ListItem
+                            key={index}
+                            className="p-0"
+                            selected={open === 1}
+                          >
                             <Typography
                               color="blue-gray"
                               className="mr-auto font-normal"
                             >
-                              <Link href={`/collections/${li.category_id}`}>{li.category_description.name}</Link>
+                              <Link href={`/collections/${li.category_id}`}>
+                                {li.category_description.name}
+                              </Link>
                             </Typography>
                           </ListItem>
                         ))}
@@ -428,7 +460,7 @@ const Header = () => {
                 placement="right"
                 open={openRight}
                 onClose={closeDrawerRight}
-                className="p-4"
+                className="p-4 overflow-auto"
                 size="400px"
               >
                 <div className="mb-6 flex items-center justify-between w-full">
@@ -456,14 +488,87 @@ const Header = () => {
                     </svg>
                   </IconButton>
                 </div>
-                <div className="flex gap-2 w-full h-screen">
-                  <span>Your cart is empty</span>
-                </div>
+                {cartProducts?.cartData.length === 0 ? (
+                  <div className="flex gap-2 w-full h-screen">
+                    <span>Your cart is empty</span>
+                  </div>
+                ) : (
+                  <div className="mt-[2em]">
+                    {" "}
+                    <div>
+                      <table className="w-full border-collapse">
+                        {/* <thead className="hidden md:table-header-group">
+                          <tr className="text-sm font-medium text-gray-500 border-b">
+                            <th className="py-3 text-left">PRODUCT</th>
+                            <th className="py-3 text-center">QUANTITY</th>
+                            <th className="py-3 text-right">TOTAL</th>
+                          </tr>
+                        </thead> */}
+                        <tbody>
+                          {cartProducts?.cartData.map((prod, index) => (
+                            <tr
+                              key={index}
+                              className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
+                            >
+                              <td className="py-4 flex items-center">
+                                <img
+                                  src={`${
+                                    process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+                                  }/${prod?.image.replace(/ /g, "%20")}`}
+                                  alt="Product Image"
+                                  className="w-20 h-28 mr-4"
+                                />
+                                <div className="flex flex-col justify-center">
+                                  <p>{prod?.name}</p>
+                                  <p className="py-2 font-thin">
+                                    {prod?.totalPrice} EG
+                                  </p>
+                                  <div className="flex justify-center items-center">
+                                  <button
+                                    className="w-8 h-8 border rounded-md flex items-center justify-center"
+                                    onClick={() =>
+                                      dispatch(decrement(prod && prod))
+                                    }
+                                  >
+                                    -
+                                  </button>
+                                  <span className="w-10 text-center">
+                                    {prod?.quantity}
+                                  </span>
+                                  <button
+                                    className="w-8 h-8 border rounded-md flex items-center justify-center"
+                                    onClick={() =>
+                                      dispatch(increment(prod && prod))
+                                    }
+                                  >
+                                    +
+                                  </button>
+                                  <button
+                                  onClick={() =>
+                                    dispatch(deleteProduct(prod && prod))
+                                  }
+                                  className="text-gray-500 text-sm mt-2  hover:underline transition-all underline"
+                                >
+                                  REMOVE
+                                </button>
+                                </div>
+                                </div>
+                              </td>
+                            
+                            
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </Drawer>
               <IoIosHeart
                 className="cursor-pointer"
                 onClick={() => handleOpenFavourit()}
               />
+              {/* favourits dialoge */}
               <Dialog
                 open={open}
                 handler={handleOpenFavourit}
@@ -492,38 +597,38 @@ const Header = () => {
                     />
                   </div>
                 </DialogFooter>
-                <DialogBody className="mt-[4em]">
+                <DialogBody className="mt-[4em] overflow-y-auto	h-[400px]">
                   <div className="w-full px-[2em] flex flex-col p-3">
                     <div className="flex justify-between items-center font-thin text-black">
                       <h1 className="text-xl tracking-widest">My Wishlist</h1>
-                      <Menu placement="left">
-                        <MenuHandler>
-                          <BsThreeDotsVertical />
-                        </MenuHandler>
-                        <MenuList
-                          onClick={(e) => {
-                            e.preventDefault(); // Prevent default browser behavior
-                            e.stopPropagation(); // Prevent the Dialog from closing when interacting with the Menu
-                          }}
-                        >
-                          <MenuItem>Menu Item 1</MenuItem>
-                          <MenuItem>Menu Item 2</MenuItem>
-                          <MenuItem>Menu Item 3</MenuItem>
-                        </MenuList>
-                      </Menu>
                     </div>
                     <hr className="w-full mt-[2em]" />
                   </div>
-                  <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
-                    <h1 className="font-bold">Love It? Add to My Wishlist</h1>
-                    <p>
-                      My Wishlist allows you to keep track of all of your
-                      favorites and shopping activity whether you're on your
-                      computer, phone, or tablet. You won't have to waste time
-                      searching all over again for that item you loved on your
-                      phone the other day - it's all here in one place!
-                    </p>
-                    <Button className="bg-[#434655]">Continue Shopping</Button>
+                  <div>
+                    {/* cards if there is any favourits products */}
+                    {whiteProducts?.data?.length === 0 ? (
+                      <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
+                        {" "}
+                        <h1 className="font-bold">
+                          Love It? Add to My Wishlist
+                        </h1>
+                        <p>
+                          My Wishlist allows you to keep track of all of your
+                          favorites and shopping activity whether you're on your
+                          computer, phone, or tablet. You won't have to waste
+                          time searching all over again for that item you loved
+                          on your phone the other day - it's all here in one
+                          place!
+                        </p>
+                        <Button className="bg-[#434655]">
+                          <Link href="/">Continue Shopping</Link>
+                        </Button>
+                      </div>
+                    ) : (
+                      <div>
+                        <FavouritsCards whiteProducts={whiteProducts} />
+                      </div>
+                    )}
                   </div>
                 </DialogBody>
               </Dialog>
@@ -533,21 +638,15 @@ const Header = () => {
           <div className="hidden lg:flex lg:justify-around w-full font-light mt-3">
             {/* <NavList /> */}
             <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row gap-6 lg:p-1">
-              {activeGender === "WOMEN"
-                ? headerCategories?.women?.map((li, index) => (
-                    <NavListMenu
-                      key={index}
-                      categoryName={li?.category_description.name}
-                      categoryId={li?.category_id}
-                      categoryImg={li?.image}
-                    />
-                  ))
-                : headerCategories?.men?.map((li, index) => (
-                    <NavListMenu
-                      key={index}
-                      categoryName={li.category_description.name}
-                    />
-                  ))}
+              {categories?.data?.categories.map((li, index) => (
+                <NavListMenu
+                  key={index}
+                  categoryName={li?.category_description.name}
+                  categoryId={li?.category_id}
+                  categoryImg={li?.image}
+                  categoryChildren={li?.children}
+                />
+              ))}
             </List>
           </div>
         </div>

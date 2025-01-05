@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const Cards = ({products}) => {
-
+const Cards = ({ products }) => {
   return (
     <div className="w-full flex justify-center lg:w-[calc(100% - 300px)]">
       <div
@@ -32,9 +31,21 @@ const Cards = ({products}) => {
               <p className="text-gray-600">{card.product_description.name}</p>
               {/* <p className="text-gray-600">{card.kind}</p> */}
               <div>
-                <span className="text-gray-600">{card.price}</span>
-                <span className="text-red-500">{card.price}</span>
+                <span
+                  className={`text-gray-600 ${
+                    card?.special !== null && "line-through	"
+                  }`}
+                >
+                  {card.price}
+                </span>
+                <span className="text-red-500">{card?.special?.price}</span>
               </div>
+              {card?.special !== null && (
+                <div className="flex flex-col">
+                  <span>Start Date: {card?.special?.start_date}</span>
+                  <span>End Date: {card?.special?.end_date}</span>
+                </div>
+              )}
             </div>
           </Link>
         ))}
