@@ -1,32 +1,25 @@
 "use client";
 import {
   Button,
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
+  Option,
+  Select,
 } from "@material-tailwind/react";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbRuler2 } from "react-icons/tb";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import Image from "next/image";
 
-import { FaPlus } from "react-icons/fa6";
-import { FaMinus } from "react-icons/fa";
-import CardCarousel from "@/app/components/categoryNameComponents/carosel";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails } from "@/app/redux-system/slices/productDetailsSlice";
 import ProductGallery from "@/app/components/productDetailsComponents/ProductGallery";
 import Loading from "@/app/components/Loading";
 import { addToCart } from "@/app/redux-system/slices/cartSlice";
-import { Select, Option } from "@material-tailwind/react";
 import {
   addToWhite,
   getWhiteProducts,
 } from "@/app/redux-system/slices/whitelistSlice";
-import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 
 //   console.log(params.productid);
 
@@ -229,6 +222,8 @@ export default function ProductPage({ params }) {
 
   // console.log(whiteProducts);
 
+  console.log(typeof productDetails?.data?.productOptions);
+
   // فانكشن لتغيير اللون
   const handleColorSelect = (color) => {
     setSelectedColor(color);
@@ -339,78 +334,60 @@ export default function ProductPage({ params }) {
               Size Chart
             </Link>
           </div> */}
-          <div className="flex items-center mt-4 gap-2 mb-3">
-            <h1 className="text-[#959595]">Color:</h1>
-            <Select
-              label="Choose color"
-              size="sm"
-              arrow={false}
-              onChange={(value) => handleColorSelect(value)}
-            >
-              {productDetails?.data?.productOptions?.Color?.length > 0 ? (
-                productDetails.data.productOptions.Color.map((color, index) => (
-                  <Option key={index} value={color?.color_code}>
-                    {color?.color_code}
-                  </Option>
-                ))
-              ) : (
-                <Option disabled>No colors available</Option>
-              )}
-            </Select>
+          {typeof (productDetails?.data?.productOptions === "object") ? (
+            <div className="flex items-center mt-4 gap-2 mb-3">
+              <h1 className="text-[#959595]">Color:</h1>
+              <Select
+                label="Choose color"
+                size="sm"
+                arrow={false}
+                onChange={(value) => handleColorSelect(value)}
+              >
+                {productDetails?.data?.productOptions?.Color?.length > 0 ? (
+                  productDetails.data.productOptions.Color.map(
+                    (color, index) => (
+                      <Option key={index} value={color?.color_code}>
+                        {color?.color_code}
+                      </Option>
+                    )
+                  )
+                ) : (
+                  <Option disabled>No colors available</Option>
+                )}
+              </Select>
+            </div>
+          ) : (
+            ""
+          )}
 
-            {/* <Select
-              label="Choose color"
-              size="sm"
-              arrow={false}
-            >
-              {productDetails?.data?.productOptions?.Color?.map((color, index) => (
-                <Option key={index} value={color?.color_code}>
-                  {color?.color_code}
-                </Option>
-              ))}
-            </Select> */}
-          </div>
           {/* selector for sizes */}
-          <div className="flex items-center mt-4 gap-2 mb-3">
-            <h1 className="text-[#959595]">Size</h1>
-            <Select
-              label="Choose size"
-              size="sm"
-              arrow={false}
-              onChange={(value) => handleSizeSelect(value)}
-            >
-              {productDetails?.data?.productOptions?.Size?.length > 0 ? (
-                productDetails.data.productOptions.Size.map((size, index) => (
-                  <Option key={index} value={size?.label}>
-                    {size?.label}{" "}
-                  </Option>
-                ))
-              ) : (
-                <Option disabled>No sizes available</Option>
-              )}
-            </Select>
-
-            {/* <Select
-              label="Choose color"
-              size="sm"
-              arrow={false}
-            >
-              {productDetails?.data?.productOptions?.Color?.map((color, index) => (
-                <Option key={index} value={color?.color_code}>
-                  {color?.color_code}
-                </Option>
-              ))}
-            </Select> */}
-          </div>
-          {/* <Select
-            label="Choose Size"
-          >
-            {productDetails?.data?.productOptions?.Size.map((size, index) => (
-              <Option key={index} value={size?.label}>
-                {size?.label}
-              </Option>
-            ))}
-          </Select> */}
+          {typeof (productDetails?.data?.productOptions === "object") ? (
+            <div className="flex items-center mt-4 gap-2 mb-3">
+              <h1 className="text-[#959595]">Size</h1>
+              <Select
+                label={
+                  productDetails?.data?.productOptions?.Size?.length === 0
+                    ? "no size available"
+                    : "Choose size"
+                }
+                size="sm"
+                arrow={false}
+                onChange={(value) => handleSizeSelect(value)}
+              >
+                {productDetails?.data?.productOptions?.Size?.length > 0 ? (
+                  productDetails.data.productOptions.Size.map((size, index) => (
+                    <Option key={index} value={size?.label}>
+                      {size?.label}
+                    </Option>
+                  ))
+                ) : (
+                  <Option disabled>No sizes available</Option>
+                )}
+              </Select>
+            </div>
+          ) : (
+            ""
+          )}
 
           <div className="flex items-center justify-start gap-4 border-[1px] w-fit mt-4 font-thin">
             {/* min buttton */}
@@ -433,7 +410,7 @@ export default function ProductPage({ params }) {
             </button>
           </div>
           <Button
-            onClick={() => dispatch(addToCart({ productDetails, count }))}
+            onClick={() => dispatch(addToCart({ productDetails, count, selectedColor, selectedSize }))}
             className="bg-white mt-4 w-full shadow-none border-[1px] tracking-widest hover:bg-black text-[#8A8A8A] hover:text-white transition-all duration-500 ease-out relative overflow-hidden"
           >
             <span className="absolute top-0 left-[-100%] w-full h-full bg-black transition-all duration-500 ease-out hover:left-0"></span>

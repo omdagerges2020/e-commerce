@@ -1,11 +1,16 @@
-import { Nunito } from "next/font/google";
+// import { Nunito } from "next/font/google";
+import { Montserrat} from "next/font/google";
 import "./globals.css";
 import MainLayout from "./MainLayout";
 import ScrollToTop from "./components/ButtomTop";
 import ChatModal from "./components/MesageModal";
 
 
-const nunito = Nunito({
+// const nunito = Nunito({
+//   weight: ["400", "500", "700"],
+//   subsets: ["latin"],
+// });
+const montserrat = Montserrat({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
 });
@@ -20,7 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head></head>
-      <body className={`${nunito.className}`} suppressHydrationWarning={true}>
+      <body className={`${montserrat.className}`} suppressHydrationWarning={true}>
         <MainLayout>
           {children}
           <ScrollToTop/>

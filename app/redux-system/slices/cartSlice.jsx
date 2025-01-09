@@ -48,6 +48,12 @@ const cartSlice = createSlice({
           {
             product_id: action.payload?.productDetails?.data?.data?.id,
             quantity: action.payload?.count,
+            options: {
+              color: action.payload?.selectedColor,
+              size: action.payload?.selectedSize,
+            }
+            // color: action.payload.selectedColor,  // إضافة اللون
+            // size: action.payload.selectedSize,    // إضافة المقاس
           },
           {
             headers: {
@@ -61,7 +67,6 @@ const cartSlice = createSlice({
         .catch((error) => {
           console.error("Error updating cart on server:", error);
         });
-        
         // state.cartProducts?.cartData.push(action.payload?.data?.data)
       }else {
         console.log("same product");
@@ -98,7 +103,7 @@ const cartSlice = createSlice({
     increment: (state,action)=>{
       const updatedProducts = state.cartProducts.cartData.map((product) =>
         product.id === action.payload.id
-          ? { ...product, quantity: product.quantity + 1, totalPrice: product.price * (product.quantity + 1) }
+          ? { ...product, quantity: product.quantity + 1, totalPrice }
           : product
       );      
     

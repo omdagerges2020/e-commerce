@@ -53,20 +53,28 @@ const Cart = () => {
                       key={index}
                       className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
                     >
-                      <td className="py-4 flex items-center  md:table-cell">
-                        <img
-                          src={`${
-                            process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                          }/${prod?.image.replace(/ /g, "%20")}`}
-                          alt="Product Image"
-                          className="w-20 h-28 mr-4"
-                        />
-                        <div>
-                          {/* <Link href={`/collections/`} className="text-sm font-semibold">{prod?.name}</Link> */}
-                          {/* <p className="text-sm text-gray-500">White / EU 36</p> */}
-                          <p className="text-sm font-semibold">
-                            {prod?.price} EG
-                          </p>
+                      <td className="py-4 flex items-center  md:table-cell ">
+                        <div className="flex gap-3 ">
+                          <img
+                            src={`${
+                              process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+                            }/${prod?.image?.replace(/ /g, "%20")}`}
+                            alt="Product Image"
+                            className="w-20 h-28 mr-4"
+                          />
+                          <div className="flex flex-col">
+                            {/* <Link href={`/collections/`} className="text-sm font-semibold">{prod?.name}</Link> */}
+                            {/* <p className="text-sm text-gray-500">White / EU 36</p> */}
+                            <span>{prod?.name}</span>
+                            {prod?.option !== null && (
+                              <span>
+                                {prod?.option?.color} / {prod?.option?.size}
+                              </span>
+                            )}
+                            <p className="text-sm font-semibold">
+                              {prod?.price} EG
+                            </p>
+                          </div>
                         </div>
                       </td>
                       <td className="py-4 lg:pt-0 text-center flex flex-row justify-between items-start  md:table-cell md:flex-row md:justify-center md:items-center">

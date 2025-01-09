@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogFooter,
   DialogBody,
+  DialogHeader,
 } from "@material-tailwind/react";
 import { ShoppingBagIcon, InboxIcon } from "@heroicons/react/24/solid";
 import { CubeTransparentIcon } from "@heroicons/react/24/outline";
@@ -54,11 +55,17 @@ import { getCategories } from "../redux-system/slices/categoriesSlice";
 import { getHeaderCategories } from "../redux-system/slices/categoriesHeaderSlice";
 import AccordionSideMenue from "./headerComponents/AccordionSideMenue";
 import { TbUserQuestion } from "react-icons/tb";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoSearch } from "react-icons/io5";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { getWhiteProducts } from "../redux-system/slices/whitelistSlice";
 import FavouritsCards from "./headerComponents/FavouritsCards";
-import { getCartProducts } from "../redux-system/slices/cartSlice";
+import {
+  decrement,
+  deleteProduct,
+  getCartProducts,
+  increment,
+} from "../redux-system/slices/cartSlice";
+import { IoMdClose } from "react-icons/io";
 
 const languages = [
   {
@@ -107,7 +114,7 @@ function NavListMenu({
             className="text-xs !font-medium text-blue-gray-500"
           >
             {/* sub categories */}
-            <ul className="text-xl font-thin">
+            <ul className="text-xl font-thin flex flex-col">
               {categoryChildren?.map((sub, index) => (
                 <Link href={`/collections/${sub?.category_id}`} key={index}>
                   {sub?.category_description?.name}
@@ -192,6 +199,9 @@ const Header = () => {
   // const [activeGender, setActiveGender] = useState("WOMEN");
   const { categories } = useSelector((state) => state.categoriesData);
   const { whiteProducts } = useSelector((state) => state.whitelistDataProducts);
+
+  const [openSearch, setOpenSearch] = useState(false);
+  const handleOpenSearch = () => setOpenSearch(!openSearch);
 
   // console.log(whiteProducts);
 
@@ -438,7 +448,7 @@ const Header = () => {
                 src={`/assets/images/logo.png`}
                 alt="logo"
               /> */}
-              <h1 className="tracking-[.2em] lg:tracking-[.5em] font-[600] text-[30px]">
+              <h1 className="tracking-[.2em] lg:tracking-[.5em] font-[400] text-[30px]">
                 DETAYLAR
               </h1>
             </div>
@@ -448,8 +458,51 @@ const Header = () => {
                 <VscAccount className="lg:block" />
               </Link>
               {/* search icon */}
-              {/* <IoSearch className="cursor-pointer" onClick={handleOpenSearch}/>
-              <SearchDialog openSearch={openSearch} handleCloseSearch={handleCloseSearch}/> */}
+              <IoSearch className="cursor-pointer" onClick={handleOpenSearch} />
+              {/* <SearchDialog openSearch={openSearch} handleCloseSearch={handleCloseSearch}/> */}
+              {/* <DialogDefault openSearch={openSearch} handleOpenSearch={handleOpenSearch}/> */}
+              <Dialog
+                open={openSearch}
+                handler={handleOpenSearch}
+                size="xl"
+                className="max-h-[500px] absolute top-[13px] !backdrop-blur-0"
+              >
+                {/* <DialogHeader>Its a simple dialog.</DialogHeader> */}
+                <DialogBody className="overflow-y-auto w-full flex gap-2">
+                  <div className="relative  w-[90%] justify-center">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      className="w-full pl-10 pr-4 py-2 rounded-lg placeholder:text-xl focus:outline-none"
+                    />
+                    <IoSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 text-xl" />
+                  </div>
+                  <Button
+                    variant="text"
+                    onClick={handleOpenSearch}
+                    className="mr-1 hover:bg-transparent"
+                  >
+                    <IoMdClose className="text-lg hover:bg-transparent" />
+                  </Button>
+                </DialogBody>
+                {/* <DialogFooter className="h-[200px]">
+                  <Button
+                    variant="text"
+                    color="red"
+                    onClick={handleOpenSearch}
+                    className="mr-1"
+                  >
+                    <IoMdClose className="text-md hover:bg-none" />
+                  </Button>
+                  <Button
+                    variant="gradient"
+                    color="green"
+                    onClick={handleOpenSearch}
+                  >
+                    <span>Confirm</span>
+                  </Button>
+                </DialogFooter> */}
+              </Dialog>
 
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
@@ -493,17 +546,9 @@ const Header = () => {
                     <span>Your cart is empty</span>
                   </div>
                 ) : (
-                  <div className="mt-[2em]">
-                    {" "}
+                  <div>
                     <div>
                       <table className="w-full border-collapse">
-                        {/* <thead className="hidden md:table-header-group">
-                          <tr className="text-sm font-medium text-gray-500 border-b">
-                            <th className="py-3 text-left">PRODUCT</th>
-                            <th className="py-3 text-center">QUANTITY</th>
-                            <th className="py-3 text-right">TOTAL</th>
-                          </tr>
-                        </thead> */}
                         <tbody>
                           {cartProducts?.cartData &&
                             cartProducts?.cartData.map((prod, index) => (
@@ -511,44 +556,59 @@ const Header = () => {
                                 key={index}
                                 className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
                               >
-                                <td className="py-4 flex items-center">
-                                  <img
-                                    src={`${
-                                      process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                                    }/${prod?.image.replace(/ /g, "%20")}`}
-                                    alt="Product Image"
-                                    className="w-20 h-28 mr-4"
-                                  />
-                                  <div className="flex flex-col justify-center">
-                                    <p>{prod?.name}</p>
-                                    <p className="py-2 font-thin">
+                                <td className="py-4 flex items-center justify-start gap-5">
+                                  <div className="bg-[#F5F5F5] px-2 py-3 w-[40%] flex justify-center items-center">
+                                    <img
+                                      src={`${
+                                        process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+                                      }/${prod?.image?.replace(/ /g, "%20")}`}
+                                      alt="Product Image"
+                                      className="w-24 h-32"
+                                    />
+                                  </div>
+
+                                  <div className="flex flex-col justify-center w-[60%]">
+                                    <p className="text-[.8em] font-thin">
+                                      {prod?.name}
+                                    </p>
+
+                                    {prod?.option !== null && (
+                                      <span className="text-sm text-gray-500">
+                                        {prod?.option?.color} /{" "}
+                                        {prod?.option?.size}
+                                      </span>
+                                    )}
+                                    <p className="py-2 font-thin text-sm">
                                       {prod?.totalPrice} EG
                                     </p>
-                                    <div className="flex justify-center items-center">
-                                      <button
-                                        className="w-8 h-8 border rounded-md flex items-center justify-center"
-                                        onClick={() =>
-                                          dispatch(decrement(prod && prod))
-                                        }
-                                      >
-                                        -
-                                      </button>
-                                      <span className="w-10 text-center">
-                                        {prod?.quantity}
-                                      </span>
-                                      <button
-                                        className="w-8 h-8 border rounded-md flex items-center justify-center"
-                                        onClick={() =>
-                                          dispatch(increment(prod && prod))
-                                        }
-                                      >
-                                        +
-                                      </button>
+                                    <div className="flex justify-between items-center w-full">
+                                      <div className="flex font-thin text-sm justify-center items-center border">
+                                        <button
+                                          className="w-8 h-8 flex items-center justify-center"
+                                          onClick={() =>
+                                            dispatch(decrement(prod && prod))
+                                          }
+                                        >
+                                          -
+                                        </button>
+                                        <span className="w-10 text-center">
+                                          {prod?.quantity}
+                                        </span>
+                                        <button
+                                          className="w-8 h-8  flex items-center justify-center text-[.8em]"
+                                          onClick={() =>
+                                            dispatch(increment(prod && prod))
+                                          }
+                                        >
+                                          +
+                                        </button>
+                                      </div>
+
                                       <button
                                         onClick={() =>
                                           dispatch(deleteProduct(prod && prod))
                                         }
-                                        className="text-gray-500 text-sm mt-2  hover:underline transition-all underline"
+                                        className="text-gray-500 text-sm mt-2 font-thin hover:underline transition-all underline"
                                       >
                                         REMOVE
                                       </button>
