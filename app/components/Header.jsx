@@ -2,17 +2,13 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
-  ListItemPrefix,
-  ListItemSuffix,
-  Chip,
-  Alert,
   Dialog,
   DialogFooter,
   DialogBody,
   DialogHeader,
 } from "@material-tailwind/react";
 import { ShoppingBagIcon, InboxIcon } from "@heroicons/react/24/solid";
-import { CubeTransparentIcon } from "@heroicons/react/24/outline";
+import { CubeTransparentIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Button,
   IconButton,
@@ -23,10 +19,7 @@ import {
   Drawer,
   Typography,
   Card,
-  Input,
   Accordion,
-  AccordionHeader,
-  AccordionBody,
 } from "@material-tailwind/react";
 import { Collapse, List, ListItem } from "@material-tailwind/react";
 
@@ -35,11 +28,6 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   Cog6ToothIcon,
-  MagnifyingGlassIcon,
-  PowerIcon,
-  PresentationChartBarIcon,
-  UserCircleIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 // import { IoClose } from "react-icons/io5";
 // import { TbUserQuestion } from "react-icons/tb";
@@ -116,7 +104,7 @@ function NavListMenu({
             {/* sub categories */}
             <ul className="text-xl font-thin flex flex-col">
               {categoryChildren?.map((sub, index) => (
-                <Link href={`/collections/${sub?.category_id}`} key={index}>
+                <Link key={index} href={`/collections/${sub?.category_id}`}>
                   {sub?.category_description?.name}
                 </Link>
               ))}
@@ -203,24 +191,24 @@ const Header = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const handleOpenSearch = () => setOpenSearch(!openSearch);
 
-  // console.log(whiteProducts);
-
-  console.log(cartProducts, "cartProducts");
-
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   dispatch(getCategories());
+  // }, []);
   useEffect(() => {
-    dispatch(getHeaderCategories());
+    dispatch(getCategories());
   }, []);
 
   useEffect(() => {
     dispatch(getWhiteProducts());
     dispatch(getCartProducts());
-  }, []);
+  }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getCategories());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getWhiteProducts());
+  //   dispatch(getCartProducts());
+  // }, []);
 
   // side menue  const [open, setOpen] = React.useState(0);
   const [openAlert, setOpenAlert] = useState(true);
@@ -233,16 +221,7 @@ const Header = () => {
   const openDrawerRight = () => setOpenRight(true);
   const closeDrawerRight = () => setOpenRight(false);
 
-  // const handleOpen = (value) => {
-  //   setOpen(open === value ? 0 : value);
-  // };
-
-  // const [openSide, setOpenSide] = useState(false);
-
   const [open, setOpen] = useState(false);
-
-  // const openDrawer = () => setOpen(true);
-  // const closeDrawer = () => setOpen(false);
 
   const [openMenu, setOpenMenu] = useState(false);
   const [openNav, setOpenNav] = useState(false);
@@ -250,21 +229,11 @@ const Header = () => {
   const [header, setHeader] = useState(false);
   const [lang, setLang] = useState("ENGLISH");
 
-  // const handleOpen = () => setOpenSide(!openSide);
-
-  // const handleClose = () => {
-  //   setOpenSide(false);
-  // };
-
   const handleOpenFavourit = () => setOpen(!open);
 
   const handleCloseFavourit = () => {
     setOpen(false);
   };
-
-  // const handleStopPropagation = (e) => {
-  //   e.stopPropagation();
-  // };
 
   const scrollHeader = () => {
     if (window.scrollY >= 20) {
@@ -312,7 +281,7 @@ const Header = () => {
         </div>
 
         {/* language selector and websiteName and icons*/}
-        <div className="flex flex-col items-center  px-[2em]  bg-white  w-full">
+        <div className="flex flex-col items-center px-[.5em]  lg:px-[2em]  bg-white  w-full">
           <div className=" flex justify-between w-full  mt-4 items-center">
             <Menu
               open={openMenu}
@@ -349,39 +318,6 @@ const Header = () => {
             {/* side menue */}
             <div className="lg:hidden block">
               <React.Fragment>
-                {/* <Drawer
-                  openSide={openSide}
-                  onClose={closeDrawer}
-                  className={`p-4 ${
-                    openSide ? "sidee" : "-translate-x-full max-w-[300px]"
-                  } transition-transform`}
-                >
-                  <div className="mb-6 flex items-center justify-between">
-                    <IconButton
-                      variant="text"
-                      color="blue-gray"
-                      onClick={closeDrawer}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className="h-5 w-5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </IconButton>
-                  </div>
-                  <div>
-                    <AccordionSideMenue headerCategories={headerCategories} />
-                  </div>
-                </Drawer> */}
                 <IconButton variant="text" size="lg" onClick={openDrawer}>
                   {isDrawerOpen ? (
                     <XMarkIcon className="h-8 w-8 stroke-2" />
@@ -425,7 +361,7 @@ const Header = () => {
                           >
                             <Typography
                               color="blue-gray"
-                              className="mr-auto font-normal"
+                              className="mr-auto font-normal mb-3 text-[1.5em]"
                             >
                               <Link href={`/collections/${li.category_id}`}>
                                 {li.category_description.name}
@@ -434,6 +370,9 @@ const Header = () => {
                           </ListItem>
                         ))}
                       </Accordion>
+                      <Link href={userToken ? "/login/profile" : "/login"}>
+                        <VscAccount className="block lg:hidden text-[1.5em]" />
+                      </Link>
                     </List>
                   </Card>
                 </Drawer>
@@ -448,14 +387,14 @@ const Header = () => {
                 src={`/assets/images/logo.png`}
                 alt="logo"
               /> */}
-              <h1 className="tracking-[.2em] lg:tracking-[.5em] font-[400] text-[30px]">
+              <h1 className="tracking-[.2em] text-[25px] lg:tracking-[.5em] font-[400] lg:text-[30px]">
                 DETAYLAR
               </h1>
             </div>
             {/* icons */}
-            <div className="flex flex-col lg:flex-row text-[25px] font-bold gap-2">
+            <div className="flex flex-row text-[20px] lg:text-[25px] font-bold gap-2">
               <Link href={userToken ? "/login/profile" : "/login"}>
-                <VscAccount className="lg:block" />
+                <VscAccount className="hidden lg:block" />
               </Link>
               {/* search icon */}
               <IoSearch className="cursor-pointer" onClick={handleOpenSearch} />
@@ -485,23 +424,6 @@ const Header = () => {
                     <IoMdClose className="text-lg hover:bg-transparent" />
                   </Button>
                 </DialogBody>
-                {/* <DialogFooter className="h-[200px]">
-                  <Button
-                    variant="text"
-                    color="red"
-                    onClick={handleOpenSearch}
-                    className="mr-1"
-                  >
-                    <IoMdClose className="text-md hover:bg-none" />
-                  </Button>
-                  <Button
-                    variant="gradient"
-                    color="green"
-                    onClick={handleOpenSearch}
-                  >
-                    <span>Confirm</span>
-                  </Button>
-                </DialogFooter> */}
               </Dialog>
 
               <MdOutlineShoppingBag
@@ -516,9 +438,9 @@ const Header = () => {
                 size="400px"
               >
                 <div className="mb-6 flex items-center justify-between w-full">
-                  <Typography variant="h5" color="blue-gray">
+                  <Link href={`/cart`} variant="h5" color="blue-gray">
                     CART
-                  </Typography>
+                  </Link>
                   <IconButton
                     variant="text"
                     color="blue-gray"
@@ -546,9 +468,9 @@ const Header = () => {
                     <span>Your cart is empty</span>
                   </div>
                 ) : (
-                  <div>
-                    <div>
-                      <table className="w-full border-collapse">
+                  <div className="flex flex-col">
+                    <div className="flex-1 overflow-y-auto border max-h-[400px] border-b-2 w-full">
+                      <table className="w-full ">
                         <tbody>
                           {cartProducts?.cartData &&
                             cartProducts?.cartData.map((prod, index) => (
@@ -563,26 +485,27 @@ const Header = () => {
                                         process.env.NEXT_PUBLIC_IMAGE_DOMAIN
                                       }/${prod?.image?.replace(/ /g, "%20")}`}
                                       alt="Product Image"
-                                      className="w-24 h-32"
+                                      className="w-20 h-28 lg:w-24 lg:h-32"
                                     />
                                   </div>
 
                                   <div className="flex flex-col justify-center w-[60%]">
-                                    <p className="text-[.8em] font-thin">
+                                    <p className="text-[.5em] lg:text-[.8em] font-thin">
                                       {prod?.name}
                                     </p>
 
-                                    {prod?.option !== null && (
-                                      <span className="text-sm text-gray-500">
-                                        {prod?.option?.color} /{" "}
-                                        {prod?.option?.size}
-                                      </span>
-                                    )}
+                                    {prod?.option !== null &&
+                                      prod?.option?.color !== null && (
+                                        <span className="text-[.5em] lg:text-sm text-gray-500">
+                                          {prod?.option?.color}
+                                          {prod?.option?.size}
+                                        </span>
+                                      )}
                                     <p className="py-2 font-thin text-sm">
                                       {prod?.totalPrice} EG
                                     </p>
                                     <div className="flex justify-between items-center w-full">
-                                      <div className="flex font-thin text-sm justify-center items-center border">
+                                      <div className="text-[.5em] flex font-thin lg:text-sm justify-center items-center border">
                                         <button
                                           className="w-8 h-8 flex items-center justify-center"
                                           onClick={() =>
@@ -619,6 +542,18 @@ const Header = () => {
                             ))}
                         </tbody>
                       </table>
+                    </div>
+                    <div className="py-4 border-t-1 px-0 mt-3 w-full flex flex-col items-center  opacity-100 translate-y-0 transition-all duration-500">
+                      <h1 className="font-thin text-sm">
+                        Shipping & taxes calculated at checkout
+                      </h1>
+                      <Button className="text-sm font-thin w-full">
+                        <Link href={`/checkout`}>CHECKOUT .</Link>
+                        {cartProducts?.cartData
+                          .map((prod) => prod?.totalPrice)
+                          .reduce((x, y) => x + y)}{" "}
+                        EG
+                      </Button>
                     </div>
                   </div>
                 )}
@@ -697,15 +632,16 @@ const Header = () => {
           <div className="hidden lg:flex lg:justify-around w-full font-light mt-3">
             {/* <NavList /> */}
             <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row gap-6 lg:p-1">
-              {categories?.data?.categories.map((li, index) => (
-                <NavListMenu
-                  key={index}
-                  categoryName={li?.category_description.name}
-                  categoryId={li?.category_id}
-                  categoryImg={li?.image}
-                  categoryChildren={li?.children}
-                />
-              ))}
+              {categories &&
+                categories?.data?.categories.map((li, index) => (
+                  <NavListMenu
+                    key={index}
+                    categoryName={li?.category_description?.name}
+                    categoryId={li?.category_id}
+                    categoryImg={li?.image}
+                    categoryChildren={li?.children}
+                  />
+                ))}
             </List>
           </div>
         </div>

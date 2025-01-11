@@ -5,7 +5,7 @@ import LazyLoad from 'react-lazyload';
 
 
 const ImagesSlider = ({ newProducts }) => {
-  console.log(newProducts?.data?.newProducts);
+  // console.log(newProducts?.data?.newProducts);
 
   // const cards = Array.from({ length: 36 }, (_, index) => ({
   //   id: index + 1,

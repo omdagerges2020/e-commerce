@@ -10,6 +10,7 @@ import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
 import { cartDataProducts } from "./slices/cartSlice";
 import { whitelistDataProducts } from "./slices/whitelistSlice";
+import { BtnsPagination } from "./slices/paignationSlice";
 
 
 const config = {
@@ -28,6 +29,7 @@ const mainReducer = combineReducers({
   newProductsData,
   cartDataProducts,
   whitelistDataProducts,
+  BtnsPagination,
 });
 
 const persistRed = persistReducer(config, mainReducer);

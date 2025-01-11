@@ -104,7 +104,7 @@ const Login = () => {
         },
         data: user,
       }).then((res) => res.data);
-      console.log(userDetails.authToken);
+      // console.log(userDetails.authToken);
       dispatch(setLogin(userDetails));
       router.push('/');
       setStatus(true);

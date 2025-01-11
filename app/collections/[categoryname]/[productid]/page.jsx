@@ -1,206 +1,29 @@
 "use client";
-import {
-  Button,
-  Option,
-  Select,
-} from "@material-tailwind/react";
+import { Button, Option, Select } from "@material-tailwind/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { TbRuler2 } from "react-icons/tb";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import Image from "next/image";
-
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails } from "@/app/redux-system/slices/productDetailsSlice";
 import ProductGallery from "@/app/components/productDetailsComponents/ProductGallery";
-import Loading from "@/app/components/Loading";
 import { addToCart } from "@/app/redux-system/slices/cartSlice";
 import {
   addToWhite,
   getWhiteProducts,
 } from "@/app/redux-system/slices/whitelistSlice";
+import {
+  Input,
+  Dialog,
+  IconButton,
+  Typography,
+  DialogBody,
+  DialogHeader,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
-//   console.log(params.productid);
-
-//   console.log(productDetails);
-//   const dispatch = useDispatch()
-
-//     useEffect(()=>{
-//       dispatch((getProductDetails(params.productid)));
-//     },[])
-
-//   const imageRefs = useRef([]);
-
-//   const [openCategory, setOpenCategory] = useState({
-//     description: false,
-//     size: false,
-//     color: false,
-//     policy: false,
-//   });
-
-//   const scrollToImage = (index) => {
-//     if (imageRefs.current[index]) {
-//       imageRefs.current[index].scrollIntoView({
-//         behavior: "smooth",
-//         block: "start",
-//       });
-//     }
-//   };
-
-//   const toggleCategory = (category) => {
-//     setOpenCategory({
-//       ...openCategory,
-//       [category]: !openCategory[category],
-//     });
-//   };
-
-//   return (
-//     <div className="flex flex-col">
-//       <div className="flex justify-center items-start gap-[4em] mt-8">
-//         {/* Small Pictures */}
-//         <div className="flex flex-col space-y-4">
-//           {productDetails?.data?.productImages.map((image, index) => (
-//             <img
-//               key={index}
-//               src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${image.image.replace(/ /g, "%20")}`}
-//               alt={`Thumbnail ${index}`}
-//               onClick={() => scrollToImage(index)} // التنقل للصورة الكبيرة
-//               className="w-20 h-24 object-cover cursor-pointer	focus:ring-4 focus:ring-black"
-//             />
-//           ))}
-//         </div>
-
-//         {/* Large Pictures */}
-//         <div
-//           className="flex flex-col space-y-4 h-[70vh] overflow-scroll"
-//           style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
-//         >
-//           {productDetails?.data?.productImages.map((image, index) => (
-//             <div
-//               key={index}
-//               ref={(el) => (imageRefs.current[index] = el)}
-//               className="flex justify-center"
-//             >
-//               <img
-//                 src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${image.image.replace(/ /g, "%20")}`}
-//                 alt={`Large Image ${index}`}
-//                 className="w-[500px] h-auto object-cover"
-//               />
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-
-//       <div className="mt-[5em]">
-//         <ul className="space-y-4">
-//           {/* Category  */}
-//           <li className="border-b-[1px] border-t-[1px]	pb-[2em] pt-[2em]">
-//             <div
-//               className="flex justify-between items-center cursor-pointer"
-//               onClick={() => toggleCategory("description")}
-//             >
-//               <h3 className="font-thin text-lg">Description</h3>
-//               {openCategory.description ? <FaMinus /> : <FaPlus />}
-//             </div>
-//             {openCategory.description && (
-//               <div className="ml-4 mt-2 space-y-2 h-[250px]">
-//                 <ul className="pl-5 list-disc mt-[.5em]">
-//                   <li>Material: 100% satin</li>
-//                   <li>Open round toe</li>
-//                   <li>Double straps</li>
-//                   <li>Spring around the ankle</li>
-//                   <li>Snake-head finish</li>
-//                   <li>Embellished rhinestones and pendants</li>
-//                   <li>Made in Italy</li>
-//                   <li>This is an evening heel</li>
-//                 </ul>
-//               </div>
-//             )}
-//           </li>
-//           <li className="border-b-[1px] 	pb-[2em] pt-[2em]">
-//             <div
-//               className="flex justify-between items-center cursor-pointer"
-//               onClick={() => toggleCategory("size")}
-//             >
-//               <h3 className="font-thin text-lg">SIZE & FIT</h3>
-//               {openCategory.size ? <FaMinus /> : <FaPlus />}
-//             </div>
-//             {openCategory.size && (
-//               <div className="ml-4 mt-2 space-y-2 h-[250px]">
-//                 <ul className="pl-5 list-disc mt-[.5em]">
-//                   <li>IT/EU sizing</li>
-//                   <li>Fits true to size, take your regular size</li>
-//                   <li>Heel height: 10.5 cm</li>
-//                 </ul>
-//               </div>
-//             )}
-//           </li>
-//           <li className="border-b-[1px]	pb-[2em] pt-[2em]">
-//             <div
-//               className="flex justify-between items-center cursor-pointer"
-//               onClick={() => toggleCategory("policy")}
-//             >
-//               <h3 className="font-thin text-lg">RETURN POLICY</h3>
-//               {openCategory.policy ? <FaMinus /> : <FaPlus />}
-//             </div>
-//             {openCategory.policy && (
-//               <div className="ml-4 mt-2 space-y-2 h-[250px]">
-//                 {/* <ul className="pl-5 list-disc mt-[.5em]">
-//                   <li>Material: 100% satin</li>
-//                   <li>Open round toe</li>
-//                   <li>Double straps</li>
-//                   <li>Spring around the ankle</li>
-//                   <li>Snake-head finish</li>
-//                   <li>Embellished rhinestones and pendants</li>
-//                   <li>Made in Italy</li>
-//                   <li>This is an evening heel</li>
-//                 </ul> */}
-//                 <span>
-//                   PLEASE READ OUR RETURNS POLICY, WHICH IS LOCATED IN OUR TERMS
-//                   & CONDITIONS PAGE, CAREFULLY BEFORE ORDERING.
-//                 </span>
-//                 <span>
-//                   YOU CAN RETURN MOST BUT NOT ALL PRODUCTS WITHIN 14 DAYS OF
-//                   RECEIVING THEM PROVIDED THAT ALL ITEMS ARE IN PERFECT AND
-//                   UNUSED CONDITION WITH ALL THE ORIGINAL TAGS ATTACHED.
-//                 </span>
-//                 <span>
-//                   PLEASE NOTE THAT THE RETURN REQUEST FOR CATEGORIES SUCH AS
-//                   EVENING WEAR, SHOES, JEWELRY MUST BE PLACED WITHIN 24 HOURS OF
-//                   RECEIVING THE ITEMS.
-//                 </span>
-//                 <span>
-//                   UNDERGARMENTS, SWIMMING SUITS, FRAGRANCES, BEAUTY ITEMS CANNOT
-//                   BE RETURNED. SPECIAL ORDER OR PERSONALIZED ITEMS CANNOT BE
-//                   RETURNED.
-//                 </span>
-//                 <span>
-//                   SHOES SHOULD BE RETURNED UNMARKED ALONG WITH THE PACKAGING IN
-//                   PERFECT CONDITION.
-//                 </span>
-//                 <span>
-//                   ITEMS THAT ARE USED, DAMAGED, SOILED OR RETURNED WITHOUT THE
-//                   CORRECT PACKAGING, LABELS AND DESIGNER AUTHENTICITY CARDS IN
-//                   PERFECT CONDITION MAY NOT BE ACCEPTED AND WILL BE SENT BACK TO
-//                   THE CLIENT AT THE CLIENT'S EXPENSE.
-//                 </span>
-//                 <span>
-//                   PLEASE NOTE THAT REFUNDS WILL BE MADE AFTER DEDUCTING THE COST
-//                   OF SHIPPING BOTH WAYS AND ANY ASSOCIATED CUSTOMS.
-//                 </span>
-//                 <span>
-//                   PLEASE REFER TO THE RETURNS SECTION OF OUR TERMS & CONDITIONS
-//                   FOR MORE DETAILS.
-//                 </span>
-//               </div>
-//             )}
-//           </li>
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// };
 
 // images
 const images = [
@@ -212,29 +35,24 @@ const images = [
 export default function ProductPage({ params }) {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
-
+  const [open, setOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const { productDetails, productDetailsLoading } = useSelector(
     (state) => state.productDetailsData
   );
   const { whiteProducts } = useSelector((state) => state.whitelistDataProducts);
-  // console.log(isAdded);
-
-  // console.log(whiteProducts);
-
-  console.log(typeof productDetails?.data?.productOptions);
 
   // فانكشن لتغيير اللون
   const handleColorSelect = (color) => {
     setSelectedColor(color);
-    console.log("Selected color:", color);
   };
 
   // فانكشن لتغيير المقاس
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
-    console.log("Selected size:", size);
   };
+
+  const handleOpen = () => setOpen(!open);
 
   useEffect(() => {
     if (whiteProducts.length > 0) {
@@ -242,7 +60,6 @@ export default function ProductPage({ params }) {
         prod?.id === params.productid;
       });
       if (isFavourit) {
-        console.log("true");
         setIsAdded(true);
       } else {
         setIsAdded(false);
@@ -250,15 +67,9 @@ export default function ProductPage({ params }) {
     }
   }, []);
 
-  console.log(productDetails);
-
-  // const {whiteProducts} = useSelector((state)=>state.whitelistDataProducts);
-
   useEffect(() => {
     dispatch(getWhiteProducts());
   }, []);
-
-  // console.log(params.productid);
 
   const dispatch = useDispatch();
 
@@ -266,7 +77,7 @@ export default function ProductPage({ params }) {
     dispatch(getProductDetails(params.productid));
   }, []);
 
-  // console.log(params.productid);
+  
 
   const [count, setCount] = useState(1);
 
@@ -334,7 +145,7 @@ export default function ProductPage({ params }) {
               Size Chart
             </Link>
           </div> */}
-          {typeof (productDetails?.data?.productOptions === "object") ? (
+          {!Array.isArray(productDetails?.data?.productOptions) &&  (
             <div className="flex items-center mt-4 gap-2 mb-3">
               <h1 className="text-[#959595]">Color:</h1>
               <Select
@@ -356,12 +167,10 @@ export default function ProductPage({ params }) {
                 )}
               </Select>
             </div>
-          ) : (
-            ""
           )}
 
           {/* selector for sizes */}
-          {typeof (productDetails?.data?.productOptions === "object") ? (
+          {!Array.isArray(productDetails?.data?.productOptions) &&  (
             <div className="flex items-center mt-4 gap-2 mb-3">
               <h1 className="text-[#959595]">Size</h1>
               <Select
@@ -385,8 +194,6 @@ export default function ProductPage({ params }) {
                 )}
               </Select>
             </div>
-          ) : (
-            ""
           )}
 
           <div className="flex items-center justify-start gap-4 border-[1px] w-fit mt-4 font-thin">
@@ -410,7 +217,16 @@ export default function ProductPage({ params }) {
             </button>
           </div>
           <Button
-            onClick={() => dispatch(addToCart({ productDetails, count, selectedColor, selectedSize }))}
+            onClick={() =>
+              dispatch(
+                addToCart({
+                  productDetails,
+                  count,
+                  selectedColor,
+                  selectedSize,
+                })
+              )
+            }
             className="bg-white mt-4 w-full shadow-none border-[1px] tracking-widest hover:bg-black text-[#8A8A8A] hover:text-white transition-all duration-500 ease-out relative overflow-hidden"
           >
             <span className="absolute top-0 left-[-100%] w-full h-full bg-black transition-all duration-500 ease-out hover:left-0"></span>
@@ -428,20 +244,150 @@ export default function ProductPage({ params }) {
             <div className="flex justify-center w-full">ADD TO WHISHLIST</div>
           </Button>
 
+          {/* payment modal */}
           <div className="w-full flex gap-[4em] border-[1px] p-4 mt-4 rounded-md">
-            <p>
-              4 interest-free payments of <span>KWD</span> <span>127.500</span>.
-              No fees. Shariah-compliant.{" "}
-              <a href="/" className="underline" target="_blank">
+            <Button
+              className="bg-transparent text-black shadow-none hover:shadow-none"
+              onClick={handleOpen}
+            >
+              4 interest-free payments of <span>EGP</span> <span>127.500</span>.
+              No fees. Egypt.{" "}
+              <Button className="underline text-black bg-transparent shadow-none hover:shadow-none">
                 Learn more
-              </a>
-            </p>
+              </Button>
+            </Button>
+            <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
+              <DialogHeader className="relative m-0 block">
+                <Typography variant="h4" color="blue-gray">
+                  Link Payment Card
+                </Typography>
+                <Typography className="mt-1 font-normal text-gray-600">
+                  Complete the form below with your card details to link your
+                  card.
+                </Typography>
+                <IconButton
+                  size="sm"
+                  variant="text"
+                  className="!absolute right-3.5 top-3.5"
+                  onClick={handleOpen}
+                >
+                  <XMarkIcon className="h-4 w-4 stroke-2" />
+                </IconButton>
+              </DialogHeader>
+              <DialogBody className="space-y-4 pb-6">
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  className="h-12 border-blue-500 focus:ring-blue-100/50"
+                >
+                  <img
+                    src="/assets/images/Mopay_logo.png"
+                    className="mx-auto grid h-12 w-16 -translate-y-4 place-items-center"
+                    alt="mopay"
+                  />
+                </Button>
+                <div>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="mb-2 text-left font-medium"
+                  >
+                    Cardholder Name
+                  </Typography>
+                  <Input
+                    color="gray"
+                    size="lg"
+                    placeholder="e.g., John Doe"
+                    name="name"
+                    className="placeholder:opacity-100 focus:!border-t-gray-900"
+                    containerProps={{
+                      className: "!min-w-full",
+                    }}
+                    labelProps={{
+                      className: "hidden",
+                    }}
+                  />
+                </div>
+                <div>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="mb-2 text-left font-medium"
+                  >
+                    Card Number
+                  </Typography>
+                  <Input
+                    color="gray"
+                    size="lg"
+                    placeholder="1234 5678 9012 3456"
+                    name="number"
+                    className="placeholder:opacity-100 focus:!border-t-gray-900"
+                    containerProps={{
+                      className: "!min-w-full",
+                    }}
+                    labelProps={{
+                      className: "hidden",
+                    }}
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-full">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="mb-2 text-left font-medium"
+                    >
+                      Expiration Date
+                    </Typography>
+                    <Input
+                      color="gray"
+                      size="lg"
+                      placeholder="MM/YY"
+                      name="date"
+                      className="placeholder:opacity-100 focus:!border-t-gray-900"
+                      containerProps={{
+                        className: "!min-w-full",
+                      }}
+                      labelProps={{
+                        className: "hidden",
+                      }}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="mb-2 text-left font-medium"
+                    >
+                      CVV
+                    </Typography>
+                    <Input
+                      color="gray"
+                      size="lg"
+                      placeholder="123"
+                      name="CVV"
+                      className="placeholder:opacity-100 focus:!border-t-gray-900"
+                      containerProps={{
+                        className: "!min-w-full",
+                      }}
+                      labelProps={{
+                        className: "hidden",
+                      }}
+                    />
+                  </div>
+                </div>
+              </DialogBody>
+              <DialogFooter>
+                <Button className="ml-auto" onClick={handleOpen}>
+                  submit
+                </Button>
+              </DialogFooter>
+            </Dialog>
             <Image
-              src="/assets/images/tabby.png"
-              width={50}
-              height={50}
+              src="/assets/images/Mopay_logo.png"
+              width={80}
+              height={0}
               alt="picture"
-              // className="w-[50px] h-[50px] lg:w-[100px] lg:h-[100px]"
             />
           </div>
 

@@ -18,7 +18,7 @@ const Cart = () => {
     (state) => state.cartDataProducts
   );
 
-  console.log(cartProducts);
+  // console.log(cartProducts);
 
   const dispatch = useDispatch();
 
@@ -68,7 +68,7 @@ const Cart = () => {
                             <span>{prod?.name}</span>
                             {prod?.option !== null && (
                               <span>
-                                {prod?.option?.color} / {prod?.option?.size}
+                                {prod?.option?.color}  {prod?.option?.size}
                               </span>
                             )}
                             <p className="text-sm font-semibold">
@@ -127,8 +127,8 @@ const Cart = () => {
                   </p>
                 </div>
                 {/* Checkout Button */}
-                <button className="custom-btn font-thin tracking-widest">
-                  <span>CHECKOUT</span>
+                <button className="bg-black text-white hover:bg-white hover:text-black p-3 font-thin tracking-widest">
+                  <Link href={`./checkout`}>CHECKOUT</Link>
                 </button>
               </div>
             </div>

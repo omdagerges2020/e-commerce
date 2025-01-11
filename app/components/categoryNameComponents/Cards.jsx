@@ -1,18 +1,21 @@
+'use client'
 import Link from "next/link";
 import React from "react";
 
-const Cards = ({ products }) => {
+
+const Cards = ({products, typeGrid}) => {
+
   return (
     <div className="w-full flex justify-center lg:w-[calc(100% - 300px)]">
       <div
-        className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-[2em] overscroll-none lg:overflow-y-scroll lg:h-[70vh]"
+        className={`grid grid-cols-2 xs:grid-cols-1 ${typeGrid ? "md:grid-cols-3" : "md:grid-cols-2"} ${typeGrid ? "lg:grid-cols-3" : "lg:grid-cols-2"}  gap-[2em] overscroll-none lg:overflow-y-scroll lg:h-[70vh]`}
         style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
       >
-        {products?.data?.map((card) => (
+        {products && products?.productsList?.data.map((card) => (
           <Link
             href={`/collections/${card.model}/${card.id}`}
             key={card.id}
-            className="card w-[180px] md:w-[350px] lg:w-[230px] bg-white shadow-none rounded-lg"
+            className={`card w-[300px] xs:w-full ${typeGrid ? "md:w-[230px]" : "md:w-[300px]"} lg:w-[230px] bg-white shadow-none rounded-lg`}
           >
             <div className="relative h-64">
               <img
@@ -27,8 +30,8 @@ const Cards = ({ products }) => {
               /> */}
             </div>
             <div className="p-4">
-              <p className="text-xl font-semibold">{card.model}</p>
-              <p className="text-gray-600">{card.product_description.name}</p>
+              <p className="text-md font-semibold">{card?.model}</p>
+              <p className="text-gray-600">{card?.product_description.name}</p>
               {/* <p className="text-gray-600">{card.kind}</p> */}
               <div>
                 <span

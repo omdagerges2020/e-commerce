@@ -2,14 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getCategoryProducts = createAsyncThunk(
-  "getcollections",
-  async (id, ThunkAPI) => {
+  "getcategoryproducts",
+  async ({id, page = 1}, ThunkAPI) => {
     const { rejectWithValue } = ThunkAPI;
 
     const options = {
       method: "GET",
 
       url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/getProductByCategory/${id}`,
+      params: {
+        page, 
+      },
       headers: {
         "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
         "Content-Type": "application/json",
@@ -27,7 +30,7 @@ export const getCategoryProducts = createAsyncThunk(
 );
 
 const cateoryProductsSlice = createSlice({
-  name: "getCategoryProducts",
+  name: "CategoryProducts",
   initialState: {
     categoryProductsLoading: false,
     erorr: null,

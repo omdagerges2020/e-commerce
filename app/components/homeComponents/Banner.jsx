@@ -5,7 +5,7 @@ import Link from "next/link";
 
 
 const Banner = ({newProducts}) => {
-  console.log(newProducts?.data?.banners[0]?.images[0]?.image);
+  // console.log(newProducts?.data?.banners[0]?.images[0]?.image);
   
   return (
     <>

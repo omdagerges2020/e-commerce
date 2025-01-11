@@ -14,7 +14,9 @@ export default function RootLayout({ children }) {
     pathname === "/login" ||
     pathname === "/cart" ||
     pathname === "/register" ||
-    pathname === "/profile";
+    pathname === "/profile" ||
+    pathname === "/checkout"
+
 
   return (
     <ThemeProvider>

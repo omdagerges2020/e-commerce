@@ -143,9 +143,9 @@ const Signup = () => {
         title: 'Registration successful!',
       });
       router.push("/login");
-      console.log(res);
+      // console.log(res);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setStatus(false);
       if (error.response && error.response.status === 400) {
         // Handle the 400 error for existing user

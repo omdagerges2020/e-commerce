@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 const ImagesSlider2 = ({newProducts}) => {
-  console.log(newProducts?.data?.featuredproducts);
+  // console.log(newProducts?.data?.featuredproducts);
 
   // const cards = Array.from({ length: 36 }, (_, index) => ({
   //   id: index + 1,

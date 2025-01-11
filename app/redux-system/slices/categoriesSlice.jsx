@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getCategories = createAsyncThunk(
-  "getcollections",
+  "getcategories",
   async (id, ThunkAPI) => {
     const { rejectWithValue } = ThunkAPI;
 
@@ -28,7 +28,7 @@ export const getCategories = createAsyncThunk(
 );
 
 const getCategoriesSlice = createSlice({
-  name: "getcategories",
+  name: "categories",
   initialState: {
     categoriesLoading: false,
     erorr: null,

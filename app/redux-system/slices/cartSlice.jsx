@@ -19,7 +19,7 @@ export const getCartProducts = createAsyncThunk(
 
     try {
       const response = await axios(options);
-      console.log(response);
+      // console.log(response);
     
       return response.data;
     } catch (err) {
@@ -37,12 +37,12 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state,action)=>{
-      console.log(action.payload);
+      // console.log(action.payload);
       const checkArr = state?.cartProducts?.cartData.some((prod)=>{
         return prod.id === action.payload?.productDetails?.data?.data?.id
       }) 
       if(!checkArr){
-        console.log("not same")
+        // console.log("not same")
         axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/addToCart`,
           {
@@ -62,14 +62,14 @@ const cartSlice = createSlice({
           }
         )
         .then((response) => {
-          console.log("Updated on server successfully:", response.data);
+          // console.log("Updated on server successfully:", response.data);
         })
         .catch((error) => {
-          console.error("Error updating cart on server:", error);
+          // console.error("Error updating cart on server:", error);
         });
         // state.cartProducts?.cartData.push(action.payload?.data?.data)
       }else {
-        console.log("same product");
+        // console.log("same product");
       }
     },
     deleteProduct: (state,action)=>{
@@ -92,10 +92,10 @@ const cartSlice = createSlice({
         }
       )
       .then((response) => {
-        console.log("Updated on server successfully:", response);
+        // console.log("Updated on server successfully:", response);
       })
       .catch((error) => {
-        console.error("Error updating cart on server:", error);
+        // console.error("Error updating cart on server:", error);
       });
 
       
@@ -103,7 +103,7 @@ const cartSlice = createSlice({
     increment: (state,action)=>{
       const updatedProducts = state.cartProducts.cartData.map((product) =>
         product.id === action.payload.id
-          ? { ...product, quantity: product.quantity + 1, totalPrice }
+          ? { ...product, quantity: product.quantity + 1, totalPrice: product.special == "0.00" ? product.price * (product.quantity + 1) : product.special * (product.quantity + 1) }
           : product
       );      
     
@@ -122,17 +122,17 @@ const cartSlice = createSlice({
           }
         )
         .then((response) => {
-          console.log("Updated on server successfully:", response.data);
+          // console.log("Updated on server successfully:", response.data);
         })
         .catch((error) => {
-          console.error("Error updating cart on server:", error);
+          // console.error("Error updating cart on server:", error);
         });
     },
     decrement: (state,action)=>{
       if(action.payload.quantity > 1){
         const updatedProducts2 = state.cartProducts.cartData.map((product) =>
           product.id === action.payload.id
-            ? { ...product, quantity: product.quantity - 1, totalPrice: product.price * (product.quantity - 1) }
+            ? { ...product, quantity: product.quantity - 1, totalPrice: product.special == "0.00" ? product.price * (product.quantity - 1) : product.special * (product.quantity - 1) }
             : product
         );
       
