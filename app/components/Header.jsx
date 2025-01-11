@@ -548,11 +548,10 @@ const Header = () => {
                         Shipping & taxes calculated at checkout
                       </h1>
                       <Button className="text-sm font-thin w-full">
-                        <Link href={`/checkout`}>CHECKOUT .</Link>
-                        {cartProducts?.cartData
+                        <Link href={`/checkout`}>CHECKOUT .  {cartProducts?.cartData
                           .map((prod) => prod?.totalPrice)
-                          .reduce((x, y) => x + y)}{" "}
-                        EG
+                          .reduce((x, y) => x + y)}
+                        EG</Link>
                       </Button>
                     </div>
                   </div>
@@ -602,7 +601,6 @@ const Header = () => {
                     {/* cards if there is any favourits products */}
                     {whiteProducts?.data?.length === 0 ? (
                       <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
-                        {" "}
                         <h1 className="font-bold">
                           Love It? Add to My Wishlist
                         </h1>
