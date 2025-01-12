@@ -32,9 +32,8 @@ const Page = () => {
       </h1>
       <div className="flex flex-wrap	gap-[2em] justify-center items-center w-full mt-[3em]">
         {categories?.data?.categories.map((card, index) => (
-          <LazyLoad height={200} offset={100}>
+          <LazyLoad height={200} offset={100} key={index}>
             <Card
-              key={index}
               shadow={false}
               className="relative grid h-[45rem] w-full max-w-[24rem] items-end justify-center overflow-hidden text-center"
             >
