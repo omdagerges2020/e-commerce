@@ -37,14 +37,22 @@ const SideMenue = ({ categories }) => {
     <div className="hidden lg:block lg:w-[300px]">
       {categories &&
         categories?.data?.categories.map((cat, index) => (
-          <Accordion key={index} open={open === index} icon={<Icon id={index} open={open} />}>
+          <Accordion
+            key={index}
+            open={open === index}
+            icon={<Icon id={index} open={open} />}
+          >
             <AccordionHeader onClick={() => handleOpen(index)}>
               {cat?.category_description?.name}
             </AccordionHeader>
             <AccordionBody className="text-md text-black max-h-[100px] overflow-y-scroll">
-              {cat?.children.map((child, index)=>(
+              {cat?.children.map((child, index) => (
                 <ul key={index} className="flex flex-col">
-                  <Link href={`/collections/${child?.category_id}`}>{child?.category_description?.name}</Link>
+                  <li>
+                    <Link href={`/collections/${child?.category_id}`}>
+                      {child?.category_description?.name}
+                    </Link>
+                  </li>
                 </ul>
               ))}
             </AccordionBody>

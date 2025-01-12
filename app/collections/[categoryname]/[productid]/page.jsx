@@ -24,7 +24,6 @@ import {
 } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-
 // images
 const images = [
   "https://thahab.com/cdn/shop/files/C10182-105-R001CYTS-IVORY-SATINCRYSTAL-TRANS-ST-1_800x.jpg?v=1699195418",
@@ -77,7 +76,6 @@ export default function ProductPage({ params }) {
     dispatch(getProductDetails(params.productid));
   }, []);
 
-
   const [count, setCount] = useState(1);
 
   return (
@@ -115,7 +113,7 @@ export default function ProductPage({ params }) {
           <p className="bg-[#F7F7F7] text-[#686868]">
             Includes all taxes & duties if shipping to USA, Kuwait or KSA; You
             will not pay anything else upon delivery Read more{" "}
-            <Link href="/shippingpolicy"  className="underline">
+            <Link href="/shippingpolicy" className="underline">
               here
             </Link>
             .
@@ -144,7 +142,7 @@ export default function ProductPage({ params }) {
               Size Chart
             </Link>
           </div> */}
-          {!Array.isArray(productDetails?.data?.productOptions) &&  (
+          {!Array.isArray(productDetails?.data?.productOptions) && (
             <div className="flex items-center mt-4 gap-2 mb-3">
               <h1 className="text-[#959595]">Color:</h1>
               <Select
@@ -169,7 +167,7 @@ export default function ProductPage({ params }) {
           )}
 
           {/* selector for sizes */}
-          {!Array.isArray(productDetails?.data?.productOptions) &&  (
+          {!Array.isArray(productDetails?.data?.productOptions) && (
             <div className="flex items-center mt-4 gap-2 mb-3">
               <h1 className="text-[#959595]">Size</h1>
               <Select
@@ -405,19 +403,19 @@ export default function ProductPage({ params }) {
           <>
             <h1 className="text-2xl">YOU MAY LIKE ALSO</h1>
             <div className="block lg:flex gap-3">
-              {productDetails?.data?.reletedProducts?.map((prod, index) => (
+              {productDetails && productDetails?.data?.reletedProducts.map((prod, index) => (
                 <Link
                   key={index}
                   href={`/collections/${productDetails?.data?.data?.category_id}/${prod.id}`}
                   className="card w-full md:w-[350px] lg:w-[230px] bg-white shadow-none rounded-lg"
                 >
-                  <div className="relative ">
+                  <div className="relative">
                     <img
-                      src={`${
-                        process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                      }/${prod?.image?.replace(/ /g, "%20")}`}
+                      src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${prod?.image?.replace(/ /g, "%20")}`}
                       alt="Shoe 1"
-                      className="w-full max-h-[300px] object-cover rounded-t-lg"
+                    // لضبط الصورة بشكل تلقائي داخل الحاوية
+                      objectFit="cover" // لجعل الصورة تغطي الحاوية بشكل صحيح
+                      className="rounded-t-lg  w-full max-h-[300px]"
                     />
                   </div>
                   <div className="p-4">

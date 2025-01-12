@@ -1,14 +1,8 @@
-// import { Nunito } from "next/font/google";
 import { Montserrat} from "next/font/google";
 import "./globals.css";
 import MainLayout from "./MainLayout";
 import ScrollToTop from "./components/ButtomTop";
 
-
-// const nunito = Nunito({
-//   weight: ["400", "500", "700"],
-//   subsets: ["latin"],
-// });
 const montserrat = Montserrat({
   weight: ["400", "500", "700"],
   subsets: ["latin"],

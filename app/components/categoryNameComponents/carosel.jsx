@@ -35,7 +35,7 @@ const CardCarousel = () => {
         className="mySwiper"
       >
         <SwiperSlide>
-          <a
+          <Link
             href="/collections/shoes/2"
             className=" bg-white shadow-none rounded-lg"
           >
@@ -60,7 +60,7 @@ const CardCarousel = () => {
                 <span className="text-red-500">395 KD</span>
               </div>
             </div>
-          </a>
+          </Link>
         </SwiperSlide>
         <SwiperSlide>
           <a

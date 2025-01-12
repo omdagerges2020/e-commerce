@@ -5,12 +5,10 @@ import {
   CardBody,
   CardFooter,
   Typography,
-  Avatar,
-  Tooltip,
 } from "@material-tailwind/react";
 
 const FavouritsCards = ({ whiteProducts }) => {
-  // console.log(whiteProducts);
+  console.log(whiteProducts);
 
   return (
     <div className="grid gap-5 grid-cols-2 lg:grid-cols-3">
