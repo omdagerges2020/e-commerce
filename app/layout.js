@@ -3,7 +3,6 @@ import { Montserrat} from "next/font/google";
 import "./globals.css";
 import MainLayout from "./MainLayout";
 import ScrollToTop from "./components/ButtomTop";
-import ChatModal from "./components/MesageModal";
 
 
 // const nunito = Nunito({

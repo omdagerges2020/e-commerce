@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -17,21 +18,17 @@ const Cards = ({products, typeGrid}) => {
             key={card.id}
             className={`card w-[300px] xs:w-full ${typeGrid ? "md:w-[230px]" : "md:w-[300px]"} lg:w-[230px] bg-white shadow-none rounded-lg`}
           >
-            <div className="relative h-64">
-              <img
-                src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${card.image}`}
+            <div className="relative w-full h-full">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${card?.image}`}
                 alt="Shoe 1"
+                layout="fill"
                 className="w-full h-full object-cover rounded-t-lg"
               />
-              {/* <img
-                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${card.product_image[0]?.image.replace(/ /g, "%20")}`}
-                alt="Shoe 1 Hover"
-                className="w-full h-full object-cover rounded-t-lg opacity-0 hover:opacity-100 absolute top-0 left-0 transition-opacity duration-300"
-              /> */}
             </div>
             <div className="p-4">
               <p className="text-md font-semibold">{card?.model}</p>
-              <p className="text-gray-600">{card?.product_description.name}</p>
+              <p className="text-gray-600">{card?.product_description?.name}</p>
               {/* <p className="text-gray-600">{card.kind}</p> */}
               <div>
                 <span

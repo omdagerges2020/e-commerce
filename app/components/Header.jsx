@@ -48,12 +48,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { getWhiteProducts } from "../redux-system/slices/whitelistSlice";
 import FavouritsCards from "./headerComponents/FavouritsCards";
 import {
+  addToCart,
   decrement,
   deleteProduct,
   getCartProducts,
   increment,
 } from "../redux-system/slices/cartSlice";
 import { IoMdClose } from "react-icons/io";
+import { useRouter } from "next/navigation";
+import { getSearchData } from "../redux-system/slices/searchSlice";
 
 const languages = [
   {
@@ -184,31 +187,48 @@ const Header = () => {
   const { cartProducts, cartLoading } = useSelector(
     (state) => state.cartDataProducts
   );
+  const { searchResult, loadingSearch } = useSelector(
+    (state) => state.searchProducts
+  );
+
+  console.log(cartProducts);
+
   // const [activeGender, setActiveGender] = useState("WOMEN");
   const { categories } = useSelector((state) => state.categoriesData);
   const { whiteProducts } = useSelector((state) => state.whitelistDataProducts);
 
   const [openSearch, setOpenSearch] = useState(false);
   const handleOpenSearch = () => setOpenSearch(!openSearch);
+  const [query, setQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+
+    if (value.trim() !== "") {
+      dispatch(getSearchData(value)); // استدعاء الدالة لجلب النتائج
+    }
+  };
+
+  const handleSelectProduct = ({ prodId, prodName }) => {
+    router.push(`/collections/${prodName}/${prodId}`); // الانتقال إلى صفحة تفاصيل المنتج
+    setOpenSearch(false); // إغلاق الديالوج
+  };
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getCategories());
-  // }, []);
   useEffect(() => {
     dispatch(getCategories());
   }, []);
 
   useEffect(() => {
     dispatch(getWhiteProducts());
-    dispatch(getCartProducts());
-  }, [dispatch]);
+  }, []);
 
-  // useEffect(() => {
-  //   dispatch(getWhiteProducts());
-  //   dispatch(getCartProducts());
-  // }, []);
+  useEffect(() => {
+    dispatch(getCartProducts());
+  }, []);
 
   // side menue  const [open, setOpen] = React.useState(0);
   const [openAlert, setOpenAlert] = useState(true);
@@ -381,12 +401,6 @@ const Header = () => {
 
             {/* nav links */}
             <div className="flex justify-center items-center">
-              {/* <Image
-                width={40}
-                height={40}
-                src={`/assets/images/logo.png`}
-                alt="logo"
-              /> */}
               <h1 className="tracking-[.2em] text-[25px] lg:tracking-[.5em] font-[400] lg:text-[30px]">
                 DETAYLAR
               </h1>
@@ -398,8 +412,6 @@ const Header = () => {
               </Link>
               {/* search icon */}
               <IoSearch className="cursor-pointer" onClick={handleOpenSearch} />
-              {/* <SearchDialog openSearch={openSearch} handleCloseSearch={handleCloseSearch}/> */}
-              {/* <DialogDefault openSearch={openSearch} handleOpenSearch={handleOpenSearch}/> */}
               <Dialog
                 open={openSearch}
                 handler={handleOpenSearch}
@@ -412,10 +424,13 @@ const Header = () => {
                     <input
                       type="text"
                       placeholder="Search..."
+                      value={query}
+                      onChange={handleSearch}
                       className="w-full pl-10 pr-4 py-2 rounded-lg placeholder:text-xl focus:outline-none"
                     />
                     <IoSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 text-xl" />
                   </div>
+                  
                   <Button
                     variant="text"
                     onClick={handleOpenSearch}
@@ -424,7 +439,34 @@ const Header = () => {
                     <IoMdClose className="text-lg hover:bg-transparent" />
                   </Button>
                 </DialogBody>
+                  {query && searchResult.length > 0 && (
+                    <ul className="bg-white border border-gray-300 rounded-lg shadow-lg max-h-[300px] overflow-y-auto z-50 mt-2">
+                      {searchResult.map((product) => (
+                        <li
+                          key={product.id}
+                          className="p-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                          onClick={() =>
+                            handleSelectProduct({
+                              prodId: product?.id,
+                              prodName: product?.product_description?.name,
+                            })
+                          }
+                        >
+                          {product?.image && <Image
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${product?.image?.replace(/ /g, "%20")}`}
+                            alt={product?.product_description?.name}
+                            width={50}
+                            height={50}
+                            className="w-10 h-10 object-cover rounded"
+                          />}
+                         
+                          <span>{product?.product_description?.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </Dialog>
+              
 
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
@@ -463,7 +505,7 @@ const Header = () => {
                   </IconButton>
                 </div>
                 {cartProducts?.cartData &&
-                cartProducts?.cartData?.length === 0 ? (
+                cartProducts?.cartData.length === 0 ? (
                   <div className="flex gap-2 w-full h-screen">
                     <span>Your cart is empty</span>
                   </div>
@@ -502,7 +544,7 @@ const Header = () => {
                                         </span>
                                       )}
                                     <p className="py-2 font-thin text-sm">
-                                      {prod?.totalPrice} EG
+                                      {prod?.price} EG
                                     </p>
                                     <div className="flex justify-between items-center w-full">
                                       <div className="text-[.5em] flex font-thin lg:text-sm justify-center items-center border">
@@ -548,10 +590,13 @@ const Header = () => {
                         Shipping & taxes calculated at checkout
                       </h1>
                       <Button className="text-sm font-thin w-full">
-                        <Link href={`/checkout`}>CHECKOUT .  {cartProducts?.cartData
-                          .map((prod) => prod?.totalPrice)
-                          .reduce((x, y) => x + y)}
-                        EG</Link>
+                        <Link href={`/checkout`}>
+                          CHECKOUT .{" "}
+                          {cartProducts?.cartData
+                            .map((prod) => +prod?.totalPrice)
+                            .reduce((x, y) => x + y)}
+                          EG
+                        </Link>
                       </Button>
                     </div>
                   </div>

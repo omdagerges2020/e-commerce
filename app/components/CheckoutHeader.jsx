@@ -16,7 +16,7 @@ const CheckoutHeader = () => {
             as="a"
             href="#"
             variant="h6"
-            className="mr-4 cursor-pointer py-1.5 tracking-[.2em] lg:tracking-[.5em] font-bold text-[2xl] lg:text-4xl"
+            className="mr-4 cursor-pointer py-1.5 tracking-[.2em] lg:tracking-[.5em] font-normal text-[2xl] lg:text-4xl"
           >
             DETAYLAR
           </Typography>

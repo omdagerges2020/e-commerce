@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 const languages = [
   {
@@ -68,36 +69,31 @@ const Footer = () => {
               DETAYLAR
             </Typography>
             <ul className="flex flex-col">
-              <Typography as="li" className="font-normal">
-                <a className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
-                  Search
-                </a>
-              </Typography>
-              <Typography as="li" className="font-normal">
-                <a className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
+              <li>
+                <Link href={`/aboutus`} className="font-normal inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
                   About Us
-                </a>
-              </Typography>
-              <Typography as="li" className="font-normal">
-                <a className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
-                  Terms & Conditions
-                </a>
-              </Typography>
-              <Typography as="li" className="font-normal">
-                <a className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
-                  Refund Policy
-                </a>
-              </Typography>
-              <Typography as="li" className="font-normal">
-                <a className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
+                </Link>
+              </li>
+              <li>
+                <Link href={`/termscondition`} className="font-normal inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
+                Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link href={`/refundpolicy`} className="font-normal inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
+                 Refund Policy
+                </Link>
+              </li>
+              <li>
+                <Link href={`/returnpolicy`} className="font-normal inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
                   Return Policy
-                </a>
-              </Typography>
-              <Typography as="li" className="font-normal">
-                <a className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
+                </Link>
+              </li>
+              <li>
+                <Link href={`/privacypolicy`} className="font-normal inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
                   Privacy Policy
-                </a>
-              </Typography>
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="w-full">
@@ -108,11 +104,11 @@ const Footer = () => {
               Contact Us
             </Typography>
             <ul className="flex flex-col">
-              <Typography as="li" className="font-normal">
+              <li className="font-normal">
                 <p className="inline-block py-1 pr-2 transition-transform hover:scale-105 text-[#5C5C61] cursor-pointer">
                   +965 97357777
                 </p>
-              </Typography>
+              </li>
             </ul>
           </div>
           <div className="flex flex-col gap-4">

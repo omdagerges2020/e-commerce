@@ -5,20 +5,9 @@ import LazyLoad from 'react-lazyload';
 
 
 const ImagesSlider = ({ newProducts }) => {
-  // console.log(newProducts?.data?.newProducts);
-
-  // const cards = Array.from({ length: 36 }, (_, index) => ({
-  //   id: index + 1,
-  //   title: `RENE `,
-  //   mainPrice: 362.0,
-  //   afterDiscount: 217.0,
-  //   image: "https://cdn.shopify.com/s/files/1/0521/9926/0341/products/CE0124_20AX191_2080999_20B_600x.jpg?v=1680696656",
-  // }));
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsToShow, setCardsToShow] = useState(4); // Default to 4
 
-  // تحديث عدد الكروت بناءً على عرض الشاشة
   useEffect(() => {
     const updateCardsToShow = () => {
       if (window.innerWidth < 640) {
@@ -30,7 +19,6 @@ const ImagesSlider = ({ newProducts }) => {
       }
     };
 
-    // استدعاء عند التحميل وعند تغيير الحجم
     updateCardsToShow();
     window.addEventListener("resize", updateCardsToShow);
 
@@ -58,7 +46,6 @@ const ImagesSlider = ({ newProducts }) => {
   return (
     <div className="relative w-full max-w-3xl mx-auto overflow-hidden mt-[3em]">
       <div className="flex items-center justify-between">
-        {/* زر "السابق" */}
         <button
           className="bg-white shadow-md bg-opacity-50 text-black p-3 rounded-full w-[50px] h-[50px]"
           onClick={prevSlide}
@@ -101,7 +88,6 @@ const ImagesSlider = ({ newProducts }) => {
             ))}
         </div>
 
-        {/* زر "التالي" */}
         <button
           className="bg-white shadow-md bg-opacity-50 text-black p-3 rounded-full w-[50px] h-[50px]"
           onClick={nextSlide}

@@ -65,7 +65,7 @@ export default function ProductPage({ params }) {
         setIsAdded(false);
       }
     }
-  }, []);
+  }, [params.productid, whiteProducts?.data, whiteProducts?.length]);
 
   useEffect(() => {
     dispatch(getWhiteProducts());
@@ -77,7 +77,6 @@ export default function ProductPage({ params }) {
     dispatch(getProductDetails(params.productid));
   }, []);
 
-  
 
   const [count, setCount] = useState(1);
 
@@ -116,9 +115,9 @@ export default function ProductPage({ params }) {
           <p className="bg-[#F7F7F7] text-[#686868]">
             Includes all taxes & duties if shipping to USA, Kuwait or KSA; You
             will not pay anything else upon delivery Read more{" "}
-            <a href="./" target="_blank" className="underline">
+            <Link href="/shippingpolicy"  className="underline">
               here
-            </a>
+            </Link>
             .
           </p>
           <div className="flex flex-col gap-2 justify-center items-center px-3 mt-4 border-2 border-[#EEEEEE] p-5">
@@ -134,9 +133,9 @@ export default function ProductPage({ params }) {
               <h1 className="text-sm">
                 This estimate is not guaranteed. For more details refer to
               </h1>
-              <a href="/" className="underline ml-4">
+              <Link href="/shippingpolicy" className="underline ml-4">
                 shipping policy
-              </a>
+              </Link>
             </div>
           </div>
           {/* <div className="flex items-center mt-3">
@@ -252,9 +251,9 @@ export default function ProductPage({ params }) {
             >
               4 interest-free payments of <span>EGP</span> <span>127.500</span>.
               No fees. Egypt.{" "}
-              <Button className="underline text-black bg-transparent shadow-none hover:shadow-none">
+              <span className="underline text-black bg-transparent shadow-none hover:shadow-none">
                 Learn more
-              </Button>
+              </span>
             </Button>
             <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
               <DialogHeader className="relative m-0 block">
@@ -281,7 +280,7 @@ export default function ProductPage({ params }) {
                   className="h-12 border-blue-500 focus:ring-blue-100/50"
                 >
                   <img
-                    src="/assets/images/Mopay_logo.png"
+                    src="/assets/images/paymob.png"
                     className="mx-auto grid h-12 w-16 -translate-y-4 place-items-center"
                     alt="mopay"
                   />
@@ -384,7 +383,7 @@ export default function ProductPage({ params }) {
               </DialogFooter>
             </Dialog>
             <Image
-              src="/assets/images/Mopay_logo.png"
+              src="/assets/images/paymob.png"
               width={80}
               height={0}
               alt="picture"

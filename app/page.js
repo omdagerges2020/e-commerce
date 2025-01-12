@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
-import Banner from "./components/homeComponents/Banner";
 import { Button } from "@material-tailwind/react";
 import ImagesSlider from "./components/homeComponents/ImagesSlider";
 import TwoCards from "./components/homeComponents/TwoCards";
-import SecondTwoCards from "./components/homeComponents/SecondTwoCards";
 import ThreeCards from "./components/homeComponents/ThreeCards";
 import GitTheLook from "./components/homeComponents/GitTheLook";
 import Aboutus from "./components/homeComponents/Aboutus";
@@ -22,7 +20,6 @@ const Page = () => {
       (state) => state.headerCategoriesData
     );
   
-  // console.log(newProducts?.data?.newProducts);
 
   const dispatch = useDispatch();
 
@@ -36,7 +33,6 @@ const Page = () => {
     <div className="mt-[15em]">
       <SliderHome />
         <div className="w-full">
-          {/* <Banner newProducts={newProducts}/> */}
           <div className="px-[4em] flex flex-col gap-4 lg:flex-row justify-cneter items-center mt-[1em]">
             {/* left side -  shop now */}
             <div className="flex flex-col w-full lg:w-1/3 justify-center items-center gap-3">
