@@ -50,13 +50,13 @@ const Footer = () => {
                   href="https://apps.apple.com/us/app/thahab-luxury-shopping/id1471324539"
                   target="_blank"
                 >
-                  <img src="https://thahab.com/cdn/shop/files/appstore_120x.png?v=1733916214" />
+                  <img src="https://thahab.com/cdn/shop/files/appstore_120x.png?v=1733916214" alt="static img"/>
                 </a>
                 <a
                   href="https://thahab.com/cdn/shop/files/gplay_d7d984a9-2c97-47b9-819b-81c38bcac265_120x.png?v=1733917218"
                   target="_blank"
                 >
-                  <img src="https://thahab.com/cdn/shop/files/gplay_d7d984a9-2c97-47b9-819b-81c38bcac265_120x.png?v=1733917218" />
+                  <img src="https://thahab.com/cdn/shop/files/gplay_d7d984a9-2c97-47b9-819b-81c38bcac265_120x.png?v=1733917218" alt="static img"/>
                 </a>
               </div>
             </ul>
