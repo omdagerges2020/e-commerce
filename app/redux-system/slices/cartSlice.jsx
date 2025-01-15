@@ -48,12 +48,10 @@ const cartSlice = createSlice({
   //       category: productToAdd.category?.name || "", // اسم التصنيف
   //       count: quantityToAdd,
   //       totalPrice: typeof(action.payload?.productDetails?.data?.productSpecial) == "object" ?  +action.payload?.productDetails?.data?.productSpecial?.price * quantityToAdd : productToAdd?.price,
-  //       ...productToAdd, 
+  //       ...productToAdd,
   //     }
 
   //     // console.log(formatedProducts);
-      
-
 
   //     const checkArr = state.cartArr.some((prod) => {
   //       return prod.id === productToAdd?.id;
@@ -189,26 +187,33 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const quantityToAdd = action.payload?.count;
       const productToAdd = action.payload?.productDetails?.data?.data;
-      
 
       const formatedProducts = {
         id: productToAdd.id,
-        name: productToAdd.product_description?.name || "", 
+        name: productToAdd.product_description?.name || "",
         price: productToAdd.price,
-        quantity: quantityToAdd, 
-        image: productToAdd.image, 
-        category: productToAdd.category?.name || "", 
+        quantity: quantityToAdd,
+        image: productToAdd.image,
+        category: productToAdd.category?.name || "",
         count: quantityToAdd,
-        totalPrice: typeof(action.payload?.productDetails?.data?.productSpecial) == "object" ?  +action.payload?.productDetails?.data?.productSpecial?.price * quantityToAdd : productToAdd?.price,
-        ...productToAdd, 
-      }
+        totalPrice:
+          typeof action.payload?.productDetails?.data?.productSpecial ==
+          "object"
+            ? +action.payload?.productDetails?.data?.productSpecial?.price *
+              quantityToAdd
+            : productToAdd?.price,
+        ...productToAdd,
+      };
       // console.log(formatedProducts);
       const checkArr = state.cartArr.some((prod) => {
         return prod.id === productToAdd?.id;
       });
       if (!checkArr) {
         // adding product to state.cartArr
-        state.cartArr = [...state.cartArr, {...productToAdd, formatedProducts}]
+        state.cartArr = [
+          ...state.cartArr,
+          { ...productToAdd, formatedProducts },
+        ];
         axios
           .post(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/addToCart`,
@@ -228,31 +233,34 @@ const cartSlice = createSlice({
             }
           )
           .then((response) => {
-            console.log("Updated on server successfully:", response.data);
+            console.log("Cart updated successfully:", response.data);
           })
           .catch((error) => {
             console.error("Error updating cart on server:", error);
           });
-      } else {
       }
     },
-  
+    
     // increment
     increment: (state, action) => {
       const { id, cart_id, count } = action.payload;
-      console.log(cart_id);
-      
       // Update the cartArr to increment quantity
       state.cartArr = state.cartArr.map((product) =>
         product.id === id
           ? {
               ...product,
-              quantity: product.formatedProducts ? product.formatedProducts.count + 1 : +product.quantity + 1, // Increment quantity
-              totalPrice: product.formatedProducts ? product.formatedProducts.totalPrice : product.special !== "0.00" ? +product.special * (+product.quantity + 1) : +product.price * (+product.quantity + 1), // Update totalPrice
+              quantity: product.formatedProducts
+                ? product.formatedProducts.count + 1
+                : +product.quantity + 1, // Increment quantity
+              totalPrice: product.formatedProducts
+                ? product.formatedProducts.totalPrice
+                : product.special !== "0.00"
+                ? +product.special * (+product.quantity + 1)
+                : +product.price * (+product.quantity + 1), // Update totalPrice
             }
           : product
       );
-    
+
       // Update the cart on the server
       axios
         .post(
@@ -260,7 +268,9 @@ const cartSlice = createSlice({
           {
             cart_id,
             product_id: id,
-            quantity: action.payload.formatedProducts ? action.payload.formatedProducts.count + 1 : action.payload.quantity + 1,
+            quantity: action.payload.formatedProducts
+              ? action.payload.formatedProducts.count + 1
+              : action.payload.quantity + 1,
           },
           {
             headers: {
@@ -275,10 +285,10 @@ const cartSlice = createSlice({
           console.error("Error updating cart:", error);
         });
     },
-    
+
     // decrement
     decrement: (state, action) => {
-      if(action.payload.quantity > 1){
+      if (action.payload.quantity > 1) {
         const { id, cart_id } = action.payload;
         // Update the cartArr to increment quantity
         state.cartArr = state.cartArr.map((product) =>
@@ -286,11 +296,15 @@ const cartSlice = createSlice({
             ? {
                 ...product,
                 quantity: product.quantity - 1, // Increment quantity
-                totalPrice: product.formatedProducts ? product.formatedProducts.totalPrice : product.special !== "0.00" ? +product.special * (product.quantity - 1) : product.price * (product.quantity - 1), // Update totalPrice
+                totalPrice: product.formatedProducts
+                  ? product.formatedProducts.totalPrice
+                  : product.special !== "0.00"
+                  ? +product.special * (product.quantity - 1)
+                  : product.price * (product.quantity - 1), // Update totalPrice
               }
             : product
         );
-      
+
         // Update the cart on the server
         axios
           .post(
@@ -313,10 +327,10 @@ const cartSlice = createSlice({
             console.error("Error updating cart:", error);
           });
       }
-      },
+    },
 
     // delete product
-     deleteProduct: (state, action) => {
+    deleteProduct: (state, action) => {
       // console.log(action.payload);
       const updatedProducts3 = state.cartArr.filter(
         (product) => product.id !== action.payload.id

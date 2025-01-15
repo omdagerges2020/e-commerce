@@ -20,7 +20,6 @@ export const getWhiteProducts = createAsyncThunk(
     try {
       const response = await axios(options);
       console.log(response);
-    
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -54,6 +53,25 @@ const whitelistSlice = createSlice({
             },
           }
         )
+      }else {
+        state.whiteProducts.data = state.whiteProducts.data.filter((prod) => prod.id !== action.payload?.data?.data?.id);
+        
+        axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/addUpdateWishlist`,
+          {
+            product_id: action.payload?.data?.data?.id,
+            remove: true, 
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ).then((response) => {
+          console.log("Product removed from whitelist:", response.data);
+        }).catch((error) => {
+          console.error("Error removing product from whitelist:", error);
+        });
       }
     },
   },

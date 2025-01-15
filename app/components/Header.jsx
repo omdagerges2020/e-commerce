@@ -19,7 +19,7 @@ import { Collapse, List, ListItem } from "@material-tailwind/react";
 import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { VscAccount } from "react-icons/vsc";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import { IoIosHeart } from "react-icons/io";
+import { IoIosClose, IoIosHeart } from "react-icons/io";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux-system/slices/categoriesSlice";
@@ -37,6 +37,8 @@ import { IoMdClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { getSearchData } from "../redux-system/slices/searchSlice";
 import FavouritsCards from "./headerComponents/FavouritsCards";
+import NavlistMenue from "./headerComponents/NavlistMenue";
+import SearchDialog from "./headerComponents/SearchDialog";
 
 const languages = [
   {
@@ -47,137 +49,229 @@ const languages = [
   },
 ];
 
-const navListMenuItems = [
-  {
-    title: "CATEGORY NAME",
-    title2: "All ",
-  },
-];
+// const navListMenuItems = [
+//   {
+//     title: "CATEGORY NAME",
+//     title2: "All ",
+//   },
+// ];
 
-function NavListMenu({
-  categoryName,
-  categoryId,
-  categoryImg,
-  categoryChildren,
-}) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
-    <Link href={`/collections/${categoryId}`} key={key}>
-      <MenuItem className="flex items-center gap-5 rounded-lg">
-        <div>
-          <div
-            variant="h6"
-            color="blue-gray"
-            className="flex items-center text-lg font-bold"
-          >
-            {title}
-          </div>
-          <div
-            variant="h6"
-            color="blue-gray"
-            className="flex items-center text-lg font-bold"
-          >
-            {title2} {categoryName}
-          </div>
-          <div
-            variant="paragraph"
-            className="text-xs !font-medium text-blue-gray-500"
-          >
-            {/* sub categories */}
-            {/* <ul className="text-xl font-thin flex flex-col">
-              {categoryChildren?.map((sub, index) => (
-                <Link key={index} href={`/collections/${sub?.category_id}`}>
-                  {sub?.category_description?.name}
-                </Link>
-              ))}
-            </ul> */}
-            <ul className="text-xl font-thin flex flex-col">
-              {categoryChildren?.map((sub, index) => (
-                <li key={index}>
-                  <Link className="cursor-pointer text-black" href={`/collections/${sub?.category_id}`} passHref>
-                      {sub?.category_description?.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </MenuItem>
-    </Link>
-  ));
+// function NavListMenu({
+//   categoryName,
+//   categoryId,
+//   categoryImg,
+//   categoryChildren,
+// }) {
+//   const [isMenuOpen, setIsMenuOpen] = useState(false);
+//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+//   const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
+//     <Link href={`/collections/${categoryId}`} key={key}>
+//       <MenuItem className="flex items-center gap-5 rounded-lg">
+//         <div>
+//           <div
+//             variant="h6"
+//             color="blue-gray"
+//             className="flex items-center text-lg font-bold"
+//           >
+//             {title}
+//           </div>
+//           <div
+//             variant="h6"
+//             color="blue-gray"
+//             className="flex items-center text-lg font-bold"
+//           >
+//             {title2} {categoryName}
+//           </div>
+//           <div
+//             variant="paragraph"
+//             className="text-xs !font-medium text-blue-gray-500"
+//           >
+//             {/* sub categories */}
+//             {/* <ul className="text-xl font-thin flex flex-col">
+//               {categoryChildren?.map((sub, index) => (
+//                 <Link key={index} href={`/collections/${sub?.category_id}`}>
+//                   {sub?.category_description?.name}
+//                 </Link>
+//               ))}
+//             </ul> */}
+//             <ul className="text-xl font-thin flex flex-col">
+//               {categoryChildren?.map((sub, index) => (
+//                 <li key={index}>
+//                   <Link
+//                     className="cursor-pointer text-black"
+//                     href={`/collections/${sub?.category_id}`}
+//                     passHref
+//                   >
+//                     {sub?.category_description?.name}
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//         </div>
+//       </MenuItem>
+//     </Link>
+//   ));
 
-  return (
-    <React.Fragment>
-      <div
-        className="relative"
-        onMouseEnter={() => setIsMenuOpen(true)}
-        onMouseLeave={() => setIsMenuOpen(false)}
-      >
-        <Menu
-          open={isMenuOpen}
-          handler={setIsMenuOpen}
-          offset={{ mainAxis: 0 }}
-          placement="bottom"
-          allowHover={true}
-        >
-          <MenuHandler>
-            <Typography as="div" variant="small" className="font-medium flex">
-              <ListItem
-                className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900 hover:border-b-[2px]	hover:border-b-black
-                 hover:shadow-none hover:rounded-none  after:absolute after:bottom-0 after:left-0 after:h-[2px]
-                 after:w-0 after:bg-black after:transition-all after:duration-300
-                 hover:after:w-full"
-                selected={isMenuOpen || isMobileMenuOpen}
-                onClick={() => setIsMobileMenuOpen((cur) => !cur)}
-              >
-                <Link href={`/collections/${categoryId}`} passHref>
-                  <span className="block w-full">{categoryName}</span>
-                </Link>
-              </ListItem>
-            </Typography>
-          </MenuHandler>
-          <MenuList className="hidden max-w-screen-xl rounded-none lg:flex w-full h-[70vh] gap-[5em] px-[3em] transition-all duration-600 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
-            <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
-              {renderItems}
-            </ul>
-            <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
-              {renderItems.map((item, index) => (
-                <li key={index}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div
-              variant="paragraph"
-              className="text-xs !font-medium text-blue-gray-500 hover:border-none"
-            >
-              <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                }/${categoryImg.replace(/ /g, "%20")}`}
-                width={300}
-                height={50}
-                alt="shop-picture"
-              />
-              <div className="flex flex-col justify-center items-center">
-                <Link
-                  href={`/collections/${categoryId}`}
-                  className="font-thin text-sm"
-                >
-                  SHOP NOW
-                </Link>
-              </div>
-            </div>
-          </MenuList>
-        </Menu>
-        <div className="block lg:hidden">
-          <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
-        </div>
-      </div>
-    </React.Fragment>
-  );
-}
+//   return (
+//     <div
+//       className="relative"
+//       onMouseEnter={() => setIsMenuOpen(true)}
+//       onMouseLeave={() => setIsMenuOpen(false)}
+//     >
+//       <Menu
+//         open={isMenuOpen}
+//         handler={setIsMenuOpen}
+//         offset={{ mainAxis: 0 }}
+//         placement="bottom"
+//         allowHover={true}
+//       >
+//         <MenuHandler>
+//           <Typography as="div" variant="small" className="font-medium flex">
+//             <ListItem
+//               className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900 hover:border-b-[2px]	hover:border-b-black
+//                  hover:shadow-none hover:rounded-none  after:absolute after:bottom-0 after:left-0 after:h-[2px]
+//                  after:w-0 after:bg-black after:transition-all after:duration-300
+//                  hover:after:w-full"
+//               selected={isMenuOpen || isMobileMenuOpen}
+//               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
+//             >
+//               <Link href={`/collections/${categoryId}`} passHref>
+//                 <a className="block w-full">{categoryName}</a>{" "}
+//               </Link>
+//             </ListItem>
+//           </Typography>
+//         </MenuHandler>
+//         <MenuList className="hidden max-w-screen-xl rounded-none lg:flex w-full h-[70vh] gap-[5em] px-[3em] transition-all duration-600 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
+//           <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
+//             {renderItems}
+//           </ul>
+//           <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
+//             {renderItems.map((item, index) => (
+//               <li key={index}>{item}</li>
+//             ))}
+//           </ul>
+//           <div
+//             variant="paragraph"
+//             className="text-xs !font-medium text-blue-gray-500 hover:border-none"
+//           >
+//             <Image
+//               src={`${
+//                 process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+//               }/${categoryImg.replace(/ /g, "%20")}`}
+//               width={300}
+//               height={50}
+//               alt="shop-picture"
+//             />
+//             <div className="flex flex-col justify-center items-center">
+//               <Link
+//                 href={`/collections/${categoryId}`}
+//                 className="font-thin text-sm"
+//               >
+//                 SHOP NOW
+//               </Link>
+//             </div>
+//           </div>
+//         </MenuList>
+//       </Menu>
+//       <div className="block lg:hidden">
+//         <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
+//       </div>
+//     </div>
+//   );
+// }
+// function NavListMenu({
+//   categoryName,
+//   categoryId,
+//   categoryImg,
+//   categoryChildren,
+// }) {
+//   const [isMenuOpen, setIsMenuOpen] = useState(false);
+//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+//   const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
+//     <Link href={`/collections/${categoryId}`} key={key}>
+//       <MenuItem className="flex items-center gap-5 rounded-lg">
+//         <div>
+//           <div className="flex items-center text-lg font-bold">{title}</div>
+//           <div className="flex items-center text-lg font-bold">
+//             {title2} {categoryName}
+//           </div>
+//           <div className="text-xs !font-medium text-blue-gray-500">
+//             <ul className="text-xl font-thin flex flex-col">
+//               {categoryChildren?.map((sub, index) => (
+//                 <li key={index}>
+//                   <Link
+//                     className="cursor-pointer text-black"
+//                     href={`/collections/${sub?.category_id}`}
+//                     passHref
+//                   >
+//                     {sub?.category_description?.name}
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//         </div>
+//       </MenuItem>
+//     </Link>
+//   ));
+
+//   return (
+//     <div
+//       className="relative"
+//       onMouseEnter={() => setIsMenuOpen(true)}
+//       onMouseLeave={() => setIsMenuOpen(false)}
+//     >
+//       <Menu
+//         open={isMenuOpen}
+//         handler={setIsMenuOpen}
+//         offset={{ mainAxis: 0 }}
+//         placement="bottom"
+//         allowHover={true}
+//       >
+//         <MenuHandler>
+//           <Typography as="div" variant="small" className="font-medium flex">
+//             <ListItem
+//               className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900 hover:border-b-[2px] hover:border-b-black"
+//               selected={isMenuOpen || isMobileMenuOpen}
+//               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
+//             >
+//               <Link href={`/collections/${categoryId}`} passHref>
+//                 <span className="block w-full">{categoryName}</span>
+//               </Link>
+//             </ListItem>
+//           </Typography>
+//         </MenuHandler>
+//         <MenuList className="hidden max-w-screen-xl rounded-none lg:flex w-full h-[70vh] gap-[5em] px-[3em] transition-all duration-600 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
+//           <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
+//             {renderItems}
+//           </ul>
+//           <div className="text-xs !font-medium text-blue-gray-500 hover:border-none">
+//             <Image
+//               src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${categoryImg.replace(/ /g, "%20")}`}
+//               width={300}
+//               height={50}
+//               alt="shop-picture"
+//             />
+//             <div className="flex flex-col justify-center items-center">
+//               <Link
+//                 href={`/collections/${categoryId}`}
+//                 className="font-thin text-sm"
+//               >
+//                 SHOP NOW
+//               </Link>
+//             </div>
+//           </div>
+//         </MenuList>
+//       </Menu>
+//       <div className="block lg:hidden">
+//         <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
+//       </div>
+//     </div>
+//   );
+// }
+
 
 const Header = () => {
   const { userToken } = useSelector((state) => state.auth);
@@ -197,21 +291,11 @@ const Header = () => {
 
   const [openSearch, setOpenSearch] = useState(false);
   const handleOpenSearch = () => setOpenSearch(!openSearch);
-  const [query, setQuery] = useState("");
   const router = useRouter();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-
-    if (value.trim() !== "") {
-      dispatch(getSearchData(value)); 
-    }
-  };
-
   const handleSelectProduct = ({ prodId, prodName }) => {
-    router.push(`/collections/${prodName}/${prodId}`); 
-    setOpenSearch(false); 
+    router.push(`/collections/${prodName}/${prodId}`); // الانتقال إلى صفحة تفاصيل المنتج
+    setOpenSearch(false); // إغلاق الديالوج
   };
 
   const dispatch = useDispatch();
@@ -252,6 +336,18 @@ const Header = () => {
     setOpen(false);
   };
 
+  const scrollHeader = () => {
+    if (window.scrollY >= 20) {
+      setHeader(true);
+    } else {
+      setHeader(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollHeader);
+  }, []);
+
   useEffect(() => {
     window.addEventListener(
       "resize",
@@ -265,7 +361,12 @@ const Header = () => {
   return (
     <div className="w-full">
       <div
-        className="flex flex-col justify-center items-center w-full bg-white border-b-2 fixed z-10 top-0">
+        className={
+          header
+            ? "flex flex-col justify-center items-center w-full bg-white border-b-2 fixed z-10 top-0"
+            : "flex flex-col justify-center items-center w-full bg-white border-b-2 fixed z-10 top-0"
+        }
+      >
         <div className="bg-black w-full text-white px-3 flex justify-between items-center h-[42px]">
           <div>
             <Button className="bg-transparent text-white ">women</Button>
@@ -286,7 +387,7 @@ const Header = () => {
               <MenuHandler>
                 <Button
                   size="sm"
-                  className="hidden hover:shadow-none text-[15px] font-thin	 border-none bg-transparent shadow-none text-black items-center gap-2 lg:flex"
+                  className="hidden lg:flex items-center gap-2 text-[15px] font-thin border-none bg-transparent text-black hover:shadow-none"
                 >
                   {lang}
                   <ChevronDownIcon
@@ -312,95 +413,93 @@ const Header = () => {
 
             {/* side menue */}
             <div className="lg:hidden block">
-              <React.Fragment>
-                <IconButton variant="text" size="lg" onClick={openDrawer}>
-                  {isDrawerOpen ? (
-                    <XMarkIcon className="h-8 w-8 stroke-2" />
-                  ) : (
-                    <Bars3Icon className="h-8 w-8 stroke-2" />
-                  )}
-                </IconButton>
-                <Drawer open={isDrawerOpen} onClose={closeDrawer}>
-                  <Card
-                    color="transparent"
-                    shadow={false}
-                    className="h-[calc(100vh-2rem)] w-full p-4"
-                  >
-                    <div className="mb-2 flex items-center gap-4 p-4">
-                      <img
-                        src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
-                        alt="brand"
-                        className="h-8 w-8"
-                      />
-                      <Typography variant="h5" color="blue-gray">
-                        Sidebar
-                      </Typography>
+              <IconButton variant="text" size="lg" onClick={openDrawer}>
+                {isDrawerOpen ? (
+                  <XMarkIcon className="h-8 w-8 stroke-2" />
+                ) : (
+                  <Bars3Icon className="h-8 w-8 stroke-2" />
+                )}
+              </IconButton>
+              <Drawer open={isDrawerOpen} onClose={closeDrawer}>
+                <Card
+                  color="transparent"
+                  shadow={false}
+                  className="h-[calc(100vh-2rem)] w-full p-4"
+                >
+                  <div className="mb-2 flex items-center gap-4 p-4">
+                    <img
+                      src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
+                      alt="brand"
+                      className="h-8 w-8"
+                    />
+                    <div variant="h5" color="blue-gray">
+                      Sidebar
                     </div>
-
-                    <List>
-                      <Accordion
-                        open={open === 1}
-                        icon={
-                          <ChevronDownIcon
-                            strokeWidth={2.5}
-                            className={`mx-auto h-4 w-4 transition-transform ${
-                              open === 1 ? "rotate-180" : ""
-                            }`}
-                          />
-                        }
-                      >
-                        {categories?.data?.categories?.map(
-                          (category, index) => (
-                            <ListItem
-                              key={index}
-                              className="p-0"
-                              selected={open === 1}
+                  </div>
+                  <List>
+                    <Accordion
+                      open={open === 1}
+                      icon={
+                        <ChevronDownIcon
+                          strokeWidth={2.5}
+                          className={`mx-auto h-4 w-4 transition-transform ${
+                            open === 1 ? "rotate-180" : ""
+                          }`}
+                        />
+                      }
+                    >
+                      {categories && categories?.data.categories.length > 0 ? (
+                        categories?.data.categories.map((li, index) => (
+                          <ListItem
+                            key={index}
+                            className="p-0"
+                            selected={open === 1}
+                          >
+                            <Typography
+                              color="blue-gray"
+                              className="mr-auto font-normal mb-3 text-[1.5em]"
                             >
-                              <Typography
-                                color="blue-gray"
-                                className="mr-auto font-normal mb-3 text-[1.5em]"
-                              >
-                                <Link
-                                  href={`/collections/${category?.category_id}`}
-                                >
-                                  {category?.category_description?.name}
-                                </Link>
-                              </Typography>
-                            </ListItem>
-                          )
-                        )}
-                      </Accordion>
-
-                      <Link href={userToken ? "/login/profile" : "/login"}>
-                        <VscAccount className="block lg:hidden text-[1.5em]" />
-                      </Link>
-                    </List>
-                  </Card>
-                </Drawer>
-              </React.Fragment>
+                              <Link href={`/collections/${li?.category_id}`}>
+                                {li?.category_description?.name}
+                              </Link>
+                            </Typography>
+                          </ListItem>
+                        ))
+                      ) : (
+                        <Typography className="text-center">
+                          No categories available
+                        </Typography>
+                      )}
+                    </Accordion>
+                    <Link href={userToken ? "/login/profile" : "/login"}>
+                      <VscAccount className="block lg:hidden text-[1.5em]" />
+                    </Link>
+                  </List>
+                </Card>
+              </Drawer>
             </div>
 
             {/* nav links */}
             <div className="flex justify-center items-center">
               <Link
                 href={`/`}
-                className="tracking-[.2em] text-[25px] lg:tracking-[.5em] font-[400] lg:text-[30px]"
+                className="tracking-[.2em] lg:tracking-[.5em] text-[25px] lg:text-[30px] font-normal"
               >
                 DETAYLAR
               </Link>
             </div>
+            {/* icons */}
             <div className="flex flex-row text-[20px] lg:text-[25px] font-bold gap-2">
               <Link href={userToken ? "/login/profile" : "/login"}>
                 <VscAccount className="hidden lg:block" />
               </Link>
-
               <IoSearch className="cursor-pointer" onClick={handleOpenSearch} />
-
-              <Dialog
+              {/* search dialoge */}
+              {/* <Dialog
                 open={openSearch}
                 handler={handleOpenSearch}
                 size="xl"
-                className="max-h-[500px] absolute top-[13px] !backdrop-blur-0"
+                className="max-h-[500px] absolute top-[13px] backdrop-blur-none"
               >
                 <DialogBody className="overflow-y-auto w-full flex gap-2">
                   <div className="relative w-[90%] justify-center">
@@ -419,11 +518,10 @@ const Header = () => {
                     onClick={handleOpenSearch}
                     className="mr-1 hover:bg-transparent"
                   >
-                    <IoMdClose className="text-lg" />
+                    <IoMdClose className="text-lg hover:bg-transparent" />
                   </Button>
                 </DialogBody>
-
-                {query && searchResult.length > 0 && (
+                {query && searchResult?.length > 0 && (
                   <ul className="bg-white border border-gray-300 rounded-lg shadow-lg max-h-[300px] overflow-y-auto z-50 mt-2">
                     {searchResult.map((product) => (
                       <li
@@ -452,13 +550,12 @@ const Header = () => {
                     ))}
                   </ul>
                 )}
-              </Dialog>
-
+              </Dialog> */}
+              <SearchDialog/>
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
                 className="cursor-pointer"
               />
-
               <Drawer
                 placement="right"
                 open={openRight}
@@ -491,112 +588,115 @@ const Header = () => {
                     </svg>
                   </IconButton>
                 </div>
-
-                {cartArr.length === 0 ? (
+                {cartArr && cartArr.length === 0 ? (
                   <div className="flex gap-2 w-full h-screen">
                     <span>Your cart is empty</span>
                   </div>
                 ) : (
                   <div className="flex flex-col">
                     <div className="flex-1 overflow-y-auto border max-h-[400px] border-b-2 w-full">
-                      <table className="w-full">
+                      <table className="w-full ">
                         <tbody>
-                          {cartArr.map((prod, index) => (
-                            <tr
-                              key={index}
-                              className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
-                            >
-                              <td className="py-4 flex items-center justify-start gap-5">
-                                <div className="bg-[#F5F5F5] px-2 py-3 w-[40%] flex justify-center items-center">
-                                  <img
-                                    src={`${
-                                      process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                                    }/${prod?.image?.replace(/ /g, "%20")}`}
-                                    alt="Product Image"
-                                    className="w-20 h-28 lg:w-24 lg:h-32"
-                                  />
-                                </div>
+                          {cartArr &&
+                            cartArr.map((prod, index) => (
+                              <tr
+                                key={index}
+                                className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
+                              >
+                                <td className="py-4 flex items-center justify-start gap-5">
+                                  <div className="bg-[#F5F5F5] px-2 py-3 w-[40%] flex justify-center items-center">
+                                    <img
+                                      src={`${
+                                        process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+                                      }/${prod?.image?.replace(/ /g, "%20")}`}
+                                      alt="Product Image"
+                                      className="w-20 h-28 lg:w-24 lg:h-32"
+                                    />
+                                  </div>
 
-                                <div className="flex flex-col justify-center w-[60%]">
-                                  <p className="text-[.5em] lg:text-[.8em] font-thin">
-                                    {prod?.formatedProducts?.name || prod?.name}
-                                  </p>
+                                  <div className="flex flex-col justify-center w-[60%]">
+                                    <p className="text-[.5em] lg:text-[.8em] font-thin">
+                                      {prod?.formatedProducts
+                                        ? prod.formatedProducts.name
+                                        : prod?.name}
+                                    </p>
 
-                                  {prod?.option?.color && (
-                                    <span className="text-[.5em] lg:text-sm text-gray-500">
-                                      {prod?.option?.color} {prod?.option?.size}
-                                    </span>
-                                  )}
+                                    {prod?.option !== null &&
+                                      prod?.option?.color !== null && (
+                                        <span className="text-[.5em] lg:text-sm text-gray-500">
+                                          {prod?.option?.color}
+                                          {prod?.option?.size}
+                                        </span>
+                                      )}
+                                    <p className="py-2 font-thin text-sm">
+                                      {prod?.formatedProducts
+                                        ? !isNaN(
+                                            prod?.formatedProducts.totalPrice
+                                          )
+                                          ? prod?.formatedProducts.totalPrice
+                                          : prod?.formatedProducts?.price
+                                        : prod?.special !== "0.00"
+                                        ? prod?.special
+                                        : prod?.price}{" "}
+                                      EG
+                                    </p>
+                                    <div className="flex justify-between items-center w-full">
+                                      <div className="text-[.5em] flex font-thin lg:text-sm justify-center items-center border">
+                                        <button
+                                          className="w-8 h-8 flex items-center justify-center"
+                                          onClick={() =>
+                                            dispatch(decrement(prod && prod))
+                                          }
+                                        >
+                                          -
+                                        </button>
+                                        <span className="w-10 text-center">
+                                          {prod?.formatedProducts
+                                            ? prod?.formatedProducts.count
+                                            : prod?.quantity}
+                                        </span>
+                                        <button
+                                          className="w-8 h-8  flex items-center justify-center text-[.8em]"
+                                          onClick={() =>
+                                            dispatch(increment(prod && prod))
+                                          }
+                                        >
+                                          +
+                                        </button>
+                                      </div>
 
-                                  <p className="py-2 font-thin text-sm">
-                                    {prod?.formatedProducts?.totalPrice ||
-                                    prod?.formatedProducts?.price ||
-                                    prod?.special !== "0.00"
-                                      ? `${
-                                          prod?.formatedProducts?.totalPrice ||
-                                          prod?.formatedProducts?.price ||
-                                          prod?.special
-                                        } EG`
-                                      : `${prod?.price} EG`}
-                                  </p>
-
-                                  <div className="flex justify-between items-center w-full">
-                                    <div className="text-[.5em] flex font-thin lg:text-sm justify-center items-center border">
                                       <button
-                                        className="w-8 h-8 flex items-center justify-center"
                                         onClick={() =>
-                                          dispatch(decrement(prod))
+                                          dispatch(deleteProduct(prod && prod))
                                         }
+                                        className="text-gray-500 text-sm mt-2 font-thin hover:underline transition-all underline"
                                       >
-                                        -
-                                      </button>
-                                      <span className="w-10 text-center">
-                                        {prod?.formatedProducts?.count ||
-                                          prod?.quantity}
-                                      </span>
-                                      <button
-                                        className="w-8 h-8 flex items-center justify-center text-[.8em]"
-                                        onClick={() =>
-                                          dispatch(increment(prod))
-                                        }
-                                      >
-                                        +
+                                        REMOVE
                                       </button>
                                     </div>
-
-                                    <button
-                                      onClick={() =>
-                                        dispatch(deleteProduct(prod))
-                                      }
-                                      className="text-gray-500 text-sm mt-2 font-thin hover:underline transition-all"
-                                    >
-                                      REMOVE
-                                    </button>
                                   </div>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </table>
                     </div>
-
-                    <div className="py-4 border-t-1 px-0 mt-3 w-full flex flex-col items-center opacity-100 translate-y-0 transition-all duration-500">
+                    <div className="py-4 border-t-1 px-0 mt-3 w-full flex flex-col items-center  opacity-100 translate-y-0 transition-all duration-500">
                       <h1 className="font-thin text-sm">
                         Shipping & taxes calculated at checkout
                       </h1>
                       <Button className="text-sm font-thin w-full">
                         <Link href={`/checkout`}>
-                          CHECKOUT{" "}
+                          CHECKOUT .{" "}
                           {cartArr
-                            .map(
-                              (prod) =>
-                                prod?.formatedProducts?.totalPrice ||
-                                prod?.totalPrice ||
-                                prod?.formatedProducts?.price ||
-                                prod?.price
+                            .map((prod) =>
+                              prod?.formatedProducts
+                                ? !isNaN(prod?.formatedProducts.totalPrice)
+                                  ? +prod?.formatedProducts.totalPrice
+                                  : +prod?.formatedProducts?.price
+                                : +prod?.totalPrice
                             )
-                            .reduce((x, y) => x + y, 0)}{" "}
+                            .reduce((x, y) => x + y)}
                           EG
                         </Link>
                       </Button>
@@ -604,12 +704,10 @@ const Header = () => {
                   </div>
                 )}
               </Drawer>
-
               <IoIosHeart
                 className="cursor-pointer"
-                onClick={handleOpenFavourit}
+                onClick={() => handleOpenFavourit()}
               />
-
               <Dialog
                 open={open}
                 handler={handleOpenFavourit}
@@ -622,6 +720,7 @@ const Header = () => {
                 <DialogFooter className="absolute w-full bg-[#434655] top-0 right-0">
                   <div className="flex gap-5 w-full justify-end items-center">
                     <div className="flex gap-3 items-center">
+                      {/* Moved this out of the `div` for cleaner structure */}
                       <Link href="/">
                         <TbUserQuestion className="text-white" />
                       </Link>
@@ -634,19 +733,21 @@ const Header = () => {
                     </div>
                     <IoClose
                       className="cursor-pointer text-white"
-                      onClick={handleCloseFavourit}
+                      onClick={handleCloseFavourit} // Close the modal when clicked
                     />
                   </div>
                 </DialogFooter>
 
-                <DialogBody className="mt-[4em] overflow-y-auto	h-[400px]">
+                <DialogBody className="mt-[4em] overflow-y-auto h-[400px]">
                   <div className="w-full px-[2em] flex flex-col p-3">
                     <div className="flex justify-between items-center font-thin text-black">
                       <h1 className="text-xl tracking-widest">My Wishlist</h1>
                     </div>
                     <hr className="w-full mt-[2em]" />
                   </div>
+
                   <div>
+                    {/* Favourites cards display */}
                     {whiteProducts && whiteProducts?.data.length === 0 ? (
                       <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
                         <h1 className="font-bold">
@@ -666,6 +767,7 @@ const Header = () => {
                       </div>
                     ) : (
                       <div>
+                        {/* Favourits cards component */}
                         <FavouritsCards
                           whiteProducts={whiteProducts && whiteProducts}
                         />
@@ -677,8 +779,7 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="hidden lg:flex lg:justify-around w-full font-light mt-3">
-            {/* <NavList /> */}
+          {/* <div className="hidden lg:flex lg:justify-around w-full font-light mt-3">
             <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row gap-6 lg:p-1">
               {categories &&
                 categories?.data?.categories.map((li, index) => (
@@ -690,6 +791,19 @@ const Header = () => {
                     categoryChildren={li?.children}
                   />
                 ))}
+            </List>
+          </div> */}
+          <div className="hidden lg:flex lg:justify-around w-full font-light mt-3">
+            <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row gap-6 lg:p-1">
+              {categories?.data?.categories.map((li, index) => (
+                <NavlistMenue
+                  key={index}
+                  categoryName={li?.category_description?.name}
+                  categoryId={li?.category_id}
+                  categoryImg={li?.image}
+                  categoryChildren={li?.children}
+                />
+              ))}
             </List>
           </div>
         </div>
