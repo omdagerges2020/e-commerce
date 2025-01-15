@@ -49,7 +49,7 @@ const SearchDialog = () => {
           <IoMdClose className="text-lg hover:bg-transparent" />
         </Button>
       </DialogBody>
-      {/* {query && searchResult.length > 0 && (
+      {query && searchResult.length > 0 && (
         <ul className="bg-white border border-gray-300 rounded-lg shadow-lg max-h-[300px] overflow-y-auto z-50 mt-2">
           {searchResult.map((product) => (
             <li
@@ -77,7 +77,7 @@ const SearchDialog = () => {
             </li>
           ))}
         </ul>
-      )} */}
+      )}
     </Dialog>
   );
 };
