@@ -21,33 +21,31 @@ const NavlistMenue = ({
   ];
 
   const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
-    <Link href={`/collections/${categoryId}`} key={key}>
-      <MenuItem className="flex items-center gap-5 rounded-lg">
-        <div>
-          <div className="flex items-center text-lg font-bold">{title}</div>
-          <div className="flex items-center text-lg font-bold">
-            {title2} {categoryName}
-          </div>
-          <div className="text-xs !font-medium text-blue-gray-500">
-            <ul className="text-xl font-thin flex flex-col">
-              {categoryChildren?.map((sub, index) => (
-                <li key={index}>
-                  <Link
-                    className="cursor-pointer text-black"
-                    href={`/collections/${sub?.category_id}`}
-                    passHref
-                  >
-                    {sub?.category_description?.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <MenuItem className="flex items-center gap-5 rounded-lg" key={key}>
+      <div>
+        <div className="flex items-center text-lg font-bold">{title}</div>
+        <div className="flex items-center text-lg font-bold">
+          {title2} {categoryName}
         </div>
-      </MenuItem>
-    </Link>
+        <div className="text-xs !font-medium text-blue-gray-500">
+          <ul className="text-xl font-thin flex flex-col">
+            {categoryChildren?.map((sub, index) => (
+              <li key={index}>
+                <Link
+                  className="cursor-pointer text-black"
+                  href={`/collections/${sub?.category_id}`}
+                  passHref
+                >
+                  {sub?.category_description?.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </MenuItem>
   ));
-
+  
   return (
     <div
       className="relative"

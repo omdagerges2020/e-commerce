@@ -31,7 +31,6 @@ import {
   getCartProducts,
   increment,
 } from "../redux-system/slices/cartSlice";
-import { IoMdClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { getSearchData } from "../redux-system/slices/searchSlice";
 import FavouritsCards from "./headerComponents/FavouritsCards";
@@ -273,15 +272,12 @@ const languages = [
 
 const Header = () => {
   const { userToken } = useSelector((state) => state.auth);
-  const { cartProducts, cartLoading, cartArr } = useSelector(
+  const { cartProducts, cartLoading } = useSelector(
     (state) => state.cartDataProducts
   );
   const { searchResult, loadingSearch } = useSelector(
     (state) => state.searchProducts
   );
-
-  console.log(cartArr);
-  // console.log(cartProducts);
 
   // const [activeGender, setActiveGender] = useState("WOMEN");
   const { categories } = useSelector((state) => state.categoriesData);
@@ -295,6 +291,9 @@ const Header = () => {
     router.push(`/collections/${prodName}/${prodId}`); // الانتقال إلى صفحة تفاصيل المنتج
     setOpenSearch(false); // إغلاق الديالوج
   };
+
+  console.log(cartProducts);
+  
 
   const dispatch = useDispatch();
 
@@ -586,7 +585,7 @@ const Header = () => {
                     </svg>
                   </IconButton>
                 </div>
-                {cartArr.length === 0 ? (
+                {cartProducts && cartProducts.cartData.length === 0 ? (
                   <div className="flex gap-2 w-full h-screen">
                     <span>Your cart is empty</span>
                   </div>
@@ -595,8 +594,8 @@ const Header = () => {
                     <div className="flex-1 overflow-y-auto border max-h-[400px] border-b-2 w-full">
                       <table className="w-full ">
                         <tbody>
-                          {cartArr &&
-                            cartArr.map((prod, index) => (
+                          {cartProducts &&
+                            cartProducts.cartData.map((prod, index) => (
                               <tr
                                 key={index}
                                 className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
@@ -614,9 +613,7 @@ const Header = () => {
 
                                   <div className="flex flex-col justify-center w-[60%]">
                                     <p className="text-[.5em] lg:text-[.8em] font-thin">
-                                      {prod?.formatedProducts
-                                        ? prod.formatedProducts.name
-                                        : prod?.name}
+                                      {prod?.name}
                                     </p>
 
                                     {prod?.option !== null &&
@@ -627,15 +624,7 @@ const Header = () => {
                                         </span>
                                       )}
                                     <p className="py-2 font-thin text-sm">
-                                      {prod?.formatedProducts
-                                        ? !isNaN(
-                                            prod?.formatedProducts.totalPrice
-                                          )
-                                          ? prod?.formatedProducts.totalPrice
-                                          : prod?.formatedProducts?.price
-                                        : prod?.special !== "0.00"
-                                        ? prod?.special
-                                        : prod?.price}{" "}
+                                      {prod?.price}
                                       EG
                                     </p>
                                     <div className="flex justify-between items-center w-full">
@@ -649,9 +638,7 @@ const Header = () => {
                                           -
                                         </button>
                                         <span className="w-10 text-center">
-                                          {prod?.formatedProducts
-                                            ? prod?.formatedProducts.count
-                                            : prod?.quantity}
+                                          {prod?.quantity}
                                         </span>
                                         <button
                                           className="w-8 h-8  flex items-center justify-center text-[.8em]"
@@ -686,13 +673,9 @@ const Header = () => {
                       <Button className="text-sm font-thin w-full">
                         <Link href={`/checkout`}>
                           CHECKOUT .{" "}
-                          {cartArr
+                          {cartProducts && cartProducts.cartData
                             .map((prod) =>
-                              prod?.formatedProducts
-                                ? !isNaN(prod?.formatedProducts.totalPrice)
-                                  ? +prod?.formatedProducts.totalPrice
-                                  : +prod?.formatedProducts?.price
-                                : +prod?.totalPrice
+                              prod?.totalPrice
                             )
                             .reduce((x, y) => x + y)}
                           EG
