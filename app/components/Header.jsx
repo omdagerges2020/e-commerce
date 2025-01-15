@@ -412,7 +412,7 @@ const Header = () => {
             </Menu>
 
             {/* side menue */}
-            {/* <div className="lg:hidden block">
+            <div className="lg:hidden block">
               <IconButton variant="text" size="lg" onClick={openDrawer}>
                 {isDrawerOpen ? (
                   <XMarkIcon className="h-8 w-8 stroke-2" />
@@ -477,7 +477,7 @@ const Header = () => {
                   </List>
                 </Card>
               </Drawer>
-            </div> */}
+            </div>
 
             {/* nav links */}
             <div className="flex justify-center items-center">
