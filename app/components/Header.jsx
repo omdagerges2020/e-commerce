@@ -586,7 +586,7 @@ const Header = () => {
                     </svg>
                   </IconButton>
                 </div>
-                {/* {cartArr.length === 0 ? (
+                {cartArr.length === 0 ? (
                   <div className="flex gap-2 w-full h-screen">
                     <span>Your cart is empty</span>
                   </div>
@@ -700,7 +700,7 @@ const Header = () => {
                       </Button>
                     </div>
                   </div>
-                )} */}
+                )}
               </Drawer>
               <IoIosHeart
                 className="cursor-pointer"
@@ -746,7 +746,7 @@ const Header = () => {
 
                   <div>
                     {/* Favourites cards display */}
-                    {/* {whiteProducts?.data && whiteProducts?.data?.length === 0 ? (
+                    {whiteProducts?.data && whiteProducts?.data?.length === 0 ? (
                       <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
                         <h1 className="font-bold">
                           Love It? Add to My Wishlist
@@ -769,7 +769,7 @@ const Header = () => {
                           whiteProducts={whiteProducts && whiteProducts}
                         />
                       </div>
-                    )} */}
+                    )}
                   </div>
                 </DialogBody>
               </Dialog>
