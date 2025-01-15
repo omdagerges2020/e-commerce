@@ -49,11 +49,10 @@ const Cart = () => {
   return (
     <LayoutCart>
       <CartHeader />
-      {cartProducts && cartProducts?.cartData.length > 0 ? (
+      {/* {cartProducts && cartProducts?.cartData.length > 0 ? (
         <div className="min-h-screen bg-gray-50 flex justify-center items-center w-full">
           <div className="p-[3em] lg:p-[7em] w-full">
             <h1 className="text-center text-[2em] mt-[1.5em]">CART</h1>
-            {/* Cart Table */}
             <div className="overflow-x-auto mt-[2em]">
               <table className="w-full border-collapse">
                 <thead className="hidden md:table-header-group">
@@ -128,9 +127,7 @@ const Cart = () => {
                 </tbody>
               </table>
             </div>
-            {/* Add Order Note */}
             <div className="mt-6 flex items-center justify-between md:flex-row gap-4">
-              {/* Total Section */}
               <div className="flex flex-col items-end justify-start gap-4">
                 <div className="flex justify-start gap-4 flex-col items-end mt-6 pt-4">
                   <p className="text-lg font-medium">
@@ -146,7 +143,6 @@ const Cart = () => {
                     Shipping & taxes calculated at checkout
                   </p>
                 </div>
-                {/* Checkout Button */}
                 <Link href={`./checkout`}>
                   <button className="bg-black text-white hover:bg-white hover:text-black p-3 font-thin tracking-widest">
                     CHECKOUT
@@ -166,7 +162,7 @@ const Cart = () => {
           </div>
           <hr className="w-full" />
         </>
-      )}
+      )} */}
     </LayoutCart>
   );
 };

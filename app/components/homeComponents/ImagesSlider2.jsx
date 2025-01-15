@@ -29,7 +29,7 @@ const ImagesSlider2 = ({ newProducts }) => {
 
   const nextSlide = () => {
     const nextIndex =
-      currentIndex + cardsToShow >= newProducts?.data?.newProducts.length
+      currentIndex + cardsToShow >= newProducts?.data && newProducts?.data?.newProducts.length
         ? 0
         : currentIndex + cardsToShow;
     setCurrentIndex(nextIndex);

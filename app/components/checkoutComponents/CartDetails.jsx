@@ -18,14 +18,13 @@ const CartDetails = () => {
 
   return (
     <div className="w-full md:w-full lg:w-[50%] h-screen bg-[#FAFAFA] pr-[4em] pl-[2em] flex flex-col">
-      {cartProducts && cartProducts?.cartData.length > 0 &&
+      {/* {cartProducts && cartProducts?.cartData.length > 0 &&
         cartProducts?.cartData.map((prod, index) => (
           <div
             key={index}
             className="mt-[2em] flex justify-between items-center"
           >
             <div className="flex gap-2 justify-center items-center">
-              {/* image div */}
               <div className="relative w-[60px] h-[60px] rounded-md border flex justify-center">
                 <Image
                   width={30}
@@ -39,7 +38,6 @@ const CartDetails = () => {
                   {prod?.quantity}
                 </span>
               </div>
-              {/* name && size&color div */}
               <div className="flex flex-col justify-center">
                 <h1>{prod?.name}</h1>
                 {prod?.option !== null && (
@@ -52,7 +50,7 @@ const CartDetails = () => {
             </div>
             <h1>EGP {prod?.totalPrice}</h1>
           </div>
-        ))}
+        ))} */}
       {/* subtotal */}
       <div className="flex flex-col justify-center mt-9 gap-5">
         <div className="flex justify-between items-center">

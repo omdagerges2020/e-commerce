@@ -78,7 +78,7 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {/* {profileMenuItems.map(({ label, icon }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
@@ -90,10 +90,6 @@ function ProfileMenu() {
                   : ""
               }`}
             >
-              {/* {createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })} */}
               <Typography
                 as="span"
                 variant="small"
@@ -104,7 +100,7 @@ function ProfileMenu() {
               </Typography>
             </MenuItem>
           );
-        })}
+        })} */}
       </MenuList>
     </Menu>
   );
