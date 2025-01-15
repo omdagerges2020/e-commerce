@@ -582,7 +582,7 @@ export default function ProductPage({ params }) {
               Size Chart
             </Link>
           </div> */}
-          {/* {!Array.isArray(productDetails?.data?.productOptions) && (
+          {!Array.isArray(productDetails?.data?.productOptions) && (
             <div className="flex items-center mt-4 gap-2 mb-3">
               <h1 className="text-[#959595]">Color:</h1>
               <Select
@@ -604,10 +604,10 @@ export default function ProductPage({ params }) {
                 )}
               </Select>
             </div>
-          )} */}
+          )}
 
           {/* selector for sizes */}
-          {/* {!Array.isArray(productDetails?.data?.productOptions) && (
+          {!Array.isArray(productDetails?.data?.productOptions) && (
             <div className="flex items-center mt-4 gap-2 mb-3">
               <h1 className="text-[#959595]">Size</h1>
               <Select
@@ -631,7 +631,7 @@ export default function ProductPage({ params }) {
                 )}
               </Select>
             </div>
-          )} */}
+          )}
 
           <div className="flex items-center justify-start gap-4 border-[1px] w-fit mt-4 font-thin">
             {/* min buttton */}
