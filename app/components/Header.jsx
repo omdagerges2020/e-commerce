@@ -15,19 +15,17 @@ import {
   Card,
   Accordion,
 } from "@material-tailwind/react";
-import { Collapse, List, ListItem } from "@material-tailwind/react";
+import { List } from "@material-tailwind/react";
 import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { VscAccount } from "react-icons/vsc";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import { IoIosClose, IoIosHeart } from "react-icons/io";
-import Image from "next/image";
+import { IoIosHeart } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux-system/slices/categoriesSlice";
 import { TbUserQuestion } from "react-icons/tb";
 import { IoClose, IoSearch } from "react-icons/io5";
 import { getWhiteProducts } from "../redux-system/slices/whitelistSlice";
 import {
-  addToCart,
   decrement,
   deleteProduct,
   getCartProducts,
@@ -448,7 +446,7 @@ const Header = () => {
                         />
                       }
                     >
-                      {categories && categories?.data.categories.length > 0 ? (
+                      {categories?.data && categories?.data?.categories.length > 0 ? (
                         categories?.data.categories.map((li, index) => (
                           <Button
                             key={index}
