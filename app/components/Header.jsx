@@ -205,13 +205,13 @@ const Header = () => {
     setQuery(value);
 
     if (value.trim() !== "") {
-      dispatch(getSearchData(value)); // استدعاء الدالة لجلب النتائج
+      dispatch(getSearchData(value)); 
     }
   };
 
   const handleSelectProduct = ({ prodId, prodName }) => {
-    router.push(`/collections/${prodName}/${prodId}`); // الانتقال إلى صفحة تفاصيل المنتج
-    setOpenSearch(false); // إغلاق الديالوج
+    router.push(`/collections/${prodName}/${prodId}`); 
+    setOpenSearch(false); 
   };
 
   const dispatch = useDispatch();
@@ -251,7 +251,7 @@ const Header = () => {
   const handleCloseFavourit = () => {
     setOpen(false);
   };
-  
+
   useEffect(() => {
     window.addEventListener(
       "resize",
@@ -311,7 +311,7 @@ const Header = () => {
             </Menu>
 
             {/* side menue */}
-            <div className="lg:hidden block">
+            {/* <div className="lg:hidden block">
               <React.Fragment>
                 <IconButton variant="text" size="lg" onClick={openDrawer}>
                   {isDrawerOpen ? (
@@ -326,7 +326,6 @@ const Header = () => {
                     shadow={false}
                     className="h-[calc(100vh-2rem)] w-full p-4"
                   >
-                    {/* Sidebar Header */}
                     <div className="mb-2 flex items-center gap-4 p-4">
                       <img
                         src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
@@ -338,7 +337,6 @@ const Header = () => {
                       </Typography>
                     </div>
 
-                    {/* Sidebar Content */}
                     <List>
                       <Accordion
                         open={open === 1}
@@ -351,7 +349,6 @@ const Header = () => {
                           />
                         }
                       >
-                        {/* Categories List */}
                         {categories?.data?.categories?.map(
                           (category, index) => (
                             <ListItem
@@ -374,7 +371,6 @@ const Header = () => {
                         )}
                       </Accordion>
 
-                      {/* Profile or Login Link */}
                       <Link href={userToken ? "/login/profile" : "/login"}>
                         <VscAccount className="block lg:hidden text-[1.5em]" />
                       </Link>
@@ -382,7 +378,7 @@ const Header = () => {
                   </Card>
                 </Drawer>
               </React.Fragment>
-            </div>
+            </div> */}
 
             {/* nav links */}
             <div className="flex justify-center items-center">
