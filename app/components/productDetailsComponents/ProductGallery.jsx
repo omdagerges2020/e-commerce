@@ -12,7 +12,7 @@ const ProductGallery = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProductDetails(props.prodId));
+    dispatch(getProductDetails(props.prodId && props.prodId));
   }, []);
 
   const imageRefs = useRef([]);
