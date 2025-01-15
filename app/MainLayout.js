@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
     <ThemeProvider>
       <Provider store={store}>
         <PersistGate persistor={mainStore}>
-          {/* {!isLoginPage && <Header />} */}
+          {!isLoginPage && <Header />}
           {children}
           {!isLoginPage && <Footer />}
         </PersistGate>
