@@ -43,6 +43,7 @@ import {
 import { IoMdClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { getSearchData } from "../redux-system/slices/searchSlice";
+import FavouritsCards from "./headerComponents/FavouritsCards";
 
 const languages = [
   {
@@ -187,14 +188,16 @@ const navListMenuItems = [
 
 const Header = () => {
   const { userToken } = useSelector((state) => state.auth);
-  const { cartProducts, cartLoading } = useSelector(
+  const { cartProducts, cartLoading, cartArr } = useSelector(
     (state) => state.cartDataProducts
   );
   const { searchResult, loadingSearch } = useSelector(
     (state) => state.searchProducts
   );
 
+  console.log(cartArr);
   // console.log(cartProducts);
+  
 
   // const [activeGender, setActiveGender] = useState("WOMEN");
   const { categories } = useSelector((state) => state.categoriesData);
@@ -405,9 +408,9 @@ const Header = () => {
 
             {/* nav links */}
             <div className="flex justify-center items-center">
-              <h1 className="tracking-[.2em] text-[25px] lg:tracking-[.5em] font-[400] lg:text-[30px]">
+              <Link href={`/`} className="tracking-[.2em] text-[25px] lg:tracking-[.5em] font-[400] lg:text-[30px]">
                 DETAYLAR
-              </h1>
+              </Link>
             </div>
             {/* icons */}
             <div className="flex flex-row text-[20px] lg:text-[25px] font-bold gap-2">
@@ -473,7 +476,7 @@ const Header = () => {
                 )}
               </Dialog>
 
-              <MdOutlineShoppingBag
+                <MdOutlineShoppingBag
                 onClick={openDrawerRight}
                 className="cursor-pointer"
               />
@@ -509,8 +512,8 @@ const Header = () => {
                     </svg>
                   </IconButton>
                 </div>
-                {cartProducts?.cartData &&
-                cartProducts?.cartData.length === 0 ? (
+                {cartArr &&
+                cartArr.length === 0 ? (
                   <div className="flex gap-2 w-full h-screen">
                     <span>Your cart is empty</span>
                   </div>
@@ -519,8 +522,8 @@ const Header = () => {
                     <div className="flex-1 overflow-y-auto border max-h-[400px] border-b-2 w-full">
                       <table className="w-full ">
                         <tbody>
-                          {cartProducts?.cartData &&
-                            cartProducts?.cartData.map((prod, index) => (
+                          {cartArr &&
+                           cartArr.map((prod, index) => (
                               <tr
                                 key={index}
                                 className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
@@ -538,7 +541,7 @@ const Header = () => {
 
                                   <div className="flex flex-col justify-center w-[60%]">
                                     <p className="text-[.5em] lg:text-[.8em] font-thin">
-                                      {prod?.name}
+                                      {prod?.formatedProducts ? prod.formatedProducts.name : prod?.name}
                                     </p>
 
                                     {prod?.option !== null &&
@@ -549,7 +552,7 @@ const Header = () => {
                                         </span>
                                       )}
                                     <p className="py-2 font-thin text-sm">
-                                      {prod?.price} EG
+                                      {prod?.formatedProducts ? !isNaN(prod?.formatedProducts.totalPrice)  ? prod?.formatedProducts.totalPrice : prod?.formatedProducts?.price : prod?.special !== "0.00" ? prod?.special : prod?.price} EG
                                     </p>
                                     <div className="flex justify-between items-center w-full">
                                       <div className="text-[.5em] flex font-thin lg:text-sm justify-center items-center border">
@@ -562,7 +565,7 @@ const Header = () => {
                                           -
                                         </button>
                                         <span className="w-10 text-center">
-                                          {prod?.quantity}
+                                          {prod?.formatedProducts ? prod?.formatedProducts.count : prod?.quantity}
                                         </span>
                                         <button
                                           className="w-8 h-8  flex items-center justify-center text-[.8em]"
@@ -597,8 +600,8 @@ const Header = () => {
                       <Button className="text-sm font-thin w-full">
                         <Link href={`/checkout`}>
                           CHECKOUT .{" "}
-                          {cartProducts?.cartData
-                            .map((prod) => +prod?.totalPrice)
+                          {cartArr
+                            .map((prod) => prod?.formatedProducts ? !isNaN(prod?.formatedProducts.totalPrice)  ? prod?.formatedProducts.totalPrice : prod?.formatedProducts?.price : prod?.totalPrice)
                             .reduce((x, y) => x + y)}
                           EG
                         </Link>
@@ -649,7 +652,7 @@ const Header = () => {
                   </div>
                   <div>
                     {/* cards if there is any favourits products */}
-                    {/* {whiteProducts && whiteProducts?.data.length === 0 ? (
+                    {whiteProducts && whiteProducts?.data.length === 0 ? (
                       <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
                         <h1 className="font-bold">
                           Love It? Add to My Wishlist
@@ -670,7 +673,7 @@ const Header = () => {
                       <div>
                         <FavouritsCards whiteProducts={whiteProducts && whiteProducts} />
                       </div>
-                    )} */}
+                    )}
                   </div>
                 </DialogBody>
               </Dialog>

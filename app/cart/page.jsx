@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect } from "react";
-import LayoutCart from "../components/layout/LayoutCart";
-import CartHeader from "../components/CartHeader";
+import React, { useCallback, useEffect } from "react";
+// import LayoutCart from "../components/layout/LayoutCart";
+// import CartHeader from "../components/CartHeader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrement,
@@ -13,6 +13,8 @@ import { Button } from "@material-tailwind/react";
 import Link from "next/link";
 import Loading from "../components/Loading";
 import Image from "next/image";
+import LayoutCart from "@/app/components/layout/LayoutCart";
+import CartHeader from "@/app/components/CartHeader";
 
 const Cart = () => {
   const { cartProducts, cartLoading } = useSelector(
@@ -20,6 +22,21 @@ const Cart = () => {
   );
 
   const dispatch = useDispatch();
+
+  const handleIncrement = useCallback(
+    (prod) => dispatch(increment(prod)),
+    [dispatch]
+  );
+
+  const handleDecrement = useCallback(
+    (prod) => dispatch(decrement(prod)),
+    [dispatch]
+  );
+
+  const handleDelete = useCallback(
+    (prod) => dispatch(deleteProduct(prod)),
+    [dispatch]
+  );
 
   useEffect(() => {
     dispatch(getCartProducts());
@@ -32,7 +49,7 @@ const Cart = () => {
   return (
     <LayoutCart>
       <CartHeader />
-      {cartProducts?.cartData.length > 0 ? (
+      {cartProducts && cartProducts?.cartData.length > 0 ? (
         <div className="min-h-screen bg-gray-50 flex justify-center items-center w-full">
           <div className="p-[3em] lg:p-[7em] w-full">
             <h1 className="text-center text-[2em] mt-[1.5em]">CART</h1>
@@ -49,7 +66,7 @@ const Cart = () => {
                 <tbody>
                   {cartProducts?.cartData.map((prod, index) => (
                     <tr
-                      key={index}
+                      key={prod?.id}
                       className="flex flex-col justify-center md:table-row md:flex-row md:items-center"
                     >
                       <td className="py-4 flex items-center  md:table-cell ">
@@ -62,14 +79,14 @@ const Cart = () => {
                             }/${prod?.image?.replace(/ /g, "%20")}`}
                             alt="Product Image"
                             className="mr-4"
+                            priority 
+                            style={{ width: "auto", height: "auto" }}
                           />
                           <div className="flex flex-col">
-                            {/* <Link href={`/collections/`} className="text-sm font-semibold">{prod?.name}</Link> */}
-                            {/* <p className="text-sm text-gray-500">White / EU 36</p> */}
                             <span>{prod?.name}</span>
                             {prod?.option !== null && (
                               <span>
-                                {prod?.option?.color}  {prod?.option?.size}
+                                {prod?.option?.color} {prod?.option?.size}
                               </span>
                             )}
                             <p className="text-sm font-semibold">
@@ -82,7 +99,7 @@ const Cart = () => {
                         <div className="flex justify-center items-center">
                           <button
                             className="w-8 h-8 border rounded-md flex items-center justify-center"
-                            onClick={() => dispatch(decrement(prod && prod))}
+                            onClick={() => (handleDecrement(prod))}
                           >
                             -
                           </button>
@@ -91,13 +108,13 @@ const Cart = () => {
                           </span>
                           <button
                             className="w-8 h-8 border rounded-md flex items-center justify-center"
-                            onClick={() => dispatch(increment(prod && prod))}
+                            onClick={() => (handleIncrement(prod))}
                           >
                             +
                           </button>
                         </div>
                         <button
-                          onClick={() => dispatch(deleteProduct(prod && prod))}
+                          onClick={() => (handleDelete(prod))}
                           className="text-gray-500 text-sm mt-2  hover:underline transition-all underline"
                         >
                           REMOVE
@@ -117,10 +134,12 @@ const Cart = () => {
               <div className="flex flex-col items-end justify-start gap-4">
                 <div className="flex justify-start gap-4 flex-col items-end mt-6 pt-4">
                   <p className="text-lg font-medium">
-                    TOTAL:{" "}
-                    {cartProducts?.cartData
-                      .map((prod) => prod?.totalPrice)
-                      .reduce((x, y) => x + y)}{" "}
+                    TOTAL:
+                    {cartProducts &&
+                      cartProducts?.cartData.length > 0 &&
+                      cartProducts?.cartData
+                        .map((prod) => prod?.totalPrice)
+                        .reduce((x, y) => x + y)}
                     EG
                   </p>
                   <p className="text-sm text-gray-500">
@@ -128,9 +147,11 @@ const Cart = () => {
                   </p>
                 </div>
                 {/* Checkout Button */}
-                <button className="bg-black text-white hover:bg-white hover:text-black p-3 font-thin tracking-widest">
-                  <Link href={`./checkout`}>CHECKOUT</Link>
-                </button>
+                <Link href={`./checkout`}>
+                  <button className="bg-black text-white hover:bg-white hover:text-black p-3 font-thin tracking-widest">
+                    CHECKOUT
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -144,9 +165,6 @@ const Cart = () => {
             </Button>
           </div>
           <hr className="w-full" />
-          {/* <div>
-            <h1>Recently viewed</h1>
-          </div> */}
         </>
       )}
     </LayoutCart>
