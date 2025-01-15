@@ -311,7 +311,7 @@ const Header = () => {
             </Menu>
 
             {/* side menue */}
-            {/* <div className="lg:hidden block">
+            <div className="lg:hidden block">
               <React.Fragment>
                 <IconButton variant="text" size="lg" onClick={openDrawer}>
                   {isDrawerOpen ? (
@@ -378,7 +378,7 @@ const Header = () => {
                   </Card>
                 </Drawer>
               </React.Fragment>
-            </div> */}
+            </div>
 
             {/* nav links */}
             <div className="flex justify-center items-center">
@@ -389,17 +389,13 @@ const Header = () => {
                 DETAYLAR
               </Link>
             </div>
-            {/* icons */}
             <div className="flex flex-row text-[20px] lg:text-[25px] font-bold gap-2">
-              {/* Account Link */}
               <Link href={userToken ? "/login/profile" : "/login"}>
                 <VscAccount className="hidden lg:block" />
               </Link>
 
-              {/* Search Icon */}
               <IoSearch className="cursor-pointer" onClick={handleOpenSearch} />
 
-              {/* Search Dialog */}
               <Dialog
                 open={openSearch}
                 handler={handleOpenSearch}
@@ -418,7 +414,6 @@ const Header = () => {
                     <IoSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 text-xl" />
                   </div>
 
-                  {/* Close Search Button */}
                   <Button
                     variant="text"
                     onClick={handleOpenSearch}
@@ -428,7 +423,6 @@ const Header = () => {
                   </Button>
                 </DialogBody>
 
-                {/* Search Results */}
                 {query && searchResult.length > 0 && (
                   <ul className="bg-white border border-gray-300 rounded-lg shadow-lg max-h-[300px] overflow-y-auto z-50 mt-2">
                     {searchResult.map((product) => (
@@ -460,13 +454,11 @@ const Header = () => {
                 )}
               </Dialog>
 
-              {/* Cart Icon */}
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
                 className="cursor-pointer"
               />
 
-              {/* Cart Drawer */}
               <Drawer
                 placement="right"
                 open={openRight}
@@ -500,7 +492,6 @@ const Header = () => {
                   </IconButton>
                 </div>
 
-                {/* Empty Cart Message */}
                 {cartArr.length === 0 ? (
                   <div className="flex gap-2 w-full h-screen">
                     <span>Your cart is empty</span>
@@ -614,13 +605,11 @@ const Header = () => {
                 )}
               </Drawer>
 
-              {/* Favorites Icon */}
-              <IoIosHeart
+              {/* <IoIosHeart
                 className="cursor-pointer"
                 onClick={handleOpenFavourit}
               />
 
-              {/* Favorites Dialog */}
               <Dialog
                 open={open}
                 handler={handleOpenFavourit}
@@ -650,7 +639,6 @@ const Header = () => {
                   </div>
                 </DialogFooter>
 
-                {/* Favourites Content */}
                 <DialogBody className="mt-[4em] overflow-y-auto	h-[400px]">
                   <div className="w-full px-[2em] flex flex-col p-3">
                     <div className="flex justify-between items-center font-thin text-black">
@@ -685,7 +673,7 @@ const Header = () => {
                     )}
                   </div>
                 </DialogBody>
-              </Dialog>
+              </Dialog> */}
             </div>
           </div>
 
