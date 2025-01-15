@@ -412,7 +412,7 @@ const Header = () => {
             </Menu>
 
             {/* side menue */}
-            <div className="lg:hidden block">
+            {/* <div className="lg:hidden block">
               <IconButton variant="text" size="lg" onClick={openDrawer}>
                 {isDrawerOpen ? (
                   <XMarkIcon className="h-8 w-8 stroke-2" />
@@ -450,25 +450,25 @@ const Header = () => {
                     >
                       {categories && categories?.data.categories.length > 0 ? (
                         categories?.data.categories.map((li, index) => (
-                          <ListItem
+                          <Button
                             key={index}
                             className="p-0"
                             selected={open === 1}
                           >
-                            <Typography
+                            <div
                               color="blue-gray"
                               className="mr-auto font-normal mb-3 text-[1.5em]"
                             >
                               <Link href={`/collections/${li?.category_id}`}>
                                 {li?.category_description?.name}
                               </Link>
-                            </Typography>
-                          </ListItem>
+                            </div>
+                          </Button>
                         ))
                       ) : (
-                        <Typography className="text-center">
+                        <div className="text-center">
                           No categories available
-                        </Typography>
+                        </div>
                       )}
                     </Accordion>
                     <Link href={userToken ? "/login/profile" : "/login"}>
@@ -477,7 +477,7 @@ const Header = () => {
                   </List>
                 </Card>
               </Drawer>
-            </div>
+            </div> */}
 
             {/* nav links */}
             <div className="flex justify-center items-center">
