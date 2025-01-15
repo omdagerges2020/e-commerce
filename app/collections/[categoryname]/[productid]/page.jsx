@@ -504,7 +504,7 @@ export default function ProductPage({ params }) {
         setIsAdded(false);
       }
     }
-  }, [params.productid, whiteProducts?.data, whiteProducts?.length]);
+  }, [params.productid, whiteProducts?.data, whiteProducts.length]);
 
   useEffect(() => {
     dispatch(getWhiteProducts());
@@ -591,8 +591,8 @@ export default function ProductPage({ params }) {
                 arrow={false}
                 onChange={(value) => handleColorSelect(value)}
               >
-                {productDetails?.data?.productOptions?.Color?.length > 0 ? (
-                  productDetails.data.productOptions.Color.map(
+                {productDetails && productDetails?.data?.productOptions?.Color.length > 0 ? (
+                  productDetails?.data?.productOptions?.Color.map(
                     (color, index) => (
                       <Option key={index} value={color?.color_code}>
                         {color?.color_code}
@@ -612,7 +612,7 @@ export default function ProductPage({ params }) {
               <h1 className="text-[#959595]">Size</h1>
               <Select
                 label={
-                  productDetails?.data?.productOptions?.Size?.length === 0
+                  productDetails && productDetails?.data?.productOptions?.Size.length === 0
                     ? "no size available"
                     : "Choose size"
                 }
@@ -620,7 +620,7 @@ export default function ProductPage({ params }) {
                 arrow={false}
                 onChange={(value) => handleSizeSelect(value)}
               >
-                {productDetails?.data?.productOptions?.Size?.length > 0 ? (
+                {productDetails && productDetails?.data?.productOptions?.Size.length > 0 ? (
                   productDetails.data.productOptions.Size.map((size, index) => (
                     <Option key={index} value={size?.label}>
                       {size?.label}
@@ -839,7 +839,7 @@ export default function ProductPage({ params }) {
       </div>
       <hr className="w-full mt-[1em]" />
       <div className="mt-[2em] flex flex-col items-center justify-center w-full">
-        {productDetails?.data?.reletedProducts?.length > 0 && (
+        {productDetails && productDetails?.data?.reletedProducts.length > 0 && (
           <>
             <h1 className="text-2xl">YOU MAY LIKE ALSO</h1>
             <div className="block lg:flex gap-3">

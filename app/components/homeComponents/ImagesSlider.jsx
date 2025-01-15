@@ -38,7 +38,7 @@ const ImagesSlider = ({ newProducts }) => {
   const prevSlide = () => {
     const prevIndex =
       currentIndex - cardsToShow < 0
-        ? newProducts?.data?.newProducts.length - cardsToShow
+        ? newProducts?.data && newProducts?.data?.newProducts.length - cardsToShow
         : currentIndex - cardsToShow;
     setCurrentIndex(prevIndex);
   };

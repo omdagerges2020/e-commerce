@@ -18,7 +18,7 @@ const CartDetails = () => {
 
   return (
     <div className="w-full md:w-full lg:w-[50%] h-screen bg-[#FAFAFA] pr-[4em] pl-[2em] flex flex-col">
-      {cartProducts?.cartData.length > 0 &&
+      {cartProducts && cartProducts?.cartData.length > 0 &&
         cartProducts?.cartData.map((prod, index) => (
           <div
             key={index}
