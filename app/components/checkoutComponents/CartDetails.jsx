@@ -18,7 +18,7 @@ const CartDetails = () => {
 
   return (
     <div className="w-full md:w-full lg:w-[50%] h-screen bg-[#FAFAFA] pr-[4em] pl-[2em] flex flex-col">
-      {/* {cartProducts && cartProducts?.cartData.length > 0 &&
+      {cartProducts && cartProducts?.cartData.length > 0 &&
         cartProducts?.cartData.map((prod, index) => (
           <div
             key={index}
@@ -50,7 +50,7 @@ const CartDetails = () => {
             </div>
             <h1>EGP {prod?.totalPrice}</h1>
           </div>
-        ))} */}
+        ))}
       {/* subtotal */}
       <div className="flex flex-col justify-center mt-9 gap-5">
         <div className="flex justify-between items-center">
