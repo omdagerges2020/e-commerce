@@ -49,7 +49,7 @@ const Cart = () => {
   return (
     <LayoutCart>
       <CartHeader />
-      {/* {cartProducts && cartProducts?.cartData.length > 0 ? (
+      {cartProducts && cartProducts?.cartData.length > 0 ? (
         <div className="min-h-screen bg-gray-50 flex justify-center items-center w-full">
           <div className="p-[3em] lg:p-[7em] w-full">
             <h1 className="text-center text-[2em] mt-[1.5em]">CART</h1>
@@ -162,7 +162,7 @@ const Cart = () => {
           </div>
           <hr className="w-full" />
         </>
-      )} */}
+      )}
     </LayoutCart>
   );
 };
