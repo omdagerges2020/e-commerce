@@ -54,130 +54,130 @@ const navListMenuItems = [
   },
 ];
 
-function NavListMenu({
-  categoryName,
-  categoryId,
-  categoryImg,
-  categoryChildren,
-}) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
-    <Link href={`/collections/${categoryId}`} key={key}>
-      <MenuItem className="flex items-center gap-5 rounded-lg">
-        <div>
-          <div
-            variant="h6"
-            color="blue-gray"
-            className="flex items-center text-lg font-bold"
-          >
-            {title}
-          </div>
-          <div
-            variant="h6"
-            color="blue-gray"
-            className="flex items-center text-lg font-bold"
-          >
-            {title2} {categoryName}
-          </div>
-          <div
-            variant="paragraph"
-            className="text-xs !font-medium text-blue-gray-500"
-          >
-            {/* sub categories */}
-            {/* <ul className="text-xl font-thin flex flex-col">
-              {categoryChildren?.map((sub, index) => (
-                <Link key={index} href={`/collections/${sub?.category_id}`}>
-                  {sub?.category_description?.name}
-                </Link>
-              ))}
-            </ul> */}
-            <ul className="text-xl font-thin flex flex-col">
-              {categoryChildren?.map((sub, index) => (
-                <li key={index}>
-                  <Link className="cursor-pointer text-black" href={`/collections/${sub?.category_id}`} passHref>
-                      {sub?.category_description?.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </MenuItem>
-    </Link>
-  ));
+// function NavListMenu({
+//   categoryName,
+//   categoryId,
+//   categoryImg,
+//   categoryChildren,
+// }) {
+//   const [isMenuOpen, setIsMenuOpen] = useState(false);
+//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+//   const renderItems = navListMenuItems.map(({ title, title2 }, key) => (
+//     <Link href={`/collections/${categoryId}`} key={key}>
+//       <MenuItem className="flex items-center gap-5 rounded-lg">
+//         <div>
+//           <div
+//             variant="h6"
+//             color="blue-gray"
+//             className="flex items-center text-lg font-bold"
+//           >
+//             {title}
+//           </div>
+//           <div
+//             variant="h6"
+//             color="blue-gray"
+//             className="flex items-center text-lg font-bold"
+//           >
+//             {title2} {categoryName}
+//           </div>
+//           <div
+//             variant="paragraph"
+//             className="text-xs !font-medium text-blue-gray-500"
+//           >
+//             {/* sub categories */}
+//             {/* <ul className="text-xl font-thin flex flex-col">
+//               {categoryChildren?.map((sub, index) => (
+//                 <Link key={index} href={`/collections/${sub?.category_id}`}>
+//                   {sub?.category_description?.name}
+//                 </Link>
+//               ))}
+//             </ul> */}
+//             <ul className="text-xl font-thin flex flex-col">
+//               {categoryChildren?.map((sub, index) => (
+//                 <li key={index}>
+//                   <Link className="cursor-pointer text-black" href={`/collections/${sub?.category_id}`} passHref>
+//                       {sub?.category_description?.name}
+//                   </Link>
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//         </div>
+//       </MenuItem>
+//     </Link>
+//   ));
 
-  return (
-    <React.Fragment>
-      <div
-        className="relative"
-        onMouseEnter={() => setIsMenuOpen(true)}
-        onMouseLeave={() => setIsMenuOpen(false)}
-      >
-        <Menu
-          open={isMenuOpen}
-          handler={setIsMenuOpen}
-          offset={{ mainAxis: 0 }}
-          placement="bottom"
-          allowHover={true}
-        >
-          <MenuHandler>
-            <Typography as="div" variant="small" className="font-medium flex">
-              <ListItem
-                className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900 hover:border-b-[2px]	hover:border-b-black
-                 hover:shadow-none hover:rounded-none  after:absolute after:bottom-0 after:left-0 after:h-[2px]
-                 after:w-0 after:bg-black after:transition-all after:duration-300
-                 hover:after:w-full"
-                selected={isMenuOpen || isMobileMenuOpen}
-                onClick={() => setIsMobileMenuOpen((cur) => !cur)}
-              >
-                <Link href={`/collections/${categoryId}`} passHref>
-                  <a className="block w-full">{categoryName}</a>{" "}
-                </Link>
-              </ListItem>
-            </Typography>
-          </MenuHandler>
-          <MenuList className="hidden max-w-screen-xl rounded-none lg:flex w-full h-[70vh] gap-[5em] px-[3em] transition-all duration-600 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
-            <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
-              {renderItems}
-            </ul>
-            <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
-              {renderItems.map((item, index) => (
-                <li key={index}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div
-              variant="paragraph"
-              className="text-xs !font-medium text-blue-gray-500 hover:border-none"
-            >
-              <Image
-                src={`${
-                  process.env.NEXT_PUBLIC_IMAGE_DOMAIN
-                }/${categoryImg.replace(/ /g, "%20")}`}
-                width={300}
-                height={50}
-                alt="shop-picture"
-              />
-              <div className="flex flex-col justify-center items-center">
-                <Link
-                  href={`/collections/${categoryId}`}
-                  className="font-thin text-sm"
-                >
-                  SHOP NOW
-                </Link>
-              </div>
-            </div>
-          </MenuList>
-        </Menu>
-        <div className="block lg:hidden">
-          <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
-        </div>
-      </div>
-    </React.Fragment>
-  );
-}
+//   return (
+//     <React.Fragment>
+//       <div
+//         className="relative"
+//         onMouseEnter={() => setIsMenuOpen(true)}
+//         onMouseLeave={() => setIsMenuOpen(false)}
+//       >
+//         <Menu
+//           open={isMenuOpen}
+//           handler={setIsMenuOpen}
+//           offset={{ mainAxis: 0 }}
+//           placement="bottom"
+//           allowHover={true}
+//         >
+//           <MenuHandler>
+//             <Typography as="div" variant="small" className="font-medium flex">
+//               <ListItem
+//                 className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900 hover:border-b-[2px]	hover:border-b-black
+//                  hover:shadow-none hover:rounded-none  after:absolute after:bottom-0 after:left-0 after:h-[2px]
+//                  after:w-0 after:bg-black after:transition-all after:duration-300
+//                  hover:after:w-full"
+//                 selected={isMenuOpen || isMobileMenuOpen}
+//                 onClick={() => setIsMobileMenuOpen((cur) => !cur)}
+//               >
+//                 <Link href={`/collections/${categoryId}`} passHref>
+//                   <a className="block w-full">{categoryName}</a>{" "}
+//                 </Link>
+//               </ListItem>
+//             </Typography>
+//           </MenuHandler>
+//           <MenuList className="hidden max-w-screen-xl rounded-none lg:flex w-full h-[70vh] gap-[5em] px-[3em] transition-all duration-600 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
+//             <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
+//               {renderItems}
+//             </ul>
+//             <ul className="grid grid-cols-3 gap-y-2 gap-x-[6em] outline-none outline-0">
+//               {renderItems.map((item, index) => (
+//                 <li key={index}>
+//                   {item}
+//                 </li>
+//               ))}
+//             </ul>
+//             <div
+//               variant="paragraph"
+//               className="text-xs !font-medium text-blue-gray-500 hover:border-none"
+//             >
+//               <Image
+//                 src={`${
+//                   process.env.NEXT_PUBLIC_IMAGE_DOMAIN
+//                 }/${categoryImg.replace(/ /g, "%20")}`}
+//                 width={300}
+//                 height={50}
+//                 alt="shop-picture"
+//               />
+//               <div className="flex flex-col justify-center items-center">
+//                 <Link
+//                   href={`/collections/${categoryId}`}
+//                   className="font-thin text-sm"
+//                 >
+//                   SHOP NOW
+//                 </Link>
+//               </div>
+//             </div>
+//           </MenuList>
+//         </Menu>
+//         <div className="block lg:hidden">
+//           <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
+//         </div>
+//       </div>
+//     </React.Fragment>
+//   );
+// }
 
 const Header = () => {
   const { userToken } = useSelector((state) => state.auth);
@@ -679,7 +679,7 @@ const Header = () => {
 
           <div className="hidden lg:flex lg:justify-around w-full font-light mt-3">
             {/* <NavList /> */}
-            <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row gap-6 lg:p-1">
+            {/* <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row gap-6 lg:p-1">
               {categories &&
                 categories?.data?.categories.map((li, index) => (
                   <NavListMenu
@@ -690,7 +690,7 @@ const Header = () => {
                     categoryChildren={li?.children}
                   />
                 ))}
-            </List>
+            </List> */}
           </div>
         </div>
       </div>
