@@ -652,7 +652,7 @@ const Header = () => {
                   </div>
                   <div>
                     {/* cards if there is any favourits products */}
-                    {whiteProducts && whiteProducts?.data.length === 0 ? (
+                    {/* {whiteProducts && whiteProducts?.data.length === 0 ? (
                       <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
                         <h1 className="font-bold">
                           Love It? Add to My Wishlist
@@ -673,7 +673,7 @@ const Header = () => {
                       <div>
                         <FavouritsCards whiteProducts={whiteProducts && whiteProducts} />
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </DialogBody>
               </Dialog>
