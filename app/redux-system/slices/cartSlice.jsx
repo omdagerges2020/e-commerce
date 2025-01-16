@@ -119,7 +119,6 @@ const cartSlice = createSlice({
           .catch((error) => {
             console.error("Error updating cart on server:", error);
           });
-      
     },
     
     // increment
