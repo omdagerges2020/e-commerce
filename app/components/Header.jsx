@@ -265,7 +265,7 @@ const Header = () => {
             {/* icons */}
             <div className="flex flex-row text-[20px] lg:text-[25px] font-bold gap-2">
               <Link href={userToken ? "/login/profile" : "/login"}>
-                <VscAccount className="hidden md:block lg:block" />
+                <VscAccount className="block xs:hidden md:block lg:block" />
               </Link>
               <IoSearch className="cursor-pointer" onClick={handleOpenSearch} />
               {/* search dialoge */}
