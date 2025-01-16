@@ -19,7 +19,7 @@ import { List } from "@material-tailwind/react";
 import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { VscAccount } from "react-icons/vsc";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import { IoIosHeart } from "react-icons/io";
+import { IoIosHeart, IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux-system/slices/categoriesSlice";
 import { TbUserQuestion } from "react-icons/tb";
@@ -36,6 +36,7 @@ import { getSearchData } from "../redux-system/slices/searchSlice";
 import FavouritsCards from "./headerComponents/FavouritsCards";
 import NavlistMenue from "./headerComponents/NavlistMenue";
 import SearchDialog from "./headerComponents/SearchDialog";
+import Image from "next/image";
 
 const languages = [
   {
@@ -47,6 +48,13 @@ const languages = [
 ];
 
 const Header = () => {
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
+
+  const handleChange = (e) => {
+    const language = e.target.value;
+    setSelectedLanguage(language);
+    onLanguageChange(language); // Trigger the callback for parent component/state
+  };
   const { userToken } = useSelector((state) => state.auth);
   const { cartProducts, cartLoading } = useSelector(
     (state) => state.cartDataProducts
@@ -61,6 +69,16 @@ const Header = () => {
 
   const [openSearch, setOpenSearch] = useState(false);
   const handleOpenSearch = () => setOpenSearch(!openSearch);
+  const [query, setQuery] = useState("");
+  
+    const handleSearch = (e) => {
+      const value = e.target.value;
+      setQuery(value);
+  
+      if (value.trim() !== "") {
+        dispatch(getSearchData(value)); 
+      }
+    };
   const router = useRouter();
 
   const handleSelectProduct = ({ prodId, prodName }) => {
@@ -199,14 +217,9 @@ const Header = () => {
                   className="h-[calc(100vh-2rem)] w-full p-4 flex flex-col"
                 >
                   <div className="mb-2 flex items-center gap-4 p-4">
-                    <img
-                      src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
-                      alt="brand"
-                      className="h-8 w-8"
-                    />
-                    <div variant="h5" color="blue-gray">
-                      Sidebar
-                    </div>
+                    <h1 variant="h5" color="blue-gray">
+                      Categories
+                    </h1>
                   </div>
                   <List className="flex flex-col">
                     <Accordion
@@ -223,7 +236,10 @@ const Header = () => {
                       {categories?.data &&
                       categories?.data?.categories.length > 0 ? (
                         categories?.data.categories.map((li, index) => (
-                          <div className="flex flex-col justify-start"  key={index}>
+                          <div
+                            className="flex flex-col justify-start"
+                            key={index}
+                          >
                             <Button
                               className="p-3 bg-transparent shadow-none hover:shadow-none text-black"
                               selected={open === 1}
@@ -248,6 +264,23 @@ const Header = () => {
                     <Link href={userToken ? "/login/profile" : "/login"}>
                       <VscAccount className="block lg:hidden text-[1.5em]" />
                     </Link>
+                    <div className="flex items-center space-x-3">
+                      <label
+                        htmlFor="language"
+                        className="text-gray-700 font-medium"
+                      >
+                        Language:
+                      </label>
+                      <select
+                        id="language"
+                        value={selectedLanguage}
+                        onChange={handleChange}
+                        className="p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="en">English</option>
+                        <option value="ar">Arabic</option>
+                      </select>
+                    </div>
                   </List>
                 </Card>
               </Drawer>
@@ -269,7 +302,7 @@ const Header = () => {
               </Link>
               <IoSearch className="cursor-pointer" onClick={handleOpenSearch} />
               {/* search dialoge */}
-              {/* <Dialog
+              <Dialog
                 open={openSearch}
                 handler={handleOpenSearch}
                 size="xl"
@@ -324,8 +357,8 @@ const Header = () => {
                     ))}
                   </ul>
                 )}
-              </Dialog> */}
-              <SearchDialog />
+              </Dialog>
+              {/* <SearchDialog /> */}
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
                 className="cursor-pointer"

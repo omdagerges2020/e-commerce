@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import React, { useState } from "react";
@@ -52,7 +50,6 @@ const Signup = () => {
   const regPass =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-  // HandleForm Function
   // const handleForm = () => {
   //   try {
   //     const res = axios({
@@ -63,7 +60,7 @@ const Signup = () => {
   //         "Content-Type": "application/json",
   //       },
   //       data: user,
-  //     });    
+  //     });
   //     setStatus(true);
   //     router.push("/login");
   //     console.log(res);
@@ -132,15 +129,15 @@ const Signup = () => {
         method: "post",
         url: "https://api.detaylarhome.com/api/user/register",
         headers: {
-          "token": "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
+          token: "RuQChqz2FqJkP6wMAQiVlLx5OTRIXAPPWEB",
           "Content-Type": "application/json",
         },
         data: user,
       });
       setStatus(true);
       Swal.fire({
-        icon: 'success',
-        title: 'Registration successful!',
+        icon: "success",
+        title: "Registration successful!",
       });
       router.push("/login");
       // console.log(res);
@@ -150,16 +147,16 @@ const Signup = () => {
       if (error.response && error.response.status === 400) {
         // Handle the 400 error for existing user
         Swal.fire({
-          icon: 'error',
-          title: 'User already exists',
-          text: 'The email or username you entered is already registered.',
+          icon: "error",
+          title: "Error",
+          text: error.response.data["message"],
         });
       } else {
         // Handle other types of errors
         Swal.fire({
-          icon: 'error',
-          title: 'Registration failed',
-          text: 'Something went wrong, please try again.',
+          icon: "error",
+          title: "Registration failed",
+          text: "Something went wrong, please try again.",
         });
       }
     }
@@ -175,7 +172,7 @@ const Signup = () => {
       setEmailLabel(false);
     } else if (user.telephone === "") {
       checkLabels();
-      setTelephoneLabel(false)
+      setTelephoneLabel(false);
     } else if (user.lastname === "") {
       checkLabels();
       setLastNameLabel(false);
@@ -236,7 +233,7 @@ const Signup = () => {
               </div>
 
               <div className="flex flex-col gap-3 lg:w-[50%] md:w-[50%] w-[100%]">
-                <div className="relative group">
+                {/* <div className="relative group">
                   {emailLabel ? (
                     <Input
                       onChange={(e) =>
@@ -262,48 +259,83 @@ const Signup = () => {
                   <span className="absolute left-[40%] top-7 mt-1 px-2 py-1 bg-gray-700 text-white text-xs rounded hidden group-hover:block transform -translate-x-1/2">
                     This field is required
                   </span>
+                </div> */}
+                <div className="flex flex-col gap-3 lg:w-[50%] md:w-[50%] w-[100%]">
+                  <Input
+                    onChange={(e) =>
+                      setUser({ ...user, lastname: e.target.value })
+                    }
+                    label="last name"
+                  />
                 </div>
               </div>
             </div>
 
             {/* phone number input && dateOfBirth input */}
             <div className="flex gap-4 xl:flex-row lg:flex-row md:flex-row flex-col">
+              <div className="relative group">
+                {emailLabel ? (
+                  <Input
+                    onChange={(e) =>
+                      setUser({ ...user, email: e.target.value })
+                    }
+                    label="email"
+                    icon={
+                      <DiAsterisk className="text-red-700 hover:cursor-pointer" />
+                    }
+                  />
+                ) : (
+                  <Input
+                    onChange={(e) =>
+                      setUser({ ...user, email: e.target.value })
+                    }
+                    label="enter your email"
+                    icon={
+                      <DiAsterisk className="text-red-700 hover:cursor-pointer" />
+                    }
+                    error
+                  />
+                )}
+                <span className="absolute left-[40%] top-7 mt-1 px-2 py-1 bg-gray-700 text-white text-xs rounded hidden group-hover:block transform -translate-x-1/2">
+                  This field is required
+                </span>
+              </div>
               <div className="flex flex-col gap-3 lg:w-[50%] md:w-[50%] w-[100%]">
-              {telephone ? (
-                    <Input
-                      onChange={(e) =>
-                        setUser({ ...user, telephone: e.target.value })
-                      }
-                      label="phone number"
-                      icon={
-                        <DiAsterisk className="text-red-700 hover:cursor-pointer" />
-                      }
-                    />
-                  ) : (
-                    <Input
-                      onChange={(e) =>
-                        setUser({ ...user, telephone: e.target.value })
-                      }
-                      label="enter your phone number"
-                      icon={
-                        <DiAsterisk className="text-red-700 hover:cursor-pointer" />
-                      }
-                      error
-                    />
-                  )}
+                {telephone ? (
+                  <Input
+                    onChange={(e) =>
+                      setUser({ ...user, telephone: e.target.value })
+                    }
+                    label="phone number"
+                    icon={
+                      <DiAsterisk className="text-red-700 hover:cursor-pointer" />
+                    }
+                  />
+                ) : (
+                  <Input
+                    onChange={(e) =>
+                      setUser({ ...user, telephone: e.target.value })
+                    }
+                    label="enter your phone number"
+                    icon={
+                      <DiAsterisk className="text-red-700 hover:cursor-pointer" />
+                    }
+                    error
+                  />
+                )}
                 {/* <Input
                   onChange={(e) => setUser({ ...user, telephone: e.target.value })}
                   label="phone number"
                 /> */}
               </div>
-              <div className="flex flex-col gap-3 lg:w-[50%] md:w-[50%] w-[100%]">
+              {/* <div className="flex flex-col gap-3 lg:w-[50%] md:w-[50%] w-[100%]">
                 <Input
                   onChange={(e) =>
                     setUser({ ...user, lastname: e.target.value })
                   }
                   label="last name"
                 />
-              </div>
+              </div> */}
             </div>
 
             {/* password input */}

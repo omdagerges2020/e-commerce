@@ -1,4 +1,5 @@
 "use client";
+import { getSearchData } from "@/app/redux-system/slices/searchSlice";
 import { Button, Dialog, DialogBody } from "@material-tailwind/react";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -18,7 +19,7 @@ const SearchDialog = () => {
     setQuery(value);
 
     if (value.trim() !== "") {
-      dispatch(getSearchData(value)); // استدعاء الدالة لجلب النتائج
+      dispatch(getSearchData(value)); 
     }
   };
 

@@ -30,7 +30,7 @@ const Page = () => {
   
 
   return (
-    <div className="mt-[15em]">
+    <div className="mt-[5em] lg:mt-[10em]">
       <SliderHome />
         <div className="w-full">
           <div className="px-[4em] flex flex-col gap-4 lg:flex-row justify-cneter items-center mt-[1em]">

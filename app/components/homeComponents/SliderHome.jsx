@@ -20,16 +20,16 @@ const SliderHome = () => {
         autoplay={true}
         className="rounded-xl w-[90%] h-[400px]"
       >
-        {data?.homePageCategory.slice(0, 3).map(({ image }, index) => (
-          <LazyLoad height={200} offset={100} key={index}>
+        {/* {data?.homePageCategory.slice(0, 1).map(({ image }, index) => ( */}
+          <LazyLoad>
             <Image
-              src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${image}`}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${data?.homePageCategory[0].image}`}
               fill
               alt="image 1"
-              className="object-cover"
+              className="bg-center"
             />
           </LazyLoad>
-        ))}
+        {/* ))} */}
       </Carousel>
     </div>
   );
