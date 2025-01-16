@@ -223,9 +223,8 @@ const Header = () => {
                       {categories?.data &&
                       categories?.data?.categories.length > 0 ? (
                         categories?.data.categories.map((li, index) => (
-                          <div className="flex flex-col justify-start">
+                          <div className="flex flex-col justify-start"  key={index}>
                             <Button
-                              key={index}
                               className="p-3 bg-transparent shadow-none hover:shadow-none text-black"
                               selected={open === 1}
                             >
