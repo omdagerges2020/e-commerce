@@ -29,7 +29,7 @@ import {
   decrement,
   deleteProduct,
   getCartProducts,
-  increment,
+  addToCart,
 } from "../redux-system/slices/cartSlice";
 import { useRouter } from "next/navigation";
 import { getSearchData } from "../redux-system/slices/searchSlice";
@@ -46,10 +46,9 @@ const languages = [
   },
 ];
 
-
 const Header = () => {
   const { userToken } = useSelector((state) => state.auth);
-  const { cartProducts, cartLoading, addToCart } = useSelector(
+  const { cartProducts, cartLoading } = useSelector(
     (state) => state.cartDataProducts
   );
   const { searchResult, loadingSearch } = useSelector(
@@ -65,12 +64,11 @@ const Header = () => {
   const router = useRouter();
 
   const handleSelectProduct = ({ prodId, prodName }) => {
-    router.push(`/collections/${prodName}/${prodId}`); 
-    setOpenSearch(false); 
+    router.push(`/collections/${prodName}/${prodId}`);
+    setOpenSearch(false);
   };
 
   console.log(cartProducts);
-  
 
   const dispatch = useDispatch();
 
@@ -198,7 +196,7 @@ const Header = () => {
                 <Card
                   color="transparent"
                   shadow={false}
-                  className="h-[calc(100vh-2rem)] w-full p-4"
+                  className="h-[calc(100vh-2rem)] w-full p-4 flex flex-col"
                 >
                   <div className="mb-2 flex items-center gap-4 p-4">
                     <img
@@ -210,34 +208,37 @@ const Header = () => {
                       Sidebar
                     </div>
                   </div>
-                  <List>
+                  <List className="flex flex-col">
                     <Accordion
                       open={open === 1}
                       icon={
                         <ChevronDownIcon
                           strokeWidth={2.5}
-                          className={`mx-auto h-4 w-4 transition-transform ${
+                          className={`mx-auto h-4 w-4 transition-transform${
                             open === 1 ? "rotate-180" : ""
                           }`}
                         />
                       }
                     >
-                      {categories?.data && categories?.data?.categories.length > 0 ? (
+                      {categories?.data &&
+                      categories?.data?.categories.length > 0 ? (
                         categories?.data.categories.map((li, index) => (
-                          <Button
-                            key={index}
-                            className="p-0"
-                            selected={open === 1}
-                          >
-                            <div
-                              color="blue-gray"
-                              className="mr-auto font-normal mb-3 text-[1.5em]"
+                          <div className="flex flex-col justify-start">
+                            <Button
+                              key={index}
+                              className="p-3 bg-transparent shadow-none hover:shadow-none text-black"
+                              selected={open === 1}
                             >
-                              <Link href={`/collections/${li?.category_id}`}>
-                                {li?.category_description?.name}
-                              </Link>
-                            </div>
-                          </Button>
+                              <div
+                                color="blue-gray"
+                                className="mr-auto font-normal mb-3 text-[1.5em] flex"
+                              >
+                                <Link href={`/collections/${li?.category_id}`}>
+                                  {li?.category_description?.name}
+                                </Link>
+                              </div>
+                            </Button>
+                          </div>
                         ))
                       ) : (
                         <div className="text-center">
@@ -325,7 +326,7 @@ const Header = () => {
                   </ul>
                 )}
               </Dialog> */}
-              <SearchDialog/>
+              <SearchDialog />
               <MdOutlineShoppingBag
                 onClick={openDrawerRight}
                 className="cursor-pointer"
@@ -450,11 +451,10 @@ const Header = () => {
                       <Button className="text-sm font-thin w-full">
                         <Link href={`/checkout`}>
                           CHECKOUT .{" "}
-                          {cartProducts && cartProducts.cartData
-                            .map((prod) =>
-                              prod?.totalPrice
-                            )
-                            .reduce((x, y) => x + y)}
+                          {cartProducts &&
+                            cartProducts.cartData
+                              .map((prod) => prod?.totalPrice)
+                              .reduce((x, y) => x + y)}
                           EG
                         </Link>
                       </Button>
@@ -506,7 +506,8 @@ const Header = () => {
 
                   <div>
                     {/* Favourites cards display */}
-                    {whiteProducts?.data && whiteProducts?.data?.length === 0 ? (
+                    {whiteProducts?.data &&
+                    whiteProducts?.data?.length === 0 ? (
                       <div className="mt-[6em] flex flex-col justify-center items-center mx-w-[300px] gap-4">
                         <h1 className="font-bold">
                           Love It? Add to My Wishlist
